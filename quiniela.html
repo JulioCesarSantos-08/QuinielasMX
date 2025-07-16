@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Quiniela - Liga MX</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      color: #333;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #004aad;
+    }
+    .partido {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .equipos {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .equipo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 30%;
+    }
+    .equipo img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+    .vs {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .opciones {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .opciones label {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      background: #e9e9e9;
+      margin: 0.3rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .opciones input[type="radio"] {
+      display: none;
+    }
+    .opciones input[type="radio"]:checked + label {
+      background: #004aad;
+      color: white;
+      font-weight: bold;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: #004aad;
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00327a;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tu Quiniela 📝</h1>
+
+  <form id="quiniela-form"></form>
+
+  <button onclick="guardarQuiniela()">Guardar Quiniela</button>
+  <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const partidos = [
+      { local: "america", visitante: "tigres" },
+      { local: "pumas", visitante: "monterrey" },
+      { local: "toluca", visitante: "leon" },
+      { local: "atlas", visitante: "santos" },
+      { local: "cruzazul", visitante: "necaxa" },
+      { local: "chivas", visitante: "queretaro" },
+      { local: "mazatlan", visitante: "puebla" },
+      { local: "sanluis", visitante: "xolos" },
+      { local: "juarez", visitante: "pachuca" },
+      { local: "real-madrid", visitante: "manchester-city" } // Internacional
+    ];
+
+    const form = document.getElementById("quiniela-form");
+
+    partidos.forEach((p, i) => {
+      form.innerHTML += `
+        <div class="partido">
+          <div class="equipos">
+            <div class="equipo">
+              <img src="imagenes/${p.local}.png" alt="${p.local}" />
+              <span>${p.local.toUpperCase().replace(/-/g, " ")}</span>
+            </div>
+            <div class="vs">vs</div>
+            <div class="equipo">
+              <img src="imagenes/${p.visitante}.png" alt="${p.visitante}" />
+              <span>${p.visitante.toUpperCase().replace(/-/g, " ")}</span>
+            </div>
+          </div>
+          <div class="opciones">
+            <input type="radio" name="partido${i}" id="local${i}" value="local" />
+            <label for="local${i}">Gana ${p.local.toUpperCase().replace(/-/g, " ")}</label>
+
+            <input type="radio" name="partido${i}" id="empate${i}" value="empate" />
+            <label for="empate${i}">Empate</label>
+
+            <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
+            <label for="visitante${i}">Gana ${p.visitante.toUpperCase().replace(/-/g, " ")}</label>
+          </div>
+        </div>
+      `;
+    });
+
+    window.guardarQuiniela = async function () {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        alert("Debes iniciar sesión");
+        return;
+      }
+
+      const quiniela = {};
+      let incompletos = false;
+
+      partidos.forEach((p, i) => {
+        const resultado = document.querySelector(`input[name="partido${i}"]:checked`);
+        if (!resultado) incompletos = true;
+        quiniela[`partido${i}`] = resultado ? resultado.value : null;
+      });
+
+      if (incompletos && !confirm("Hay partidos sin seleccionar. ¿Deseas guardar así?")) return;
+
+      try {
+        await setDoc(doc(db, "quinielas", user), {
+          usuario: user,
+          quiniela,
+          timestamp: Date.now()
+        });
+        alert("¡Quiniela guardada con éxito!");
+      } catch (e) {
+        alert("Error al guardar la quiniela: " + e.message);
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú Principal - Quiniela Liga MX</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #004aad;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .boton {
+      padding: 1.2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #004aad;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #00327a;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 1rem;
+    }
+
+    footer a {
+      color: #bbb;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      .boton {
+        font-size: 1rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bienvenido a la Quiniela Liga MX</h1>
+  </header>
+
+  <main>
+    <button class="boton" onclick="location.href='quiniela.html'">✍️ Llenar mi quiniela</button>
+    <button class="boton" onclick="location.href='miquiniela.html'">📋 Ver mi quiniela</button>
+    <button class="boton" onclick="location.href='tabla.html'">🏆 Ver tabla general</button>
+    <button class="boton" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+  </main>
+
+  <footer>
+    <p>Todos los derechos reservados Rio Grande Oaxaca © 2025</p>
+    <p>
+      <a href="#">Política de privacidad</a> |
+      <a href="#">Términos y condiciones</a>
+    </p>
+  </footer>
+
+  <script>
+    const user = localStorage.getItem("user");
+    if (!user) {
+      alert("Debes iniciar sesión");
+      window.location.href = "index.html";
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Quiniela</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #004aad;
+    }
+    .partido {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .acierto {
+      background: #c8e6c9;
+      border-radius: 5px;
+      padding: 0.3rem;
+      font-weight: bold;
+    }
+    .fallo {
+      background: #ffcdd2;
+      border-radius: 5px;
+      padding: 0.3rem;
+      font-weight: bold;
+    }
+    .resumen {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+      .info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Mi Quiniela 📋</h1>
+  <div id="contenedor"></div>
+  <div class="resumen" id="resumen"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const user = localStorage.getItem("user");
+    const contenedor = document.getElementById("contenedor");
+    const resumen = document.getElementById("resumen");
+
+    // ⚽ Resultados reales de la jornada
+    const resultadosReales = [
+      "local",    // América vs Tigres
+      "visitante",// Pumas vs Monterrey
+      "empate",   // Toluca vs León
+      "local"     // Atlas vs Santos
+    ];
+
+    const nombresPartidos = [
+      "América vs Tigres",
+      "Pumas vs Monterrey",
+      "Toluca vs León",
+      "Atlas vs Santos"
+    ];
+
+    async function cargarQuiniela() {
+      if (!user) {
+        contenedor.innerHTML = "<p>Debes iniciar sesión primero.</p>";
+        return;
+      }
+
+      const docRef = doc(db, "quinielas", user);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        contenedor.innerHTML = "<p>No se encontró tu quiniela. ¿Ya la enviaste?</p>";
+        return;
+      }
+
+      const data = docSnap.data().quiniela;
+      let aciertos = 0;
+
+      resultadosReales.forEach((res, i) => {
+        const pred = data[`partido${i}`];
+
+        const div = document.createElement("div");
+        div.classList.add("partido");
+        div.innerHTML = `
+          <strong>${nombresPartidos[i]}</strong>
+          <div class="info">
+            <div>Tu predicción: <strong>${mostrarTexto(pred)}</strong></div>
+            <div>Resultado real: <strong>${mostrarTexto(res)}</strong></div>
+            <div class="${pred === res ? 'acierto' : 'fallo'}">
+              ${pred === res ? '✔️ Acierto' : '❌ Fallo'}
+            </div>
+          </div>
+        `;
+        contenedor.appendChild(div);
+
+        if (pred === res) aciertos++;
+      });
+
+      resumen.textContent = `🎯 Total de aciertos: ${aciertos} de ${resultadosReales.length}`;
+    }
+
+    function mostrarTexto(valor) {
+      if (valor === "local") return "Gana Local";
+      if (valor === "visitante") return "Gana Visitante";
+      if (valor === "empate") return "Empate";
+      return "No respondido";
+    }
+
+    cargarQuiniela();
+  </script>
+</body>
+</html>

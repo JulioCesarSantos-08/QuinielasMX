@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiniela Liga MX - Iniciar sesión</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #004aad;
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 0.8rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #004aad;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00327a;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #777;
+    }
+
+    .footer a {
+      color: #555;
+      text-decoration: none;
+      margin: 0 0.3rem;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quiniela Liga MX 🏆</h1>
+
+    <input type="email" id="email" placeholder="Correo electrónico" required />
+    <input type="password" id="password" placeholder="Contraseña" required />
+
+    <button onclick="login()">Iniciar sesión</button>
+    <button onclick="register()">Registrarse</button>
+  </div>
+
+  <div class="footer">
+    <p>Todos los derechos reservados Rio Grande Oaxaca © 2025</p>
+    <p>
+      <a href="#">Política de privacidad</a> |
+      <a href="#">Términos y condiciones</a>
+    </p>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = function () {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        alert("Por favor completa ambos campos.");
+        return;
+      }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Inicio de sesión exitoso");
+          localStorage.setItem("user", email);
+          window.location.href = "menu.html";
+        })
+        .catch((error) => {
+          alert("Error al iniciar sesión: " + error.message);
+        });
+    };
+
+    window.register = function () {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        alert("Por favor completa ambos campos.");
+        return;
+      }
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        })
+        .catch((error) => {
+          alert("Error al registrarse: " + error.message);
+        });
+    };
+  </script>
+</body>
+</html>

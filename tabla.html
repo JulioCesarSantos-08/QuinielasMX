@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tabla General - Quiniela Liga MX</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #004aad;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.7rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #004aad;
+      color: white;
+      font-size: 1rem;
+    }
+    tr:hover {
+      background: #f9f9f9;
+    }
+    .correcto {
+      background: #c8e6c9;
+      font-weight: bold;
+    }
+    .incorrecto {
+      background: #ffcdd2;
+    }
+    @media (max-width: 768px) {
+      th, td {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Tabla General 🏆</h1>
+  <table id="tabla">
+    <thead>
+      <tr id="encabezado">
+        <th>Usuario</th>
+        <!-- se generan dinámicamente los partidos -->
+        <th>Aciertos</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 👇 Establece los resultados reales aquí
+    const resultadosReales = [
+      "local",    // América vs Tigres → Gana América
+      "visitante",// Pumas vs Monterrey → Gana Monterrey
+      "empate",   // Toluca vs León → Empate
+      "local"     // Atlas vs Santos → Gana Atlas
+    ];
+
+    const encabezado = document.getElementById("encabezado");
+    const tbody = document.querySelector("tbody");
+
+    // Agrega columnas por partido al encabezado
+    resultadosReales.forEach((_, i) => {
+      const th = document.createElement("th");
+      th.textContent = `P${i + 1}`;
+      encabezado.insertBefore(th, encabezado.lastElementChild);
+    });
+
+    const mostrarQuinielas = async () => {
+      const querySnapshot = await getDocs(collection(db, "quinielas"));
+      const datos = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const quiniela = data.quiniela;
+        let aciertos = 0;
+        const fila = {
+          usuario: data.usuario,
+          predicciones: [],
+          aciertos: 0
+        };
+
+        resultadosReales.forEach((res, i) => {
+          const pred = quiniela[`partido${i}`];
+          if (pred === res) {
+            fila.predicciones.push({ valor: pred, correcto: true });
+            aciertos++;
+          } else {
+            fila.predicciones.push({ valor: pred, correcto: false });
+          }
+        });
+
+        fila.aciertos = aciertos;
+        datos.push(fila);
+      });
+
+      // Ordenar por aciertos descendente
+      datos.sort((a, b) => b.aciertos - a.aciertos);
+
+      // Mostrar en tabla
+      datos.forEach((jugador) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${jugador.usuario}</td>` +
+          jugador.predicciones.map(p =>
+            `<td class="${p.valor ? (p.correcto ? 'correcto' : 'incorrecto') : ''}">
+              ${p.valor ?? "-"}
+            </td>`).join("") +
+          `<td><strong>${jugador.aciertos}</strong></td>`;
+        tbody.appendChild(tr);
+      });
+    };
+
+    mostrarQuinielas();
+  </script>
+</body>
+</html>
