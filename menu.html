@@ -149,11 +149,12 @@
   <footer>
     <p>Todos los derechos reservados Santos © 2025</p>
     <p>
-    <a href="privacidad.html">Política de privacidad</a> |
-    <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Política de privacidad</a> |
+      <a href="terminos.html">Términos y condiciones</a>
     </p>
   </footer>
 
+  <!-- Firebase & Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -213,11 +214,12 @@
       }
     };
 
-    function cerrarSesion() {
+    // Definir cerrarSesion aquí fuera del módulo para evitar error
+    window.cerrarSesion = function () {
       localStorage.removeItem("user");
       localStorage.removeItem("nombre");
       window.location.href = "index.html";
-    }
+    };
   </script>
 </body>
 </html>
