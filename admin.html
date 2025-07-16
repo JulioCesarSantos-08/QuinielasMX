@@ -37,10 +37,6 @@
       border-radius: 6px;
       font-size: 1rem;
     }
-    .ganador-box select {
-      height: 120px;
-      width: 100%;
-    }
     button {
       padding: 0.7rem 1.5rem;
       background: #004aad;
@@ -95,11 +91,11 @@
     </form>
 
     <div class="ganador-box">
-      <label><strong>Seleccionar Usuario(s) Ganador(es)</strong> (Ctrl o Shift para seleccionar varios)</label><br>
-      <select id="usuario-ganador" multiple></select>
+      <label><strong>Seleccionar Usuario Ganador</strong></label><br>
+      <select id="usuario-ganador"></select>
     </div>
 
-    <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganadores</button>
+    <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganador</button>
     <br><br>
     <a href="menu.html" id="volver">⬅️ Volver al Menú</a>
   </div>
@@ -159,18 +155,14 @@
         const valor = document.getElementById(`resultado${i}`).value;
         resultados[`partido${i}`] = valor || null;
       }
-
-      // Obtener múltiples ganadores
-      const ganadores = Array.from(selectGanador.selectedOptions).map(option => option.value);
-
+      const ganador = selectGanador.value || null;
       try {
         await setDoc(doc(db, "resultados", "actuales"), resultados);
         await setDoc(doc(db, "configuracion", "general"), {
-          ganadores,
-          fecha: new Date().toLocaleDateString(),
-          hora: new Date().toLocaleTimeString()
+          ganador,
+          fecha: new Date().toLocaleString()
         });
-        alert("✅ Resultados y ganadores guardados correctamente.");
+        alert("✅ Resultados y ganador guardados correctamente.");
       } catch (e) {
         alert("❌ Error al guardar: " + e.message);
       }
@@ -200,7 +192,7 @@
 
     async function cargarUsuarios() {
       const snapshot = await getDocs(collection(db, "usuarios"));
-      selectGanador.innerHTML = ''; // Limpiar
+      selectGanador.innerHTML = '<option value="">(opcional) Selecciona un ganador</option>';
       snapshot.forEach(docu => {
         const nombre = docu.data().nombre;
         const email = docu.id;
@@ -211,13 +203,8 @@
       });
 
       const confSnap = await getDoc(doc(db, "configuracion", "general"));
-      if (confSnap.exists() && Array.isArray(confSnap.data().ganadores)) {
-        const ganadores = confSnap.data().ganadores;
-        for (let option of selectGanador.options) {
-          if (ganadores.includes(option.value)) {
-            option.selected = true;
-          }
-        }
+      if (confSnap.exists() && confSnap.data().ganador) {
+        selectGanador.value = confSnap.data().ganador;
       }
     }
   </script>
