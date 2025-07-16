@@ -37,6 +37,10 @@
       border-radius: 6px;
       font-size: 1rem;
     }
+    .ganador-box select {
+      height: 120px;
+      width: 100%;
+    }
     button {
       padding: 0.7rem 1.5rem;
       background: #004aad;
@@ -91,11 +95,11 @@
     </form>
 
     <div class="ganador-box">
-      <label><strong>Seleccionar Usuario Ganador</strong></label><br>
-      <select id="usuario-ganador"></select>
+      <label><strong>Seleccionar Usuario(s) Ganador(es)</strong> (Ctrl o Shift para seleccionar varios)</label><br>
+      <select id="usuario-ganador" multiple></select>
     </div>
 
-    <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganador</button>
+    <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganadores</button>
     <br><br>
     <a href="menu.html" id="volver">⬅️ Volver al Menú</a>
   </div>
@@ -149,21 +153,28 @@
       form.appendChild(div);
     });
 
-    async function guardarResultadosYGanador() {
+    window.guardarResultadosYGanador = async function () {
       const resultados = {};
       for (let i = 0; i < partidos.length; i++) {
         const valor = document.getElementById(`resultado${i}`).value;
         resultados[`partido${i}`] = valor || null;
       }
-      const ganador = selectGanador.value || null;
+
+      // Obtener múltiples ganadores
+      const ganadores = Array.from(selectGanador.selectedOptions).map(option => option.value);
+
       try {
         await setDoc(doc(db, "resultados", "actuales"), resultados);
-        await setDoc(doc(db, "configuracion", "general"), { ganador });
-        alert("✅ Resultados y ganador guardados correctamente.");
+        await setDoc(doc(db, "configuracion", "general"), {
+          ganadores,
+          fecha: new Date().toLocaleDateString(),
+          hora: new Date().toLocaleTimeString()
+        });
+        alert("✅ Resultados y ganadores guardados correctamente.");
       } catch (e) {
         alert("❌ Error al guardar: " + e.message);
       }
-    }
+    };
 
     window.verificar = function () {
       const pw = document.getElementById("password").value;
@@ -189,7 +200,7 @@
 
     async function cargarUsuarios() {
       const snapshot = await getDocs(collection(db, "usuarios"));
-      selectGanador.innerHTML = '<option value="">(opcional) Selecciona un ganador</option>';
+      selectGanador.innerHTML = ''; // Limpiar
       snapshot.forEach(docu => {
         const nombre = docu.data().nombre;
         const email = docu.id;
@@ -200,8 +211,13 @@
       });
 
       const confSnap = await getDoc(doc(db, "configuracion", "general"));
-      if (confSnap.exists() && confSnap.data().ganador) {
-        selectGanador.value = confSnap.data().ganador;
+      if (confSnap.exists() && Array.isArray(confSnap.data().ganadores)) {
+        const ganadores = confSnap.data().ganadores;
+        for (let option of selectGanador.options) {
+          if (ganadores.includes(option.value)) {
+            option.selected = true;
+          }
+        }
       }
     }
   </script>
