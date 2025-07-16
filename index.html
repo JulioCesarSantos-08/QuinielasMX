@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiniela Liga MX - Iniciar sesión</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
   <style>
     body {
@@ -26,6 +27,12 @@
       width: 90%;
       max-width: 400px;
       text-align: center;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
     }
 
     h1 {
@@ -80,6 +87,7 @@
 </head>
 <body>
   <div class="container">
+    <img src="imagenes/logo1.png" class="logo" alt="Logo">
     <h1>Quiniela Liga MX 🏆</h1>
 
     <input type="email" id="email" placeholder="Correo electrónico" required />
@@ -90,7 +98,7 @@
   </div>
 
   <div class="footer">
-    <p>Todos los derechos reservados Rio Grande Oaxaca © 2025</p>
+    <p>Todos los derechos reservados Santos © 2025</p>
     <p>
       <a href="#">Política de privacidad</a> |
       <a href="#">Términos y condiciones</a>
@@ -101,6 +109,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
@@ -113,8 +122,9 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    window.login = function () {
+    window.login = async function () {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
 
@@ -123,18 +133,34 @@
         return;
       }
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Inicio de sesión exitoso");
-          localStorage.setItem("user", email);
-          window.location.href = "menu.html";
-        })
-        .catch((error) => {
-          alert("Error al iniciar sesión: " + error.message);
-        });
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        const docRef = doc(db, "usuarios", email);
+        const docSnap = await getDoc(docRef);
+
+        let nombre;
+        if (docSnap.exists()) {
+          nombre = docSnap.data().nombre;
+        }
+
+        if (!nombre) {
+          nombre = prompt("Ingresa tu nombre de usuario:");
+          if (!nombre) {
+            alert("Nombre obligatorio. Cerrando sesión.");
+            return;
+          }
+          await setDoc(docRef, { nombre }, { merge: true }); // ✅ crea si no existe
+        }
+
+        localStorage.setItem("user", email);
+        localStorage.setItem("nombre", nombre);
+        window.location.href = "menu.html";
+      } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
+      }
     };
 
-    window.register = function () {
+    window.register = async function () {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
 
@@ -143,13 +169,18 @@
         return;
       }
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Registro exitoso. Ahora puedes iniciar sesión.");
-        })
-        .catch((error) => {
-          alert("Error al registrarse: " + error.message);
-        });
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        const nombre = prompt("Ingresa tu nombre de usuario:");
+        if (!nombre) {
+          alert("Registro cancelado. El nombre es obligatorio.");
+          return;
+        }
+        await setDoc(doc(db, "usuarios", email), { nombre });
+        alert("Registro exitoso. Ahora puedes iniciar sesión.");
+      } catch (error) {
+        alert("Error al registrarse: " + error.message);
+      }
     };
   </script>
 </body>

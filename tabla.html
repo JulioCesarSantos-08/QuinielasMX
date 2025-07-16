@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tabla General - Quiniela Liga MX</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
   <style>
     body {
@@ -33,7 +34,7 @@
     th {
       background: #004aad;
       color: white;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     tr:hover {
       background: #f9f9f9;
@@ -47,7 +48,7 @@
     }
     @media (max-width: 768px) {
       th, td {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         padding: 0.4rem;
       }
     }
@@ -59,7 +60,7 @@
     <thead>
       <tr id="encabezado">
         <th>Usuario</th>
-        <!-- se generan dinámicamente los partidos -->
+        <!-- columnas de partidos se generan aquí -->
         <th>Aciertos</th>
       </tr>
     </thead>
@@ -68,7 +69,13 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
@@ -82,21 +89,40 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 👇 Establece los resultados reales aquí
+    // Lista de nombres de partidos (debe coincidir con quiniela.html)
+    const partidos = [
+      { local: "américa", visitante: "tigres" },
+      { local: "pumas", visitante: "monterrey" },
+      { local: "toluca", visitante: "león" },
+      { local: "atlas", visitante: "santos" },
+      { local: "cruz azul", visitante: "necaxa" },
+      { local: "chivas", visitante: "querétaro" },
+      { local: "mazatlán", visitante: "puebla" },
+      { local: "san luis", visitante: "xolos" },
+      { local: "juárez", visitante: "pachuca" },
+      { local: "real madrid", visitante: "manchester city" }
+    ];
+
     const resultadosReales = [
-      "local",    // América vs Tigres → Gana América
-      "visitante",// Pumas vs Monterrey → Gana Monterrey
-      "empate",   // Toluca vs León → Empate
-      "local"     // Atlas vs Santos → Gana Atlas
+      "local",
+      "visitante",
+      "empate",
+      "local",
+      "empate",
+      "local",
+      "visitante",
+      "visitante",
+      "local",
+      "empate"
     ];
 
     const encabezado = document.getElementById("encabezado");
     const tbody = document.querySelector("tbody");
 
-    // Agrega columnas por partido al encabezado
-    resultadosReales.forEach((_, i) => {
+    // Agrega columnas con nombres de partidos
+    partidos.forEach((p, i) => {
       const th = document.createElement("th");
-      th.textContent = `P${i + 1}`;
+      th.textContent = `${p.local.toUpperCase()} vs ${p.visitante.toUpperCase()}`;
       encabezado.insertBefore(th, encabezado.lastElementChild);
     });
 
@@ -104,15 +130,23 @@
       const querySnapshot = await getDocs(collection(db, "quinielas"));
       const datos = [];
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+      for (const docSnap of querySnapshot.docs) {
+        const data = docSnap.data();
+        const email = data.usuario;
         const quiniela = data.quiniela;
+
         let aciertos = 0;
         const fila = {
-          usuario: data.usuario,
+          usuario: email,
           predicciones: [],
           aciertos: 0
         };
+
+        // Obtener el nombre del usuario desde la colección usuarios
+        const usuarioDoc = await getDoc(doc(db, "usuarios", email));
+        if (usuarioDoc.exists()) {
+          fila.usuario = usuarioDoc.data().nombre;
+        }
 
         resultadosReales.forEach((res, i) => {
           const pred = quiniela[`partido${i}`];
@@ -126,13 +160,13 @@
 
         fila.aciertos = aciertos;
         datos.push(fila);
-      });
+      }
 
       // Ordenar por aciertos descendente
       datos.sort((a, b) => b.aciertos - a.aciertos);
 
-      // Mostrar en tabla
-      datos.forEach((jugador) => {
+      // Mostrar filas en tabla
+      datos.forEach(jugador => {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${jugador.usuario}</td>` +
           jugador.predicciones.map(p =>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi Quiniela</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
   <style>
     body {
@@ -15,6 +16,14 @@
     h1 {
       text-align: center;
       color: #004aad;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .logo {
+      width: 35px;
+      height: 35px;
     }
     .partido {
       background: white;
@@ -28,6 +37,8 @@
       justify-content: space-between;
       margin-top: 0.5rem;
       font-size: 0.95rem;
+      flex-wrap: wrap;
+      gap: 0.3rem;
     }
     .acierto {
       background: #c8e6c9;
@@ -47,17 +58,13 @@
       margin-top: 1rem;
       font-weight: bold;
     }
-    @media (max-width: 768px) {
-      .info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.3rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <h1>Mi Quiniela 📋</h1>
+  <h1>
+    <img src="imagenes/logo1.png" class="logo" alt="Logo"> Mi Quiniela 📋
+  </h1>
+
   <div id="contenedor"></div>
   <div class="resumen" id="resumen"></div>
 
@@ -81,19 +88,16 @@
     const contenedor = document.getElementById("contenedor");
     const resumen = document.getElementById("resumen");
 
-    // ⚽ Resultados reales de la jornada
+    // Resultados reales de 10 partidos (ajusta los valores reales cuando los tengas)
     const resultadosReales = [
-      "local",    // América vs Tigres
-      "visitante",// Pumas vs Monterrey
-      "empate",   // Toluca vs León
-      "local"     // Atlas vs Santos
+      "local", "empate", "visitante", "local", "empate",
+      "visitante", "local", "local", "empate", "visitante"
     ];
 
     const nombresPartidos = [
-      "América vs Tigres",
-      "Pumas vs Monterrey",
-      "Toluca vs León",
-      "Atlas vs Santos"
+      "América vs Tigres", "Pumas vs Monterrey", "Toluca vs León", "Atlas vs Santos",
+      "Necaxa vs Puebla", "Cruz Azul vs Querétaro", "Tijuana vs Juárez",
+      "Chivas vs Mazatlán", "San Luis vs Pachuca", "Barcelona vs PSG"
     ];
 
     async function cargarQuiniela() {

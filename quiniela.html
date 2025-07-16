@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi Quiniela - Liga MX</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
   <style>
     body {
@@ -16,6 +17,12 @@
     h1 {
       text-align: center;
       color: #004aad;
+      margin-bottom: 1rem;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 1rem;
+      width: 80px;
     }
     .partido {
       background: white;
@@ -88,10 +95,19 @@
     button:hover {
       background: #00327a;
     }
+    #bloqueo {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
   </style>
 </head>
 <body>
+  <img src="imagenes/logo1.png" alt="Logo" class="logo">
   <h1>Tu Quiniela 📝</h1>
+
+  <div id="bloqueo"></div>
 
   <form id="quiniela-form"></form>
 
@@ -124,10 +140,11 @@
       { local: "mazatlan", visitante: "puebla" },
       { local: "sanluis", visitante: "xolos" },
       { local: "juarez", visitante: "pachuca" },
-      { local: "real-madrid", visitante: "manchester-city" } // Internacional
+      { local: "real-madrid", visitante: "manchester-city" }
     ];
 
     const form = document.getElementById("quiniela-form");
+    const bloqueoDiv = document.getElementById("bloqueo");
 
     partidos.forEach((p, i) => {
       form.innerHTML += `
@@ -157,10 +174,57 @@
       `;
     });
 
+    function tiempoRestanteBloqueo() {
+      const ahora = new Date();
+      const dia = ahora.getDay();
+      const hora = ahora.getHours();
+      const minutos = ahora.getMinutes();
+
+      const bloqueado = (
+        (dia === 5 && hora >= 17) || // viernes desde 5pm
+        dia === 6 ||                 // sábado
+        dia === 0 ||                 // domingo
+        (dia === 1 && hora < 17)     // lunes antes de 5pm
+      );
+
+      if (bloqueado) {
+        // Calcular la próxima habilitación: lunes 5:00pm
+        let proximo = new Date();
+        if (dia === 5 && hora >= 17) proximo.setDate(proximo.getDate() + (3)); // viernes tarde → lunes
+        else if (dia === 6) proximo.setDate(proximo.getDate() + 2); // sábado → lunes
+        else if (dia === 0) proximo.setDate(proximo.getDate() + 1); // domingo → lunes
+        else if (dia === 1 && hora < 17) {} // lunes ya es hoy
+
+        proximo.setHours(17, 0, 0, 0); // 5pm
+
+        const restanteMs = proximo - ahora;
+        const horas = Math.floor(restanteMs / (1000 * 60 * 60));
+        const minutosRestantes = Math.floor((restanteMs % (1000 * 60 * 60)) / (1000 * 60));
+        bloqueoDiv.textContent = `⏳ Podrás enviar quinielas dentro de ${horas}h ${minutosRestantes}min.`;
+      }
+    }
+
+    tiempoRestanteBloqueo();
+    setInterval(tiempoRestanteBloqueo, 60000); // actualizar cada minuto
+
     window.guardarQuiniela = async function () {
       const user = localStorage.getItem("user");
       if (!user) {
         alert("Debes iniciar sesión");
+        return;
+      }
+
+      const ahora = new Date();
+      const dia = ahora.getDay();
+      const hora = ahora.getHours();
+
+      if (
+        (dia === 5 && hora >= 17) ||
+        dia === 6 ||
+        dia === 0 ||
+        (dia === 1 && hora < 17)
+      ) {
+        alert("⚠️ No se pueden enviar quinielas entre viernes 5pm y lunes 5pm.");
         return;
       }
 
