@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foro - Quiniela Liga MX</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #004aad;
+    }
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .mensaje {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-left: 3px solid #004aad;
+      background: #f0f8ff;
+      border-radius: 5px;
+    }
+    .mensaje strong {
+      color: #004aad;
+    }
+    .respuesta {
+      margin-left: 1rem;
+      background: #eef4ff;
+      border-left: 3px solid #88aaff;
+    }
+    .hora {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 0.2rem;
+    }
+    .formulario {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    input, textarea, button {
+      font-family: inherit;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    button {
+      background: #004aad;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00307a;
+    }
+    .responder-btn {
+      background: transparent;
+      color: #004aad;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0;
+      margin-top: 0.2rem;
+    }
+    .responder-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Foro General 💬</h1>
+
+  <div class="chat-container" id="chat"></div>
+
+  <div class="formulario">
+    <input type="hidden" id="respuestaA" value="">
+    <textarea id="mensaje" placeholder="Escribe tu mensaje..."></textarea>
+    <button onclick="enviarMensaje()">Enviar</button>
+    <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      orderBy,
+      onSnapshot,
+      getDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const correo = localStorage.getItem("user") || "anónimo@correo.com";
+    let nombreUsuario = "Anónimo";
+
+    const chat = document.getElementById("chat");
+    const mensajeInput = document.getElementById("mensaje");
+    const respuestaInput = document.getElementById("respuestaA");
+
+    // Obtener nombre real del usuario
+    const docRef = doc(db, "usuarios", correo);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      nombreUsuario = docSnap.data().nombre;
+    }
+
+    function formatoFecha(timestamp) {
+      const fecha = new Date(timestamp);
+      return fecha.toLocaleString("es-MX", {
+        dateStyle: "short",
+        timeStyle: "short"
+      });
+    }
+
+    function mostrarMensajes(snapshot) {
+      chat.innerHTML = "";
+      const mensajes = [];
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        mensajes.push({ id: doc.id, ...data });
+      });
+
+      mensajes.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = "mensaje" + (msg.respuestaA ? " respuesta" : "");
+        div.innerHTML = `
+          <strong>${msg.usuario}</strong>: ${msg.mensaje}
+          <div class="hora">${formatoFecha(msg.timestamp)}</div>
+          <div>
+            <button class="responder-btn" onclick="responder('${msg.id}', '${msg.usuario}')">Responder</button>
+          </div>
+        `;
+
+        if (msg.respuestaA) {
+          const original = chat.querySelector(`[data-id="${msg.respuestaA}"]`);
+          if (original) original.appendChild(div);
+          else chat.appendChild(div);
+        } else {
+          div.dataset.id = msg.id;
+          chat.appendChild(div);
+        }
+      });
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    window.enviarMensaje = async function () {
+      const texto = mensajeInput.value.trim();
+      if (!texto) return;
+
+      const nuevoMensaje = {
+        usuario: nombreUsuario,
+        mensaje: texto,
+        timestamp: Date.now(),
+        respuestaA: respuestaInput.value || null
+      };
+
+      await addDoc(collection(db, "foro"), nuevoMensaje);
+      mensajeInput.value = "";
+      respuestaInput.value = "";
+      mensajeInput.placeholder = "Escribe tu mensaje...";
+    };
+
+    window.responder = (id, nombre) => {
+      mensajeInput.focus();
+      mensajeInput.placeholder = `Responder a ${nombre}...`;
+      respuestaInput.value = id;
+    };
+
+    const q = query(collection(db, "foro"), orderBy("timestamp"));
+    onSnapshot(q, mostrarMensajes);
+  </script>
+</body>
+</html>
