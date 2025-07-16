@@ -52,6 +52,13 @@
       padding: 0.3rem;
       font-weight: bold;
     }
+    .pendiente {
+      background: #e0e0e0;
+      border-radius: 5px;
+      padding: 0.3rem;
+      font-weight: bold;
+      color: #555;
+    }
     .resumen {
       text-align: center;
       font-size: 1.2rem;
@@ -105,12 +112,6 @@
     const contenedor = document.getElementById("contenedor");
     const resumen = document.getElementById("resumen");
 
-    // Resultados reales de 10 partidos (ajusta los valores reales cuando los tengas)
-    const resultadosReales = [
-      "local", "visitante", "empate", "local", "empate",
-      "local", "visitante", "visitante", "local", "empate"
-    ];
-
     const nombresPartidos = [
       "América vs Tigres",
       "Pumas vs Monterrey",
@@ -132,17 +133,34 @@
 
       const docRef = doc(db, "quinielas", user);
       const docSnap = await getDoc(docRef);
-
       if (!docSnap.exists()) {
         contenedor.innerHTML = "<p>No se encontró tu quiniela. ¿Ya la enviaste?</p>";
         return;
       }
 
+      const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
+      const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
+
       const data = docSnap.data().quiniela;
       let aciertos = 0;
 
-      resultadosReales.forEach((res, i) => {
+      for (let i = 0; i < 10; i++) {
         const pred = data[`partido${i}`];
+        const res = resultadosReales[`partido${i}`] ?? null;
+
+        let clase = "pendiente";
+        let mensaje = "⏳ Partido aún no jugado";
+
+        if (res !== null && res !== "") {
+          if (pred === res) {
+            clase = "acierto";
+            mensaje = "✔️ Acierto";
+            aciertos++;
+          } else {
+            clase = "fallo";
+            mensaje = "❌ Fallo";
+          }
+        }
 
         const div = document.createElement("div");
         div.classList.add("partido");
@@ -150,18 +168,14 @@
           <strong>${nombresPartidos[i]}</strong>
           <div class="info">
             <div>Tu predicción: <strong>${mostrarTexto(pred)}</strong></div>
-            <div>Resultado real: <strong>${mostrarTexto(res)}</strong></div>
-            <div class="${pred === res ? 'acierto' : 'fallo'}">
-              ${pred === res ? '✔️ Acierto' : '❌ Fallo'}
-            </div>
+            <div>Resultado real: <strong>${res ? mostrarTexto(res) : "Pendiente"}</strong></div>
+            <div class="${clase}">${mensaje}</div>
           </div>
         `;
         contenedor.appendChild(div);
+      }
 
-        if (pred === res) aciertos++;
-      });
-
-      resumen.textContent = `🎯 Total de aciertos: ${aciertos} de ${resultadosReales.length}`;
+      resumen.textContent = `🎯 Total de aciertos: ${aciertos} de 10`;
     }
 
     function mostrarTexto(valor) {

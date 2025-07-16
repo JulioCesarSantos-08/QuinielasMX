@@ -25,12 +25,44 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
     }
 
     header img {
       width: 60px;
       height: 60px;
       margin-bottom: 0.5rem;
+    }
+
+    #buzon {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      cursor: pointer;
+    }
+
+    #buzon img {
+      width: 30px;
+      height: 30px;
+    }
+
+    #notificaciones {
+      display: none;
+      background: white;
+      color: black;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      max-width: 300px;
+      z-index: 100;
+    }
+
+    #notificaciones p {
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
     }
 
     h1 {
@@ -99,6 +131,10 @@
     <img src="imagenes/logo1.png" alt="Logo">
     <h1>Quiniela Liga MX</h1>
     <div id="saludo">Bienvenido</div>
+    <div id="buzon" onclick="toggleNotificaciones()">
+      <img src="imagenes/buzon.png" alt="Buzón">
+    </div>
+    <div id="notificaciones"></div>
   </header>
 
   <main>
@@ -106,6 +142,7 @@
     <button class="boton" onclick="location.href='miquiniela.html'">📋 Ver mi quiniela</button>
     <button class="boton" onclick="location.href='tabla.html'">🏆 Ver tabla general</button>
     <button class="boton" onclick="location.href='foro.html'">📨 Chat</button>
+    <button class="boton" onclick="location.href='admin.html'">🔒SOLO ADMINISTRADORES🔒</button>
     <button class="boton" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
   </main>
 
@@ -117,16 +154,64 @@
     </p>
   </footer>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const nombre = localStorage.getItem("nombre");
     const user = localStorage.getItem("user");
+    document.getElementById("saludo").textContent = `Bienvenido, ${nombre || "Usuario"}`;
 
     if (!user) {
       alert("Debes iniciar sesión.");
       window.location.href = "index.html";
     }
 
-    document.getElementById("saludo").textContent = `Bienvenido, ${nombre || "Usuario"}`;
+    async function cargarNotificacion() {
+      const contenedor = document.getElementById("notificaciones");
+      const docSnap = await getDoc(doc(db, "configuracion", "general"));
+
+      let html = "<strong>🔔 Notificaciones:</strong><br><br>";
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const ganador = data.ganador || null;
+        const fecha = data.fecha || "";
+        const hora = data.hora || "";
+
+        if (ganador === user) {
+          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como el ganador de la quiniela.</p><p><em>${fecha} ${hora}</em></p>`;
+        } else if (ganador) {
+          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima!</p><p><em>${fecha} ${hora}</em></p>`;
+        } else {
+          html += `<p>Aún no hay notificaciones nuevas de los administradores.</p>`;
+        }
+      } else {
+        html += `<p>Aún no hay notificaciones nuevas de los administradores.</p>`;
+      }
+      contenedor.innerHTML = html;
+    }
+
+    window.toggleNotificaciones = function() {
+      const box = document.getElementById("notificaciones");
+      if (box.style.display === "none" || box.style.display === "") {
+        cargarNotificacion();
+        box.style.display = "block";
+      } else {
+        box.style.display = "none";
+      }
+    };
 
     function cerrarSesion() {
       localStorage.removeItem("user");

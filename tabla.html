@@ -47,6 +47,10 @@
     .incorrecto {
       background: #ffcdd2;
     }
+    .pendiente {
+      background: #e0e0e0;
+      color: #555;
+    }
     button {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -120,19 +124,6 @@
       { local: "real madrid", visitante: "manchester city" }
     ];
 
-    const resultadosReales = [
-      "local",
-      "visitante",
-      "empate",
-      "local",
-      "empate",
-      "local",
-      "visitante",
-      "visitante",
-      "local",
-      "empate"
-    ];
-
     const encabezado = document.getElementById("encabezado");
     const tbody = document.querySelector("tbody");
 
@@ -143,6 +134,9 @@
     });
 
     const mostrarQuinielas = async () => {
+      const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
+      const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
+
       const querySnapshot = await getDocs(collection(db, "quinielas"));
       const datos = [];
 
@@ -163,9 +157,13 @@
           fila.usuario = usuarioDoc.data().nombre;
         }
 
-        resultadosReales.forEach((res, i) => {
+        partidos.forEach((_, i) => {
+          const res = resultadosReales[`partido${i}`] ?? null;
           const pred = quiniela[`partido${i}`];
-          if (pred === res) {
+
+          if (res === null || res === "") {
+            fila.predicciones.push({ valor: pred, correcto: null });
+          } else if (pred === res) {
             fila.predicciones.push({ valor: pred, correcto: true });
             aciertos++;
           } else {
@@ -183,9 +181,16 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${jugador.usuario}</td>` +
           jugador.predicciones.map(p =>
-            `<td class="${p.valor ? (p.correcto ? 'correcto' : 'incorrecto') : ''}">
-              ${p.valor ?? "-"}
-            </td>`).join("") +
+            `<td class="${
+              p.valor
+                ? (p.correcto === true
+                    ? 'correcto'
+                    : p.correcto === false
+                    ? 'incorrecto'
+                    : 'pendiente')
+                : ''
+            }">${p.valor ?? "-"}</td>`
+          ).join("") +
           `<td><strong>${jugador.aciertos}</strong></td>`;
         tbody.appendChild(tr);
       });

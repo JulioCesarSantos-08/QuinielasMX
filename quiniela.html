@@ -17,12 +17,19 @@
     h1 {
       text-align: center;
       color: #004aad;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
     .logo {
       display: block;
-      margin: 0 auto 1rem;
+      margin: 0 auto 0.5rem;
       width: 80px;
+    }
+    #contador-tiempo {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      color: #004aad;
+      margin-bottom: 1rem;
     }
     .partido {
       background: white;
@@ -99,7 +106,38 @@
       text-align: center;
       color: red;
       font-weight: bold;
-      margin: 1rem 0;
+      margin: 0.5rem 0 1rem;
+    }
+    .pago-section {
+      background: #ffffff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .pago-section p {
+      margin: 0.5rem 0;
+    }
+    .pago-section a {
+      display: inline-block;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      margin: 0.5rem;
+    }
+    .pago-section a:hover {
+      background: #1e7e34;
+    }
+    .pago-info {
+      background: #fff3cd;
+      padding: 0.7rem;
+      border: 1px solid #ffeeba;
+      border-radius: 8px;
+      margin-top: 0.7rem;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -107,12 +145,23 @@
   <img src="imagenes/logo1.png" alt="Logo" class="logo">
   <h1>Tu Quiniela 📝</h1>
 
+  <div id="contador-tiempo"></div>
   <div id="bloqueo"></div>
 
   <form id="quiniela-form"></form>
 
-  <button onclick="guardarQuiniela()">Guardar Quiniela</button>
+  <button id="btn-guardar" onclick="guardarQuiniela()">Guardar Quiniela</button>
   <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+
+  <div class="pago-section">
+    <p>💰 <strong>La quiniela cuesta $100 cada una.</strong></p>
+    <a href="https://maps.app.goo.gl/JSmoaiYQQLTCYzdJ7?g_st=aw" target="_blank">Pagar en efectivo (ver ubicación)</a>
+    <div class="pago-info">
+      Clave: 722969010705714482<br>
+      Banco: STP<br>
+      Nombre: Julio Cesar Santos
+    </div>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -130,6 +179,11 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    const form = document.getElementById("quiniela-form");
+    const bloqueoDiv = document.getElementById("bloqueo");
+    const contadorDiv = document.getElementById("contador-tiempo");
+    const btnGuardar = document.getElementById("btn-guardar");
+
     const partidos = [
       { local: "america", visitante: "tigres" },
       { local: "pumas", visitante: "monterrey" },
@@ -142,9 +196,6 @@
       { local: "juarez", visitante: "pachuca" },
       { local: "real-madrid", visitante: "manchester-city" }
     ];
-
-    const form = document.getElementById("quiniela-form");
-    const bloqueoDiv = document.getElementById("bloqueo");
 
     partidos.forEach((p, i) => {
       form.innerHTML += `
@@ -174,57 +225,54 @@
       `;
     });
 
-    function tiempoRestanteBloqueo() {
+    function actualizarContadores() {
       const ahora = new Date();
       const dia = ahora.getDay();
       const hora = ahora.getHours();
       const minutos = ahora.getMinutes();
 
       const bloqueado = (
-        (dia === 5 && hora >= 17) || // viernes desde 5pm
-        dia === 6 ||                 // sábado
-        dia === 0 ||                 // domingo
-        (dia === 1 && hora < 17)     // lunes antes de 5pm
+        (dia === 5 && hora >= 17) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
       );
 
+      let proximo = new Date();
       if (bloqueado) {
-        // Calcular la próxima habilitación: lunes 5:00pm
-        let proximo = new Date();
-        if (dia === 5 && hora >= 17) proximo.setDate(proximo.getDate() + (3)); // viernes tarde → lunes
-        else if (dia === 6) proximo.setDate(proximo.getDate() + 2); // sábado → lunes
-        else if (dia === 0) proximo.setDate(proximo.getDate() + 1); // domingo → lunes
-        else if (dia === 1 && hora < 17) {} // lunes ya es hoy
-
-        proximo.setHours(17, 0, 0, 0); // 5pm
-
-        const restanteMs = proximo - ahora;
-        const horas = Math.floor(restanteMs / (1000 * 60 * 60));
-        const minutosRestantes = Math.floor((restanteMs % (1000 * 60 * 60)) / (1000 * 60));
-        bloqueoDiv.textContent = `⏳ Podrás enviar quinielas dentro de ${horas}h ${minutosRestantes}min.`;
+        if (dia === 5 && hora >= 17) proximo.setDate(proximo.getDate() + 3);
+        else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
+        else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
+        else if (dia === 1) proximo.setHours(17, 0, 0, 0);
+        proximo.setHours(17, 0, 0, 0);
+        const restante = proximo - ahora;
+        const horas = Math.floor(restante / (1000 * 60 * 60));
+        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+        bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
+        contadorDiv.textContent = "Estado: ❌ Bloqueado";
+        btnGuardar.disabled = true;
+        btnGuardar.style.background = '#ccc';
+        btnGuardar.style.cursor = 'not-allowed';
+      } else {
+        // Calcular cuánto falta para bloquear (viernes 5pm)
+        const viernes = new Date();
+        viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
+        viernes.setHours(17, 0, 0, 0);
+        const restante = viernes - ahora;
+        const horas = Math.floor(restante / (1000 * 60 * 60));
+        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+        contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
+        bloqueoDiv.textContent = "";
+        btnGuardar.disabled = false;
+        btnGuardar.style.background = '#004aad';
+        btnGuardar.style.cursor = 'pointer';
       }
     }
 
-    tiempoRestanteBloqueo();
-    setInterval(tiempoRestanteBloqueo, 60000); // actualizar cada minuto
+    actualizarContadores();
+    setInterval(actualizarContadores, 60000);
 
     window.guardarQuiniela = async function () {
       const user = localStorage.getItem("user");
       if (!user) {
         alert("Debes iniciar sesión");
-        return;
-      }
-
-      const ahora = new Date();
-      const dia = ahora.getDay();
-      const hora = ahora.getHours();
-
-      if (
-        (dia === 5 && hora >= 17) ||
-        dia === 6 ||
-        dia === 0 ||
-        (dia === 1 && hora < 17)
-      ) {
-        alert("⚠️ No se pueden enviar quinielas entre viernes 5pm y lunes 5pm.");
         return;
       }
 

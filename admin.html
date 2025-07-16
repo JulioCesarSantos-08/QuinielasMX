@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Admin - Resultados</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      color: #004aad;
+    }
+    .login-box {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .partido, .ganador-box {
+      margin-bottom: 1.2rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    select {
+      padding: 0.4rem;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      background: #004aad;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background: #00327a;
+    }
+    input[type="password"] {
+      padding: 0.5rem;
+      width: 100%;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    #formulario {
+      display: none;
+    }
+    #volver {
+      margin-top: 2rem;
+      display: block;
+      text-decoration: none;
+      font-weight: bold;
+      background: #28a745;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+    }
+    #volver:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <h1>Panel de Administrador ⚙️</h1>
+
+  <div id="login" class="login-box">
+    <h3>Ingrese contraseña de administrador</h3>
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="verificar()">Entrar</button>
+  </div>
+
+  <div id="formulario">
+    <form id="resultados-form">
+      <!-- Los partidos se insertan aquí -->
+    </form>
+
+    <div class="ganador-box">
+      <label><strong>Seleccionar Usuario Ganador</strong></label><br>
+      <select id="usuario-ganador"></select>
+    </div>
+
+    <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganador</button>
+    <br><br>
+    <a href="menu.html" id="volver">⬅️ Volver al Menú</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, doc, setDoc, getDoc, getDocs, collection
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const partidos = [
+      { local: "américa", visitante: "tigres" },
+      { local: "pumas", visitante: "monterrey" },
+      { local: "toluca", visitante: "león" },
+      { local: "atlas", visitante: "santos" },
+      { local: "cruz azul", visitante: "necaxa" },
+      { local: "chivas", visitante: "querétaro" },
+      { local: "mazatlán", visitante: "puebla" },
+      { local: "san luis", visitante: "xolos" },
+      { local: "juárez", visitante: "pachuca" },
+      { local: "real madrid", visitante: "manchester city" }
+    ];
+
+    const form = document.getElementById("resultados-form");
+    const selectGanador = document.getElementById("usuario-ganador");
+
+    partidos.forEach((p, i) => {
+      const div = document.createElement("div");
+      div.className = "partido";
+      div.innerHTML = `
+        <label><strong>${p.local.toUpperCase()} vs ${p.visitante.toUpperCase()}</strong></label><br>
+        <select id="resultado${i}">
+          <option value="">Partido aún no jugado</option>
+          <option value="local">Gana ${p.local}</option>
+          <option value="empate">Empate</option>
+          <option value="visitante">Gana ${p.visitante}</option>
+        </select>
+      `;
+      form.appendChild(div);
+    });
+
+    async function guardarResultadosYGanador() {
+      const resultados = {};
+      for (let i = 0; i < partidos.length; i++) {
+        const valor = document.getElementById(`resultado${i}`).value;
+        resultados[`partido${i}`] = valor || null;
+      }
+      const ganador = selectGanador.value || null;
+      try {
+        await setDoc(doc(db, "resultados", "actuales"), resultados);
+        await setDoc(doc(db, "configuracion", "general"), { ganador });
+        alert("✅ Resultados y ganador guardados correctamente.");
+      } catch (e) {
+        alert("❌ Error al guardar: " + e.message);
+      }
+    }
+
+    window.verificar = function () {
+      const pw = document.getElementById("password").value;
+      if (pw === "costa2025") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("formulario").style.display = "block";
+        cargarResultados();
+        cargarUsuarios();
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    };
+
+    async function cargarResultados() {
+      const docSnap = await getDoc(doc(db, "resultados", "actuales"));
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        for (let i = 0; i < partidos.length; i++) {
+          document.getElementById(`resultado${i}`).value = data[`partido${i}`] || "";
+        }
+      }
+    }
+
+    async function cargarUsuarios() {
+      const snapshot = await getDocs(collection(db, "usuarios"));
+      selectGanador.innerHTML = '<option value="">(opcional) Selecciona un ganador</option>';
+      snapshot.forEach(docu => {
+        const nombre = docu.data().nombre;
+        const email = docu.id;
+        const option = document.createElement("option");
+        option.value = email;
+        option.textContent = nombre;
+        selectGanador.appendChild(option);
+      });
+
+      const confSnap = await getDoc(doc(db, "configuracion", "general"));
+      if (confSnap.exists() && confSnap.data().ganador) {
+        selectGanador.value = confSnap.data().ganador;
+      }
+    }
+  </script>
+</body>
+</html>
