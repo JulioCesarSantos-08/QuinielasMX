@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -58,6 +58,21 @@
       margin-top: 1rem;
       font-weight: bold;
     }
+    button {
+      display: block;
+      margin: 1.5rem auto 0 auto;
+      padding: 1rem 2rem;
+      background: #004aad;
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #00327a;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +82,8 @@
 
   <div id="contenedor"></div>
   <div class="resumen" id="resumen"></div>
+
+  <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -90,14 +107,21 @@
 
     // Resultados reales de 10 partidos (ajusta los valores reales cuando los tengas)
     const resultadosReales = [
-      "local", "empate", "visitante", "local", "empate",
-      "visitante", "local", "local", "empate", "visitante"
+      "local", "visitante", "empate", "local", "empate",
+      "local", "visitante", "visitante", "local", "empate"
     ];
 
     const nombresPartidos = [
-      "América vs Tigres", "Pumas vs Monterrey", "Toluca vs León", "Atlas vs Santos",
-      "Necaxa vs Puebla", "Cruz Azul vs Querétaro", "Tijuana vs Juárez",
-      "Chivas vs Mazatlán", "San Luis vs Pachuca", "Barcelona vs PSG"
+      "América vs Tigres",
+      "Pumas vs Monterrey",
+      "Toluca vs León",
+      "Atlas vs Santos",
+      "Cruz Azul vs Necaxa",
+      "Chivas vs Querétaro",
+      "Mazatlán vs Puebla",
+      "San Luis vs Xolos",
+      "Juárez vs Pachuca",
+      "Real Madrid vs Manchester City"
     ];
 
     async function cargarQuiniela() {
