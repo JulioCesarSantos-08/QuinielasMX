@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Configurar Partidos</title>
+  <link rel="icon" href="imagenes/logo1.png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .partido {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      gap: 10px;
+    }
+
+    .partido input {
+      width: 45%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .back-btn {
+      margin-top: 10px;
+      background: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Panel de Configuración de Partidos</h2>
+
+    <form id="partidosForm">
+      <div id="partidosInputs"></div>
+      <button type="button" onclick="guardarPartidos()">Guardar Partidos</button>
+      <button class="back-btn" onclick="window.location.href='admin.html'; return false;">Regresar a admin</button>
+      <button class="back-btn" onclick="window.location.href='menu.html'; return false;">Regresar al Menú</button>
+    </form>
+
+    <div class="footer">
+      Todos los derechos reservados Santos<br>
+      <a href="privacidad.html">Política de Privacidad</a> | <a href="terminos.html">Términos y Condiciones</a>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Cargar los partidos existentes al iniciar
+    cargarPartidos();
+
+    function cargarPartidos() {
+      const container = document.getElementById('partidosInputs');
+      container.innerHTML = "";
+      for (let i = 0; i < 10; i++) {
+        container.innerHTML += `
+          <div class="partido">
+            <input type="text" id="equipo1_${i}" placeholder="Equipo 1">
+            <input type="text" id="equipo2_${i}" placeholder="Equipo 2">
+          </div>
+        `;
+      }
+
+      const docRef = doc(db, "config", "partidos");
+      getDoc(docRef).then(docSnap => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data && data.partidos) {
+            data.partidos.forEach((p, i) => {
+              if (document.getElementById(`equipo1_${i}`)) {
+                document.getElementById(`equipo1_${i}`).value = p.equipo1;
+                document.getElementById(`equipo2_${i}`).value = p.equipo2;
+              }
+            });
+          }
+        }
+      });
+    }
+
+    async function guardarPartidos() {
+      const partidos = [];
+      for (let i = 0; i < 10; i++) {
+        const equipo1 = document.getElementById(`equipo1_${i}`).value.trim().toLowerCase();
+        const equipo2 = document.getElementById(`equipo2_${i}`).value.trim().toLowerCase();
+        if (equipo1 && equipo2) {
+          partidos.push({ equipo1, equipo2 });
+        } else {
+          alert("Todos los campos deben estar llenos.");
+          return;
+        }
+      }
+
+      await setDoc(doc(db, "config", "partidos"), {
+        jornada: Date.now(),
+        partidos: partidos
+      });
+
+      alert("Partidos guardados exitosamente.");
+    }
+
+    window.guardarPartidos = guardarPartidos;
+  </script>
+</body>
+</html>

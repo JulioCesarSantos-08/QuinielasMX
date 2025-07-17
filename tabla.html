@@ -18,6 +18,18 @@
       color: #004aad;
       margin-bottom: 1rem;
     }
+    #premio-box {
+      background: #e0f7fa;
+      border: 2px solid #00acc1;
+      color: #004d40;
+      padding: 1rem;
+      margin: 1rem auto 2rem;
+      text-align: center;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      max-width: 600px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -76,6 +88,11 @@
 <body>
   <h1>Tabla General 🏆</h1>
 
+  <div id="premio-box">
+    💰 <strong>Total Recaudado:</strong> <span id="recaudado">$0</span> &nbsp;&nbsp;
+    🏆 <strong>Premio Final (90%):</strong> <span id="premio">$0</span>
+  </div>
+
   <table id="tabla">
     <thead>
       <tr id="encabezado">
@@ -111,29 +128,34 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const partidos = [
-      { local: "américa", visitante: "tigres" },
-      { local: "pumas", visitante: "monterrey" },
-      { local: "toluca", visitante: "león" },
-      { local: "atlas", visitante: "santos" },
-      { local: "cruz azul", visitante: "necaxa" },
-      { local: "chivas", visitante: "querétaro" },
-      { local: "mazatlán", visitante: "puebla" },
-      { local: "san luis", visitante: "xolos" },
-      { local: "juárez", visitante: "pachuca" },
-      { local: "real madrid", visitante: "manchester city" }
-    ];
-
     const encabezado = document.getElementById("encabezado");
     const tbody = document.querySelector("tbody");
 
-    partidos.forEach((p, i) => {
-      const th = document.createElement("th");
-      th.textContent = `${p.local.toUpperCase()} vs ${p.visitante.toUpperCase()}`;
-      encabezado.insertBefore(th, encabezado.lastElementChild);
-    });
+    async function cargarPartidos() {
+      const docRef = doc(db, "config", "partidos");
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        alert("No se encontraron partidos configurados.");
+        return [];
+      }
+      const data = docSnap.data();
+      return data.partidos || [];
+    }
 
-    const mostrarQuinielas = async () => {
+    function formatearEquipo(nombre) {
+      return nombre.charAt(0).toUpperCase() + nombre.slice(1);
+    }
+
+    async function mostrarQuinielas() {
+      const partidos = await cargarPartidos();
+
+      // Generar encabezado columnas partidos
+      partidos.forEach((p, i) => {
+        const th = document.createElement("th");
+        th.textContent = `${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}`;
+        encabezado.insertBefore(th, encabezado.lastElementChild);
+      });
+
       const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
       const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
 
@@ -142,24 +164,24 @@
 
       for (const docSnap of querySnapshot.docs) {
         const data = docSnap.data();
-        const email = data.usuario;
+        const userId = data.usuario;
         const quiniela = data.quiniela;
 
         let aciertos = 0;
         const fila = {
-          usuario: email,
+          usuario: userId,
           predicciones: [],
           aciertos: 0
         };
 
-        const usuarioDoc = await getDoc(doc(db, "usuarios", email));
+        const usuarioDoc = await getDoc(doc(db, "usuarios", userId));
         if (usuarioDoc.exists()) {
-          fila.usuario = usuarioDoc.data().nombre;
+          fila.usuario = usuarioDoc.data().nombre || userId;
         }
 
         partidos.forEach((_, i) => {
           const res = resultadosReales[`partido${i}`] ?? null;
-          const pred = quiniela[`partido${i}`];
+          const pred = quiniela ? quiniela[`partido${i}`] : null;
 
           if (res === null || res === "") {
             fila.predicciones.push({ valor: pred, correcto: null });
@@ -175,8 +197,18 @@
         datos.push(fila);
       }
 
+      // Calcular y mostrar el premio
+      const precioEntrada = 100;
+      const totalJugadores = datos.length;
+      const recaudado = precioEntrada * totalJugadores;
+      const premioFinal = Math.round(recaudado * 0.9);
+      document.getElementById("recaudado").textContent = `$${recaudado}`;
+      document.getElementById("premio").textContent = `$${premioFinal}`;
+
+      // Ordenar por aciertos
       datos.sort((a, b) => b.aciertos - a.aciertos);
 
+      // Renderizar tabla
       datos.forEach(jugador => {
         const tr = document.createElement("tr");
         tr.innerHTML = `<td>${jugador.usuario}</td>` +
@@ -189,12 +221,11 @@
                     ? 'incorrecto'
                     : 'pendiente')
                 : ''
-            }">${p.valor ?? "-"}</td>`
-          ).join("") +
+            }">${p.valor ?? "-"}</td>`).join("") +
           `<td><strong>${jugador.aciertos}</strong></td>`;
         tbody.appendChild(tr);
       });
-    };
+    }
 
     mostrarQuinielas();
   </script>

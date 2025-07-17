@@ -165,7 +165,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
@@ -184,106 +184,117 @@
     const contadorDiv = document.getElementById("contador-tiempo");
     const btnGuardar = document.getElementById("btn-guardar");
 
-    const partidos = [
-      { local: "america", visitante: "tigres" },
-      { local: "pumas", visitante: "monterrey" },
-      { local: "toluca", visitante: "leon" },
-      { local: "atlas", visitante: "santos" },
-      { local: "cruzazul", visitante: "necaxa" },
-      { local: "chivas", visitante: "queretaro" },
-      { local: "mazatlan", visitante: "puebla" },
-      { local: "sanluis", visitante: "xolos" },
-      { local: "juarez", visitante: "pachuca" },
-      { local: "real-madrid", visitante: "manchester-city" }
-    ];
+    async function cargarPartidos() {
+      const docRef = doc(db, "config", "partidos");
+      const docSnap = await getDoc(docRef);
 
-    partidos.forEach((p, i) => {
-      form.innerHTML += `
-        <div class="partido">
-          <div class="equipos">
-            <div class="equipo">
-              <img src="imagenes/${p.local}.png" alt="${p.local}" />
-              <span>${p.local.toUpperCase().replace(/-/g, " ")}</span>
+      if (!docSnap.exists()) {
+        form.innerHTML = "<p>No se encontraron partidos configurados.</p>";
+        btnGuardar.disabled = true;
+        return;
+      }
+
+      const data = docSnap.data();
+      const partidos = data.partidos || [];
+
+      form.innerHTML = "";
+
+      partidos.forEach((p, i) => {
+        // Formatear nombre para imagen y texto (minúsculas y guiones)
+        const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
+        const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
+
+        form.innerHTML += `
+          <div class="partido">
+            <div class="equipos">
+              <div class="equipo">
+                <img src="imagenes/${equipoLocal}.png" alt="${equipoLocal}" />
+                <span>${p.equipo1.toUpperCase()}</span>
+              </div>
+              <div class="vs">vs</div>
+              <div class="equipo">
+                <img src="imagenes/${equipoVisitante}.png" alt="${equipoVisitante}" />
+                <span>${p.equipo2.toUpperCase()}</span>
+              </div>
             </div>
-            <div class="vs">vs</div>
-            <div class="equipo">
-              <img src="imagenes/${p.visitante}.png" alt="${p.visitante}" />
-              <span>${p.visitante.toUpperCase().replace(/-/g, " ")}</span>
+            <div class="opciones">
+              <input type="radio" name="partido${i}" id="local${i}" value="local" />
+              <label for="local${i}">Gana ${p.equipo1.toUpperCase()}</label>
+
+              <input type="radio" name="partido${i}" id="empate${i}" value="empate" />
+              <label for="empate${i}">Empate</label>
+
+              <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
+              <label for="visitante${i}">Gana ${p.equipo2.toUpperCase()}</label>
             </div>
           </div>
-          <div class="opciones">
-            <input type="radio" name="partido${i}" id="local${i}" value="local" />
-            <label for="local${i}">Gana ${p.local.toUpperCase().replace(/-/g, " ")}</label>
-
-            <input type="radio" name="partido${i}" id="empate${i}" value="empate" />
-            <label for="empate${i}">Empate</label>
-
-            <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
-            <label for="visitante${i}">Gana ${p.visitante.toUpperCase().replace(/-/g, " ")}</label>
-          </div>
-        </div>
-      `;
-    });
+        `;
+      });
+    }
 
     function actualizarContadores() {
       const ahora = new Date();
       const dia = ahora.getDay();
       const hora = ahora.getHours();
-      const minutos = ahora.getMinutes();
 
-      const bloqueado = (
-        (dia === 5 && hora >= 17) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
-      );
+      // Condición bloqueo: Viernes desde 18h, sábado, domingo y lunes antes de 17h
+const bloqueado = (
+  (dia === 5 && hora >= 18) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
+);
 
-      let proximo = new Date();
-      if (bloqueado) {
-        if (dia === 5 && hora >= 17) proximo.setDate(proximo.getDate() + 3);
-        else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
-        else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
-        else if (dia === 1) proximo.setHours(17, 0, 0, 0);
-        proximo.setHours(17, 0, 0, 0);
-        const restante = proximo - ahora;
-        const horas = Math.floor(restante / (1000 * 60 * 60));
-        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-        bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
-        contadorDiv.textContent = "Estado: ❌ Bloqueado";
-        btnGuardar.disabled = true;
-        btnGuardar.style.background = '#ccc';
-        btnGuardar.style.cursor = 'not-allowed';
-      } else {
-        // Calcular cuánto falta para bloquear (viernes 5pm)
-        const viernes = new Date();
-        viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
-        viernes.setHours(17, 0, 0, 0);
-        const restante = viernes - ahora;
-        const horas = Math.floor(restante / (1000 * 60 * 60));
-        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-        contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
-        bloqueoDiv.textContent = "";
-        btnGuardar.disabled = false;
-        btnGuardar.style.background = '#004aad';
-        btnGuardar.style.cursor = 'pointer';
+if (bloqueado) {
+  let proximo = new Date();
+  if (dia === 5 && hora >= 18) proximo.setDate(proximo.getDate() + 3);
+  else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
+  else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
+  else if (dia === 1) proximo.setHours(17, 0, 0, 0);
+
+  proximo.setHours(17, 0, 0, 0);
+
+  const restante = proximo - ahora;
+  const horas = Math.floor(restante / (1000 * 60 * 60));
+  const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+
+  bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
+  contadorDiv.textContent = "Estado: ❌ Bloqueado";
+  btnGuardar.disabled = true;
+  btnGuardar.style.background = '#ccc';
+  btnGuardar.style.cursor = 'not-allowed';
+} else {
+  // Próximo bloqueo: viernes 18h
+  const viernes = new Date();
+  viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
+  viernes.setHours(18, 0, 0, 0);
+  const restante = viernes - ahora;
+  const horas = Math.floor(restante / (1000 * 60 * 60));
+  const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+  contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
+  bloqueoDiv.textContent = "";
+  btnGuardar.disabled = false;
+  btnGuardar.style.background = '#004aad';
+  btnGuardar.style.cursor = 'pointer';
+}
+}
+
+window.guardarQuiniela = async function () {
+  const user = localStorage.getItem("user");
+  if (!user) {
+    alert("Debes iniciar sesión");
+    return;
+  }
+
+  const quiniela = {};
+  let incompletos = false;
+
+      // Guardar las selecciones de cada partido
+      const radios = form.querySelectorAll('input[type="radio"]:checked');
+      const partidosCount = form.querySelectorAll('.partido').length;
+
+      for (let i = 0; i < partidosCount; i++) {
+        const seleccionado = form.querySelector(`input[name="partido${i}"]:checked`);
+        if (!seleccionado) incompletos = true;
+        quiniela[`partido${i}`] = seleccionado ? seleccionado.value : null;
       }
-    }
-
-    actualizarContadores();
-    setInterval(actualizarContadores, 60000);
-
-    window.guardarQuiniela = async function () {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        alert("Debes iniciar sesión");
-        return;
-      }
-
-      const quiniela = {};
-      let incompletos = false;
-
-      partidos.forEach((p, i) => {
-        const resultado = document.querySelector(`input[name="partido${i}"]:checked`);
-        if (!resultado) incompletos = true;
-        quiniela[`partido${i}`] = resultado ? resultado.value : null;
-      });
 
       if (incompletos && !confirm("Hay partidos sin seleccionar. ¿Deseas guardar así?")) return;
 
@@ -298,6 +309,11 @@
         alert("Error al guardar la quiniela: " + e.message);
       }
     };
+
+    // Carga los partidos al inicio
+    cargarPartidos();
+    actualizarContadores();
+    setInterval(actualizarContadores, 60000);
   </script>
 </body>
 </html>

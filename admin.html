@@ -87,7 +87,7 @@
 
   <div id="formulario">
     <form id="resultados-form">
-      <!-- Los partidos se insertan aquí -->
+      <!-- Partidos se insertan aquí -->
     </form>
 
     <div class="ganador-box">
@@ -97,6 +97,7 @@
 
     <button onclick="guardarResultadosYGanador()">Guardar Resultados y Ganador</button>
     <br><br>
+    <a href="admin2.html" id="volver"> Administrar Partidos</a>
     <a href="menu.html" id="volver">⬅️ Volver al Menú</a>
   </div>
 
@@ -118,74 +119,51 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const partidos = [
-      { local: "américa", visitante: "tigres" },
-      { local: "pumas", visitante: "monterrey" },
-      { local: "toluca", visitante: "león" },
-      { local: "atlas", visitante: "santos" },
-      { local: "cruz azul", visitante: "necaxa" },
-      { local: "chivas", visitante: "querétaro" },
-      { local: "mazatlán", visitante: "puebla" },
-      { local: "san luis", visitante: "xolos" },
-      { local: "juárez", visitante: "pachuca" },
-      { local: "real madrid", visitante: "manchester city" }
-    ];
-
     const form = document.getElementById("resultados-form");
     const selectGanador = document.getElementById("usuario-ganador");
 
-    partidos.forEach((p, i) => {
-      const div = document.createElement("div");
-      div.className = "partido";
-      div.innerHTML = `
-        <label><strong>${p.local.toUpperCase()} vs ${p.visitante.toUpperCase()}</strong></label><br>
-        <select id="resultado${i}">
-          <option value="">Partido aún no jugado</option>
-          <option value="local">Gana ${p.local}</option>
-          <option value="empate">Empate</option>
-          <option value="visitante">Gana ${p.visitante}</option>
-        </select>
-      `;
-      form.appendChild(div);
-    });
+    let partidos = [];
 
-    window.guardarResultadosYGanador = async function () {
-      const resultados = {};
-      for (let i = 0; i < partidos.length; i++) {
-        const valor = document.getElementById(`resultado${i}`).value;
-        resultados[`partido${i}`] = valor || null;
-      }
-      const ganador = selectGanador.value || null;
-      try {
-        await setDoc(doc(db, "resultados", "actuales"), resultados);
-        await setDoc(doc(db, "configuracion", "general"), {
-          ganador,
-          fecha: new Date().toLocaleString()
-        });
-        alert("✅ Resultados y ganador guardados correctamente.");
-      } catch (e) {
-        alert("❌ Error al guardar: " + e.message);
-      }
-    };
+    function formatearEquipo(nombre) {
+      if (!nombre) return "";
+      return nombre.charAt(0).toUpperCase() + nombre.slice(1);
+    }
 
-    window.verificar = function () {
-      const pw = document.getElementById("password").value;
-      if (pw === "costa2025") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("formulario").style.display = "block";
-        cargarResultados();
-        cargarUsuarios();
-      } else {
-        alert("Contraseña incorrecta");
+    async function cargarPartidos() {
+      const docSnap = await getDoc(doc(db, "config", "partidos"));
+      if (!docSnap.exists()) {
+        alert("No se encontraron partidos configurados.");
+        return;
       }
-    };
+      partidos = docSnap.data().partidos || [];
+
+      form.innerHTML = ""; // limpiar form
+
+      partidos.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "partido";
+        div.innerHTML = `
+          <label><strong>${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}</strong></label><br>
+          <select id="resultado${i}">
+            <option value="">Partido aún no jugado</option>
+            <option value="local">Gana ${formatearEquipo(p.equipo1)}</option>
+            <option value="empate">Empate</option>
+            <option value="visitante">Gana ${formatearEquipo(p.equipo2)}</option>
+          </select>
+        `;
+        form.appendChild(div);
+      });
+
+      cargarResultados();
+    }
 
     async function cargarResultados() {
       const docSnap = await getDoc(doc(db, "resultados", "actuales"));
       if (docSnap.exists()) {
         const data = docSnap.data();
         for (let i = 0; i < partidos.length; i++) {
-          document.getElementById(`resultado${i}`).value = data[`partido${i}`] || "";
+          const select = document.getElementById(`resultado${i}`);
+          if(select) select.value = data[`partido${i}`] || "";
         }
       }
     }
@@ -207,6 +185,38 @@
         selectGanador.value = confSnap.data().ganador;
       }
     }
+
+    window.guardarResultadosYGanador = async function () {
+      const resultados = {};
+      for (let i = 0; i < partidos.length; i++) {
+        const select = document.getElementById(`resultado${i}`);
+        resultados[`partido${i}`] = select ? select.value || null : null;
+      }
+      const ganador = selectGanador.value || null;
+
+      try {
+        await setDoc(doc(db, "resultados", "actuales"), resultados);
+        await setDoc(doc(db, "configuracion", "general"), {
+          ganador,
+          fecha: new Date().toLocaleString()
+        });
+        alert("✅ Resultados y ganador guardados correctamente.");
+      } catch (e) {
+        alert("❌ Error al guardar: " + e.message);
+      }
+    };
+
+    window.verificar = function () {
+      const pw = document.getElementById("password").value;
+      if (pw === "costa2025") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("formulario").style.display = "block";
+        cargarPartidos();
+        cargarUsuarios();
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    };
   </script>
 </body>
 </html>
