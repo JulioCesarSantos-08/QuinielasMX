@@ -100,6 +100,7 @@
   <h1>
     <img src="imagenes/logo1.png" class="logo" alt="Logo"> Mi Quiniela 📋
   </h1>
+  <h2 id="jornada" style="text-align:center; color:#333; margin-top: 0;">Jornada: —</h2>
 
   <div id="contenedor"></div>
   <div class="resumen" id="resumen"></div>
@@ -150,6 +151,8 @@
         return;
       }
       const partidos = partidosSnap.data().partidos || [];
+      const jornada = partidosSnap.data().jornada || "—";
+      document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
 
       const docRef = doc(db, "quinielas", user);
       const docSnap = await getDoc(docRef);

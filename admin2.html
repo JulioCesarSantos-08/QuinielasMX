@@ -27,6 +27,26 @@
       color: #333;
     }
 
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #555;
+    }
+
+    .jornada-input {
+      margin-bottom: 20px;
+    }
+
+    input[type="number"],
+    .partido input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
     .partido {
       display: flex;
       justify-content: space-between;
@@ -35,10 +55,7 @@
     }
 
     .partido input {
-      width: 45%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      width: 48%;
     }
 
     button {
@@ -76,7 +93,13 @@
     <h2>Panel de Configuración de Partidos</h2>
 
     <form id="partidosForm">
+      <div class="jornada-input">
+        <label for="numeroJornada">Número de Jornada:</label>
+        <input type="number" id="numeroJornada" min="1" placeholder="Ej. 3">
+      </div>
+
       <div id="partidosInputs"></div>
+
       <button type="button" onclick="guardarPartidos()">Guardar Partidos</button>
       <button class="back-btn" onclick="window.location.href='admin.html'; return false;">Regresar a admin</button>
       <button class="back-btn" onclick="window.location.href='menu.html'; return false;">Regresar al Menú</button>
@@ -105,7 +128,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Cargar los partidos existentes al iniciar
     cargarPartidos();
 
     function cargarPartidos() {
@@ -132,6 +154,9 @@
               }
             });
           }
+          if (data.jornada) {
+            document.getElementById("numeroJornada").value = data.jornada;
+          }
         }
       });
     }
@@ -149,12 +174,18 @@
         }
       }
 
+      const jornada = parseInt(document.getElementById("numeroJornada").value);
+      if (isNaN(jornada) || jornada < 1) {
+        alert("Por favor, ingresa un número de jornada válido.");
+        return;
+      }
+
       await setDoc(doc(db, "config", "partidos"), {
-        jornada: Date.now(),
+        jornada: jornada,
         partidos: partidos
       });
 
-      alert("Partidos guardados exitosamente.");
+      alert("Partidos y jornada guardados exitosamente.");
     }
 
     window.guardarPartidos = guardarPartidos;

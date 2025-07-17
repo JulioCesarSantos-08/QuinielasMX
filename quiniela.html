@@ -144,6 +144,7 @@
 <body>
   <img src="imagenes/logo1.png" alt="Logo" class="logo">
   <h1>Tu Quiniela 📝</h1>
+  <h2 id="numero-jornada" style="text-align:center; color:#555; margin-top: 0;">Jornada: ...</h2>
 
   <div id="contador-tiempo"></div>
   <div id="bloqueo"></div>
@@ -196,6 +197,8 @@
 
       const data = docSnap.data();
       const partidos = data.partidos || [];
+      if (data.jornada) {
+  document.getElementById("numero-jornada").textContent = `Jornada: ${data.jornada}`;
 
       form.innerHTML = "";
 
@@ -231,7 +234,7 @@
         `;
       });
     }
-
+}
     function actualizarContadores() {
       const ahora = new Date();
       const dia = ahora.getDay();

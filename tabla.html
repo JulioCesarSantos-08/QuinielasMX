@@ -87,6 +87,7 @@
 </head>
 <body>
   <h1>Tabla General 🏆</h1>
+  <h2 id="jornada" style="text-align:center; color:#444; margin-top:-0.5rem;">Jornada: —</h2>
 
   <div id="premio-box">
     💰 <strong>Total Recaudado:</strong> <span id="recaudado">$0</span> &nbsp;&nbsp;
@@ -132,15 +133,21 @@
     const tbody = document.querySelector("tbody");
 
     async function cargarPartidos() {
-      const docRef = doc(db, "config", "partidos");
-      const docSnap = await getDoc(docRef);
-      if (!docSnap.exists()) {
-        alert("No se encontraron partidos configurados.");
-        return [];
-      }
-      const data = docSnap.data();
-      return data.partidos || [];
-    }
+    const docRef = doc(db, "config", "partidos");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      alert("No se encontraron partidos configurados.");
+      return [];
+   }
+   const data = docSnap.data();
+
+  // Mostrar jornada en el encabezado
+    const jornada = data.jornada || "—";
+    document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
+
+    return data.partidos || [];
+  }
+
 
     function formatearEquipo(nombre) {
       return nombre.charAt(0).toUpperCase() + nombre.slice(1);
