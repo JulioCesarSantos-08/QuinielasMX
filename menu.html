@@ -28,7 +28,7 @@
       position: relative;
     }
 
-    header img {
+    header img.logo {
       width: 60px;
       height: 60px;
       margin-bottom: 0.5rem;
@@ -128,11 +128,11 @@
 </head>
 <body>
   <header>
-    <img src="imagenes/logo1.png" alt="Logo">
+    <img src="imagenes/logo1.png" alt="Logo" class="logo">
     <h1>Quiniela Liga MX</h1>
     <div id="saludo">Bienvenido</div>
     <div id="buzon" onclick="toggleNotificaciones()">
-      <img src="imagenes/buzon.png" alt="Buzón">
+      <img id="buzonImg" src="imagenes/sin.png" alt="Buzón">
     </div>
     <div id="notificaciones"></div>
   </header>
@@ -157,7 +157,7 @@
   <!-- Firebase & Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
@@ -180,27 +180,55 @@
       window.location.href = "index.html";
     }
 
+    const buzonImg = document.getElementById("buzonImg");
+
+    async function verificarMensajes() {
+      const configDoc = await getDoc(doc(db, "configuracion", "general"));
+      const mensajesSnap = await getDocs(collection(db, "notificaciones"));
+
+      let hayMensajes = false;
+
+      if (configDoc.exists()) {
+        const data = configDoc.data();
+        if (data.ganador || mensajesSnap.size > 0) {
+          hayMensajes = true;
+        }
+      }
+
+      buzonImg.src = hayMensajes ? "imagenes/sin.png" : "imagenes/sin.png";
+    }
+
     async function cargarNotificacion() {
       const contenedor = document.getElementById("notificaciones");
-      const docSnap = await getDoc(doc(db, "configuracion", "general"));
-
       let html = "<strong>🔔 Notificaciones:</strong><br><br>";
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+
+      const mensajesSnap = await getDocs(collection(db, "notificaciones"));
+      const mensajes = [];
+      mensajesSnap.forEach(doc => mensajes.push(doc.data().texto));
+
+      if (mensajes.length > 0) {
+        mensajes.forEach(msg => {
+          html += `<p>📝 ${msg}</p>`;
+        });
+      }
+
+      const configDoc = await getDoc(doc(db, "configuracion", "general"));
+      if (configDoc.exists()) {
+        const data = configDoc.data();
         const ganador = data.ganador || null;
         const fecha = data.fecha || "";
-        const hora = data.hora || "";
 
         if (ganador === user) {
-          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como el ganador de la quiniela.</p><p><em>${fecha} ${hora}</em></p>`;
+          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como el ganador de la quiniela.</p><p><em>${fecha}</em></p>`;
         } else if (ganador) {
-          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima!</p><p><em>${fecha} ${hora}</em></p>`;
-        } else {
-          html += `<p>Aún no hay notificaciones nuevas de los administradores.</p>`;
+          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima!</p><p><em>${fecha}</em></p>`;
         }
-      } else {
+      }
+
+      if (html === "<strong>🔔 Notificaciones:</strong><br><br>") {
         html += `<p>Aún no hay notificaciones nuevas de los administradores.</p>`;
       }
+
       contenedor.innerHTML = html;
     }
 
@@ -214,12 +242,14 @@
       }
     };
 
-    // Definir cerrarSesion aquí fuera del módulo para evitar error
     window.cerrarSesion = function () {
       localStorage.removeItem("user");
       localStorage.removeItem("nombre");
       window.location.href = "index.html";
     };
+
+    // Iniciar verificación
+    verificarMensajes();
   </script>
 </body>
 </html>
