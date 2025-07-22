@@ -63,6 +63,12 @@
       background: #e0e0e0;
       color: #555;
     }
+    .lider {
+      background-color: #ffeb3b !important;
+      color: #000;
+      font-weight: bold;
+      border: 2px solid #fbc02d;
+    }
     button {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -133,20 +139,19 @@
     const tbody = document.querySelector("tbody");
 
     async function cargarPartidos() {
-    const docRef = doc(db, "config", "partidos");
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
-      alert("No se encontraron partidos configurados.");
-      return [];
-   }
-   const data = docSnap.data();
+      const docRef = doc(db, "config", "partidos");
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        alert("No se encontraron partidos configurados.");
+        return [];
+      }
+      const data = docSnap.data();
 
-  // Mostrar jornada en el encabezado
-    const jornada = data.jornada || "—";
-    document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
-
-    return data.partidos || [];
-  }
+      // Mostrar jornada
+      const jornada = data.jornada || "—";
+      document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
+      return data.partidos || [];
+    }
 
     function formatearEquipo(nombre) {
       return nombre.charAt(0).toUpperCase() + nombre.slice(1);
@@ -155,7 +160,7 @@
     async function mostrarQuinielas() {
       const partidos = await cargarPartidos();
 
-      // Generar encabezado columnas partidos
+      // Crear encabezados
       partidos.forEach((p, i) => {
         const th = document.createElement("th");
         th.textContent = `${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}`;
@@ -203,7 +208,7 @@
         datos.push(fila);
       }
 
-      // Calcular y mostrar el premio
+      // Mostrar premio
       const precioEntrada = 100;
       const totalJugadores = datos.length;
       const recaudado = precioEntrada * totalJugadores;
@@ -211,24 +216,28 @@
       document.getElementById("recaudado").textContent = `$${recaudado}`;
       document.getElementById("premio").textContent = `$${premioFinal}`;
 
-      // Ordenar por aciertos
+      // Ordenar y detectar máximos
       datos.sort((a, b) => b.aciertos - a.aciertos);
+      const maxAciertos = datos.length > 0 ? datos[0].aciertos : 0;
 
-      // Renderizar tabla
+      // Mostrar tabla
       datos.forEach(jugador => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${jugador.usuario}</td>` +
-          jugador.predicciones.map(p =>
-            `<td class="${
-              p.valor
-                ? (p.correcto === true
-                    ? 'correcto'
-                    : p.correcto === false
-                    ? 'incorrecto'
-                    : 'pendiente')
-                : ''
-            }">${p.valor ?? "-"}</td>`).join("") +
-          `<td><strong>${jugador.aciertos}</strong></td>`;
+        const predHtml = jugador.predicciones.map(p =>
+          `<td class="${
+            p.valor
+              ? (p.correcto === true
+                  ? 'correcto'
+                  : p.correcto === false
+                  ? 'incorrecto'
+                  : 'pendiente')
+              : ''
+          }">${p.valor ?? "-"}</td>`).join("");
+
+        const claseAcierto = jugador.aciertos === maxAciertos ? 'lider' : '';
+        const aciertoHtml = `<td class="${claseAcierto}"><strong>${jugador.aciertos}</strong></td>`;
+
+        tr.innerHTML = `<td>${jugador.usuario}</td>` + predHtml + aciertoHtml;
         tbody.appendChild(tr);
       });
     }
