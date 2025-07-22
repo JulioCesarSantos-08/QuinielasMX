@@ -183,19 +183,23 @@
     const buzonImg = document.getElementById("buzonImg");
 
     async function verificarMensajes() {
-      const configDoc = await getDoc(doc(db, "configuracion", "general"));
-      const mensajesSnap = await getDocs(collection(db, "notificaciones"));
+      try {
+        const configDoc = await getDoc(doc(db, "configuracion", "general"));
+        const mensajesSnap = await getDocs(collection(db, "notificaciones"));
 
-      let hayMensajes = false;
+        let hayMensajes = false;
 
-      if (configDoc.exists()) {
-        const data = configDoc.data();
-        if (data.ganador || mensajesSnap.size > 0) {
-          hayMensajes = true;
+        if (configDoc.exists()) {
+          const data = configDoc.data();
+          if ((data.ganadores && data.ganadores.length > 0) || mensajesSnap.size > 0) {
+            hayMensajes = true;
+          }
         }
-      }
 
-      buzonImg.src = hayMensajes ? "imagenes/sin.png" : "imagenes/sin.png";
+        buzonImg.src = hayMensajes ? "imagenes/sin.png" : "imagenes/sin.png";
+      } catch (e) {
+        console.error("Error al verificar mensajes:", e);
+      }
     }
 
     async function cargarNotificacion() {
@@ -215,18 +219,18 @@
       const configDoc = await getDoc(doc(db, "configuracion", "general"));
       if (configDoc.exists()) {
         const data = configDoc.data();
-        const ganador = data.ganador || null;
+        const ganadores = data.ganadores || [];
         const fecha = data.fecha || "";
 
-        if (ganador === user) {
-          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como el ganador de la quiniela.</p><p><em>${fecha}</em></p>`;
-        } else if (ganador) {
-          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima!</p><p><em>${fecha}</em></p>`;
+        if (ganadores.includes(user)) {
+          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como uno de los ganadores de la quiniela.</p><p><em>${fecha}</em></p>`;
+        } else if (ganadores.length > 0) {
+          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima Jornada!</p><p><em>${fecha}</em></p>`;
         }
       }
 
       if (html === "<strong>🔔 Notificaciones:</strong><br><br>") {
-        html += `<p>Aún no hay notificaciones nuevas de los administradores.</p>`;
+        html += `<p>No hay notificaciones nuevas de los administradores!.</p>`;
       }
 
       contenedor.innerHTML = html;
@@ -248,7 +252,6 @@
       window.location.href = "index.html";
     };
 
-    // Iniciar verificación
     verificarMensajes();
   </script>
 </body>
