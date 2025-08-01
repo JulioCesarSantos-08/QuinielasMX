@@ -151,7 +151,6 @@
   <div id="contador-tiempo"></div>
   <div id="bloqueo"></div>
 
-  
   <form id="quiniela-form"></form>
 
   <button id="btn-guardar" onclick="guardarQuiniela()">Guardar Quiniela</button>
@@ -201,98 +200,91 @@
       const data = docSnap.data();
       const partidos = data.partidos || [];
       if (data.jornada) {
-  document.getElementById("numero-jornada").textContent = `Jornada: ${data.jornada}`;
-
-      form.innerHTML = "";
-
-      partidos.forEach((p, i) => {
-        // Formatear nombre para imagen y texto (minúsculas y guiones)
-        const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
-        const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
-
-        form.innerHTML += `
-          <div class="partido">
-            <div class="equipos">
-              <div class="equipo">
-                <img src="imagenes/${equipoLocal}.png" alt="${equipoLocal}" />
-                <span>${p.equipo1.toUpperCase()}</span>
+        document.getElementById("numero-jornada").textContent = `Jornada: ${data.jornada}`;
+        form.innerHTML = "";
+        partidos.forEach((p, i) => {
+          const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
+          const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
+          form.innerHTML += `
+            <div class="partido">
+              <div class="equipos">
+                <div class="equipo">
+                  <img src="imagenes/${equipoLocal}.png" alt="${equipoLocal}" />
+                  <span>${p.equipo1.toUpperCase()}</span>
+                </div>
+                <div class="vs">vs</div>
+                <div class="equipo">
+                  <img src="imagenes/${equipoVisitante}.png" alt="${equipoVisitante}" />
+                  <span>${p.equipo2.toUpperCase()}</span>
+                </div>
               </div>
-              <div class="vs">vs</div>
-              <div class="equipo">
-                <img src="imagenes/${equipoVisitante}.png" alt="${equipoVisitante}" />
-                <span>${p.equipo2.toUpperCase()}</span>
+              <div class="opciones">
+                <input type="radio" name="partido${i}" id="local${i}" value="local" />
+                <label for="local${i}">Gana ${p.equipo1.toUpperCase()}</label>
+
+                <input type="radio" name="partido${i}" id="empate${i}" value="empate" />
+                <label for="empate${i}">Empate</label>
+
+                <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
+                <label for="visitante${i}">Gana ${p.equipo2.toUpperCase()}</label>
               </div>
             </div>
-            <div class="opciones">
-              <input type="radio" name="partido${i}" id="local${i}" value="local" />
-              <label for="local${i}">Gana ${p.equipo1.toUpperCase()}</label>
-
-              <input type="radio" name="partido${i}" id="empate${i}" value="empate" />
-              <label for="empate${i}">Empate</label>
-
-              <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
-              <label for="visitante${i}">Gana ${p.equipo2.toUpperCase()}</label>
-            </div>
-          </div>
-        `;
-      });
+          `;
+        });
+      }
     }
-}
+
     function actualizarContadores() {
       const ahora = new Date();
       const dia = ahora.getDay();
       const hora = ahora.getHours();
 
-      // Condición bloqueo: Viernes desde 18h, sábado, domingo y lunes antes de 17h
-const bloqueado = (
-  (dia === 5 && hora >= 18) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
-);
+      const bloqueado = (
+        (dia === 5 && hora >= 16) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
+      );
 
-if (bloqueado) {
-  let proximo = new Date();
-  if (dia === 5 && hora >= 18) proximo.setDate(proximo.getDate() + 3);
-  else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
-  else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
-  else if (dia === 1) proximo.setHours(17, 0, 0, 0);
+      if (bloqueado) {
+        let proximo = new Date();
+        if (dia === 5 && hora >= 16) proximo.setDate(proximo.getDate() + 3);
+        else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
+        else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
+        else if (dia === 1) proximo.setHours(17, 0, 0, 0);
 
-  proximo.setHours(17, 0, 0, 0);
+        proximo.setHours(17, 0, 0, 0);
 
-  const restante = proximo - ahora;
-  const horas = Math.floor(restante / (1000 * 60 * 60));
-  const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+        const restante = proximo - ahora;
+        const horas = Math.floor(restante / (1000 * 60 * 60));
+        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
 
-  bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
-  contadorDiv.textContent = "Estado: ❌ Bloqueado";
-  btnGuardar.disabled = true;
-  btnGuardar.style.background = '#ccc';
-  btnGuardar.style.cursor = 'not-allowed';
-} else {
-  // Próximo bloqueo: viernes 18h
-  const viernes = new Date();
-  viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
-  viernes.setHours(18, 0, 0, 0);
-  const restante = viernes - ahora;
-  const horas = Math.floor(restante / (1000 * 60 * 60));
-  const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-  contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
-  bloqueoDiv.textContent = "";
-  btnGuardar.disabled = false;
-  btnGuardar.style.background = '#004aad';
-  btnGuardar.style.cursor = 'pointer';
-}
-}
+        bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
+        contadorDiv.textContent = "Estado: ❌ Bloqueado";
+        btnGuardar.disabled = true;
+        btnGuardar.style.background = '#ccc';
+        btnGuardar.style.cursor = 'not-allowed';
+      } else {
+        const viernes = new Date();
+        viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
+        viernes.setHours(16, 0, 0, 0);
+        const restante = viernes - ahora;
+        const horas = Math.floor(restante / (1000 * 60 * 60));
+        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+        contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
+        bloqueoDiv.textContent = "";
+        btnGuardar.disabled = false;
+        btnGuardar.style.background = '#004aad';
+        btnGuardar.style.cursor = 'pointer';
+      }
+    }
 
-window.guardarQuiniela = async function () {
-  const user = localStorage.getItem("user");
-  if (!user) {
-    alert("Debes iniciar sesión");
-    return;
-  }
+    window.guardarQuiniela = async function () {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        alert("Debes iniciar sesión");
+        return;
+      }
 
-  const quiniela = {};
-  let incompletos = false;
-
-      // Guardar las selecciones de cada partido
+      const quiniela = {};
+      let incompletos = false;
       const radios = form.querySelectorAll('input[type="radio"]:checked');
       const partidosCount = form.querySelectorAll('.partido').length;
 
@@ -316,7 +308,6 @@ window.guardarQuiniela = async function () {
       }
     };
 
-    // Carga los partidos al inicio
     cargarPartidos();
     actualizarContadores();
     setInterval(actualizarContadores, 60000);
