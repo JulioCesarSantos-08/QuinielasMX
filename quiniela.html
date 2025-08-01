@@ -270,7 +270,7 @@ if (bloqueado) {
   // Próximo bloqueo: viernes 18h
   const viernes = new Date();
   viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
-  viernes.setHours(18, 0, 0, 0);
+  viernes.setHours(16, 0, 0, 0);
   const restante = viernes - ahora;
   const horas = Math.floor(restante / (1000 * 60 * 60));
   const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
