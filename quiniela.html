@@ -146,7 +146,7 @@
   <h1>Rellena Tu Quiniela 📝</h1>
   <h2 id="numero-jornada" style="text-align:center; color:#555; margin-top: 0;">Jornada: ...</h2>
   <h3 style="text-align:center; color:#555; margin-top: 0;">SOLO PUEDES ENVIAR UNA QUINIELA POR USUARIO!!</h3>
-  <h4 style="text-align:center; color:#555; margin-top: 0;">Para enviar mas de 1 quiniela crea otro usuario.</h4>
+  <h4 style="text-align:center; color:#555; margin-top: 0;">Para enviar más de 1 quiniela crea otro usuario.</h4>
 
   <div id="contador-tiempo"></div>
   <div id="bloqueo"></div>
@@ -201,10 +201,13 @@
       const partidos = data.partidos || [];
       if (data.jornada) {
         document.getElementById("numero-jornada").textContent = `Jornada: ${data.jornada}`;
+
         form.innerHTML = "";
+
         partidos.forEach((p, i) => {
           const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
           const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
+
           form.innerHTML += `
             <div class="partido">
               <div class="equipos">
@@ -238,14 +241,16 @@
       const ahora = new Date();
       const dia = ahora.getDay();
       const hora = ahora.getHours();
+      const minutos = ahora.getMinutes();
 
       const bloqueado = (
-        (dia === 5 && hora >= 16) || dia === 6 || dia === 0 || (dia === 1 && hora < 17)
+        (dia === 5 && (hora > 19 || (hora === 19 && minutos >= 0))) ||
+        dia === 6 || dia === 0 || (dia === 1 && hora < 17)
       );
 
       if (bloqueado) {
         let proximo = new Date();
-        if (dia === 5 && hora >= 16) proximo.setDate(proximo.getDate() + 3);
+        if (dia === 5 && hora >= 19) proximo.setDate(proximo.getDate() + 3);
         else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
         else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
         else if (dia === 1) proximo.setHours(17, 0, 0, 0);
@@ -264,7 +269,7 @@
       } else {
         const viernes = new Date();
         viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
-        viernes.setHours(16, 0, 0, 0);
+        viernes.setHours(19, 0, 0, 0);
         const restante = viernes - ahora;
         const horas = Math.floor(restante / (1000 * 60 * 60));
         const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
@@ -285,7 +290,7 @@
 
       const quiniela = {};
       let incompletos = false;
-      const radios = form.querySelectorAll('input[type="radio"]:checked');
+
       const partidosCount = form.querySelectorAll('.partido').length;
 
       for (let i = 0; i < partidosCount; i++) {
