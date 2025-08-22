@@ -17,14 +17,6 @@
     h1 {
       color: #004aad;
     }
-    .login-box {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
     .partido, .ganador-box {
       margin-bottom: 1.2rem;
       background: #fff;
@@ -53,14 +45,6 @@
     button:hover {
       background: #00327a;
     }
-    input[type="password"] {
-      padding: 0.5rem;
-      width: 100%;
-      margin-bottom: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
     #formulario {
       display: none;
     }
@@ -80,13 +64,7 @@
   </style>
 </head>
 <body>
-  <h1>Panel de Administrador ⚙️</h1>
-
-  <div id="login" class="login-box">
-    <h3>Ingrese contraseña de administrador</h3>
-    <input type="password" id="password" placeholder="Contraseña" />
-    <button onclick="verificar()">Entrar</button>
-  </div>
+  <h1 id="titulo">Panel de Administrador ⚙️</h1>
 
   <div id="formulario">
     <form id="resultados-form"></form>
@@ -126,6 +104,26 @@
     const selectGanador = document.getElementById("usuario-ganador");
 
     let partidos = [];
+
+    // 🔑 Lista de administradores permitidos
+    const admins = ["ti43300@uvp.edu.mx","jc@gmail.com", "guera00@gmail.com"];
+
+    // Obtener usuario actual
+    const user = localStorage.getItem("user");
+    const nombre = localStorage.getItem("nombre");
+
+    if (!user) {
+      alert("Debes iniciar sesión.");
+      window.location.href = "index.html";
+    } else if (!admins.includes(user)) {
+      alert(`Hola ${nombre}, tú no tienes acceso como administrador.`);
+      window.location.href = "menu.html";
+    } else {
+      document.getElementById("formulario").style.display = "block";
+      document.getElementById("titulo").textContent = `Panel de Administrador ⚙️ - Bienvenido, ${nombre}`;
+      cargarPartidos();
+      cargarUsuarios();
+    }
 
     function formatearEquipo(nombre) {
       if (!nombre) return "";
@@ -225,18 +223,6 @@
         alert("✅ Resultados y ganadores guardados correctamente.");
       } catch (e) {
         alert("❌ Error al guardar: " + e.message);
-      }
-    };
-
-    window.verificar = function () {
-      const pw = document.getElementById("password").value;
-      if (pw === "costa2025") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("formulario").style.display = "block";
-        cargarPartidos();
-        cargarUsuarios();
-      } else {
-        alert("Contraseña incorrecta");
       }
     };
 
