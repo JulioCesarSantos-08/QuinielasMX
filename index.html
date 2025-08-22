@@ -67,6 +67,15 @@
       background-color: #00327a;
     }
 
+    .link {
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: #004aad;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
     .footer {
       margin-top: 2rem;
       font-size: 0.8rem;
@@ -90,13 +99,14 @@
     <img src="imagenes/logo1.png" class="logo" alt="Logo">
     <h1>Quiniela Santos MX 🏆</h1>
     <h4 style="text-align:center; color:#555; margin-top: 0;">El correo no necesariamente debe ser real "usuario@gmail.com"</h4>
-    <h4 style="text-align:center; color:#555; margin-top: 0;">Minimo de 6 digitos en la contraseña!</h4>
+    <h4 style="text-align:center; color:#555; margin-top: 0;">Mínimo de 6 dígitos en la contraseña!</h4>
 
     <input type="email" id="email" placeholder="Correo electrónico" required />
     <input type="password" id="password" placeholder="Contraseña" required />
 
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
+    <span class="link" onclick="resetPassword()">¿Olvidaste tu contraseña?</span>
   </div>
 
   <div class="footer">
@@ -110,7 +120,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -151,7 +161,7 @@
             alert("Nombre obligatorio. Cerrando sesión.");
             return;
           }
-          await setDoc(docRef, { nombre }, { merge: true }); // ✅ crea si no existe
+          await setDoc(docRef, { nombre }, { merge: true });
         }
 
         localStorage.setItem("user", email);
@@ -182,6 +192,21 @@
         alert("Registro exitoso. Ahora puedes iniciar sesión.");
       } catch (error) {
         alert("Error al registrarse: " + error.message);
+      }
+    };
+
+    // ✅ Restablecer contraseña
+    window.resetPassword = async function () {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        alert("Por favor ingresa tu correo en el campo de email.");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Se ha enviado un enlace de restablecimiento a tu correo. Recuerda que tu correo debe existir realmente, sino a donde llegar el gmail de reestablecimiento? En la parte de Spam");
+      } catch (error) {
+        alert("Error al enviar el correo de restablecimiento: " + error.message);
       }
     };
   </script>
