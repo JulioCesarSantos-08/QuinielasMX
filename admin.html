@@ -241,13 +241,15 @@
     };
 
     window.reiniciarJornada = async function () {
-      const confirmar = confirm("¿Estás seguro de que deseas reiniciar la jornada? Esto eliminará resultados, ganador y puntuaciones.");
+      const confirmar = confirm("¿Estás seguro de que deseas reiniciar la jornada? Esto eliminará resultados, ganador, quinielas y puntuaciones.");
       if (!confirmar) return;
 
       try {
+        // 🔹 1. Eliminar resultados y configuración
         await deleteDoc(doc(db, "resultados", "actuales"));
         await deleteDoc(doc(db, "configuracion", "general"));
 
+        // 🔹 2. Resetear usuarios
         const usuariosSnapshot = await getDocs(collection(db, "usuarios"));
         for (const docu of usuariosSnapshot.docs) {
           const ref = doc(db, "usuarios", docu.id);
@@ -255,8 +257,14 @@
             quiniela: [],
             puntos: 0,
             aciertos: 0,
-            mensaje: "" // Limpiar mensajes anteriores si aplica
+            mensaje: ""
           });
+        }
+
+        // 🔹 3. Borrar todas las quinielas de usuarios
+        const quinielasSnapshot = await getDocs(collection(db, "quinielas"));
+        for (const qDoc of quinielasSnapshot.docs) {
+          await deleteDoc(doc(db, "quinielas", qDoc.id));
         }
 
         alert("✅ Jornada reiniciada correctamente.");
