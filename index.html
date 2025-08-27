@@ -92,6 +92,16 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+    /* Estilo especial para el botón de ayuda */
+    .help-btn {
+      background-color: #28a745;
+      margin-top: 1rem;
+    }
+
+    .help-btn:hover {
+      background-color: #1e7e34;
+    }
   </style>
 </head>
 <body>
@@ -106,6 +116,8 @@
 
     <button onclick="login()">Iniciar sesión</button>
     <button onclick="register()">Registrarse</button>
+    <button class="help-btn" onclick="window.open('https://youtube.com/shorts/NyhX9grnFsw?feature=share', '_blank')">❓ Ayuda</button>
+
     <span class="link" onclick="resetPassword()">¿Olvidaste tu contraseña?</span>
   </div>
 
