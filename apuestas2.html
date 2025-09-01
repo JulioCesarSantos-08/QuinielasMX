@@ -11,7 +11,7 @@
     *{box-sizing:border-box}
     body{font-family:'Rubik',sans-serif;background:#f9fafb;margin:0;color:#111827}
     header{background:var(--azul);color:#fff;padding:18px;text-align:center}
-    header button{margin-top:.5rem;padding:.6rem 1.2rem;border:none;border-radius:10px;background:#fff;color:var(--azul);font-weight:600;cursor:pointer}
+    header button{margin:.3rem;padding:.6rem 1.2rem;border:none;border-radius:10px;background:#fff;color:var(--azul);font-weight:600;cursor:pointer}
     header button:hover{background:#f1f5f9}
     main{padding:18px;max-width:1100px;margin:auto}
     h2{color:var(--azul);margin:0 0 .6rem}
@@ -31,13 +31,21 @@
     .msg{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:.95rem;font-weight:500}
     .msg.ok{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
     .msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+
+    /* Modal */
+    .modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);padding-top:60px}
+    .modal-content{background:#fff;margin:auto;padding:20px;border-radius:14px;max-width:500px;position:relative}
+    .modal .close{position:absolute;top:10px;right:15px;font-size:1.5rem;font-weight:bold;color:#333;cursor:pointer}
     @media (max-width:720px){th,td{font-size:.85rem;padding:.55rem}}
   </style>
 </head>
 <body>
   <header>
     <h1>⚽ Apuestas 2 - Marcadores Exactos</h1>
-    <button onclick="window.location.href='menu.html'">⬅ Volver al Menú</button>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button onclick="window.location.href='menu.html'">⬅ Volver al Menú</button>
+      <button onclick="abrirAyuda()">ℹ️ Cómo jugar</button>
+    </div>
   </header>
 
   <main>
@@ -76,19 +84,21 @@
   <!-- Modal Cómo jugar -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+      <span class="close" onclick="cerrarAyuda()">&times;</span>
       <h2>ℹ️ Cómo se juega</h2>
       <p>1️⃣ Cada jugador puede apostar entre <b>$50 y $100</b> por marcador exacto.</p>
       <p>2️⃣ Cada apuesta es un “ticket”. Si un jugador apuesta varias veces, cuenta con varios tickets.</p>
       <p>3️⃣ Si solo un jugador apostó a un partido, su dinero se le regresa (no hay pozo).</p>
-      <p>4️⃣ Si dos o más jugadores apuestan al mismo partido, se forma el <b>pozo acumulado</b> con la suma de todas las apuestas.</p>
-      <p>5️⃣ El ganador (o ganadores, si hay empate exacto) se llevan todo el pozo.</p>
+      <p>4️⃣ Si dos o más jugadores apuestan al mismo partido, se forma el <b>pozo acumulado</b>.</p>
+      <p>5️⃣ El ganador recibe un premio proporcional al monto apostado:<br>
+         - Apostar $100 equivale al 100% del pozo.<br>
+         - Apostar $50 equivale al 50% del pozo.</p>
       <p>📌 Ejemplo:<br>
-         - Jugador A apuesta $100 y $100.<br>
-         - Jugador B apuesta $100.<br>
-         - Pozo acumulado: $300.<br>
-         - Si gana A, recibe $300 (su ganancia neta es $100).<br>
-         - Si gana B, recibe $300 (ganancia neta $200).</p>
+         - Jugador A apuesta $50<br>
+         - Jugador B apuesta $100<br>
+         - Pozo acumulado: $150<br>
+         - Si gana A, recibe $50 del pozo.<br>
+         - Si gana B, recibe $100 del pozo.</p>
     </div>
   </div>
 
@@ -248,7 +258,17 @@
       document.getElementById("panel-general").style.display = "block";
       cargarMisApuestas(user.email);
       cargarGeneral();
+
+      // Mostrar modal de ayuda solo la primera vez
+      if (!localStorage.getItem("ayudaVisto")){
+        abrirAyuda();
+        localStorage.setItem("ayudaVisto","1");
+      }
     });
+
+    // --- Modal ---
+    window.abrirAyuda = ()=>{ document.getElementById("modal").style.display="block"; }
+    window.cerrarAyuda = ()=>{ document.getElementById("modal").style.display="none"; }
   </script>
 </body>
 </html>
