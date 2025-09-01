@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apuestas 2 - Marcadores Exactos</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    :root{--azul:#004aad;--azulOsc:#00327a;--borde:#e5e7eb;}
+    *{box-sizing:border-box}
+    body{font-family:'Rubik',sans-serif;background:#f9fafb;margin:0;color:#111827}
+    header{background:var(--azul);color:#fff;padding:18px;text-align:center}
+    header button{margin-top:.5rem;padding:.6rem 1.2rem;border:none;border-radius:10px;background:#fff;color:var(--azul);font-weight:600;cursor:pointer}
+    header button:hover{background:#f1f5f9}
+    main{padding:18px;max-width:1100px;margin:auto}
+    h2{color:var(--azul);margin:0 0 .6rem}
+    .card{background:#fff;border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 6px 20px rgba(0,0,0,.06);border:1px solid var(--borde)}
+    .form-apuesta{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .form-apuesta select,.form-apuesta input{padding:.6rem .7rem;font-size:1rem;border:1px solid #cbd5e1;border-radius:10px}
+    .form-apuesta button{background:var(--azul);color:#fff;border:none;border-radius:10px;padding:.7rem 1.1rem;font-weight:600;cursor:pointer;transition:.2s}
+    .form-apuesta button:hover{background:var(--azulOsc)}
+    table{width:100%;border-collapse:collapse;margin-top:10px;border-radius:12px;overflow:hidden}
+    th,td{border-bottom:1px solid #e5e7eb;padding:.7rem;text-align:center}
+    th{background:var(--azul);color:#fff}
+    tbody tr:hover{background:#f8fafc}
+    #pozo{font-size:1.2rem;font-weight:700;color:var(--azul);margin:6px 0 12px}
+    #bloqueo-msg{color:#b91c1c;font-weight:700;text-align:center;margin-bottom:10px}
+    .pill{display:inline-block;padding:.25rem .55rem;border-radius:999px;border:1px solid #e5e7eb;font-size:.85rem;background:#f8fafc}
+    .muted{color:#6b7280}
+    .msg{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:.95rem;font-weight:500}
+    .msg.ok{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+    .msg.err{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+    @media (max-width:720px){th,td{font-size:.85rem;padding:.55rem}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚽ Apuestas 2 - Marcadores Exactos</h1>
+    <button onclick="window.location.href='menu.html'">⬅ Volver al Menú</button>
+  </header>
+
+  <main>
+    <div id="bloqueo-msg"></div>
+    <div id="pozo">💰 Pozo acumulado: $0</div>
+
+    <section class="card" id="panel-apuesta" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <h2>Realizar Apuesta</h2>
+        <span class="pill muted">Máximo por apuesta: $100</span>
+      </div>
+      <form id="form-apuesta" class="form-apuesta">
+        <select id="partido" required></select>
+        <input type="number" id="goles1" placeholder="Goles equipo 1" min="0" required>
+        <input type="number" id="goles2" placeholder="Goles equipo 2" min="0" required>
+        <input type="number" id="monto" placeholder="Monto $" min="50" max="100" required>
+        <button type="submit">💸 Apostar</button>
+      </form>
+      <div id="msg-apuesta"></div>
+      <div class="muted" style="margin-top:.5rem">
+        ⏱️ Apuestas bloqueadas: Vie 6:00 pm → Lun 4:00 pm (hora local)
+      </div>
+    </section>
+
+    <section class="card" id="panel-usuario" style="display:none;">
+      <h2>Mis Apuestas</h2>
+      <div id="mis-apuestas" class="muted">Cargando…</div>
+    </section>
+
+    <section class="card" id="panel-general" style="display:none;">
+      <h2>📊 Tabla General de Apuestas</h2>
+      <div id="tabla-apuestas" class="muted">Cargando…</div>
+    </section>
+  </main>
+
+  <!-- Modal Cómo jugar -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+      <h2>ℹ️ Cómo se juega</h2>
+      <p>1️⃣ Cada jugador puede apostar entre <b>$50 y $100</b> por marcador exacto.</p>
+      <p>2️⃣ Cada apuesta es un “ticket”. Si un jugador apuesta varias veces, cuenta con varios tickets.</p>
+      <p>3️⃣ Si solo un jugador apostó a un partido, su dinero se le regresa (no hay pozo).</p>
+      <p>4️⃣ Si dos o más jugadores apuestan al mismo partido, se forma el <b>pozo acumulado</b> con la suma de todas las apuestas.</p>
+      <p>5️⃣ El ganador (o ganadores, si hay empate exacto) se llevan todo el pozo.</p>
+      <p>📌 Ejemplo:<br>
+         - Jugador A apuesta $100 y $100.<br>
+         - Jugador B apuesta $100.<br>
+         - Pozo acumulado: $300.<br>
+         - Si gana A, recibe $300 (su ganancia neta es $100).<br>
+         - Si gana B, recibe $300 (ganancia neta $200).</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // --- Firebase ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+    const auth = getAuth(app);
+
+    // --- DOM ---
+    const partidoSelect = document.getElementById("partido");
+    const formApuesta   = document.getElementById("form-apuesta");
+    const pozoDiv       = document.getElementById("pozo");
+    const bloqueoMsg    = document.getElementById("bloqueo-msg");
+    const msgApuesta    = document.getElementById("msg-apuesta");
+
+    // --- Utils ---
+    const nombreCache = new Map();
+    function money(n){ return `$${Number(n||0).toLocaleString()}` }
+
+    async function getNombrePorCorreo(email){
+      if (nombreCache.has(email)) return nombreCache.get(email);
+      const local = localStorage.getItem("user")===email ? localStorage.getItem("nombre") : null;
+      if (local){ nombreCache.set(email, local); return local; }
+      try{
+        const uSnap = await getDoc(doc(db,"usuarios", email));
+        const nombre = uSnap.exists() && uSnap.data().nombre ? uSnap.data().nombre : email;
+        nombreCache.set(email, nombre);
+        return nombre;
+      }catch{ return email; }
+    }
+
+    function estaBloqueado(){
+      const d=new Date(); const dia=d.getDay(); const h=d.getHours();
+      return (dia===5 && h>=18) || dia===6 || dia===0 || (dia===1 && h<16);
+    }
+
+    async function cargarPartidos(){
+      const pSnap = await getDoc(doc(db,"config","partidos"));
+      if (!pSnap.exists()) return;
+      partidoSelect.innerHTML = "";
+      (pSnap.data().partidos || []).forEach((p,i)=>{
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = `${p.equipo1} vs ${p.equipo2}`;
+        partidoSelect.appendChild(opt);
+      });
+    }
+
+    // --- Guardar apuesta ---
+    formApuesta.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      msgApuesta.innerHTML="";
+      const user = auth.currentUser;
+      if(!user){ return alert("Debes iniciar sesión"); }
+      if(estaBloqueado()){ return msgApuesta.innerHTML="<div class='msg err'>🚫 Apuestas bloqueadas (Vie 6pm → Lun 4pm)</div>"; }
+
+      const monto = parseInt(document.getElementById("monto").value,10);
+      if (isNaN(monto) || monto<50) return msgApuesta.innerHTML="<div class='msg err'>❌ El mínimo es $50</div>";
+      if (monto>100)   return msgApuesta.innerHTML="<div class='msg err'>❌ El máximo de apuesta es $100</div>";
+
+      const goles1 = document.getElementById("goles1").value;
+      const goles2 = document.getElementById("goles2").value;
+      const index  = parseInt(partidoSelect.value,10);
+
+      const cfg = await getDoc(doc(db,"config","partidos"));
+      if (!cfg.exists()) return alert("No hay partidos configurados.");
+      const p = cfg.data().partidos[index];
+
+      const nombreUsuario = await getNombrePorCorreo(user.email);
+
+      await addDoc(collection(db,"apuestas2"),{
+        usuario: user.email,
+        nombre:  nombreUsuario,
+        partido: `${p.equipo1} vs ${p.equipo2}`,
+        marcador: `${goles1}-${goles2}`,
+        monto,
+        timestamp: new Date()
+      });
+
+      msgApuesta.innerHTML="<div class='msg ok'>✅ Apuesta registrada con éxito</div>";
+      formApuesta.reset();
+    });
+
+    // --- Mis apuestas ---
+    function cargarMisApuestas(correo){
+      const cont = document.getElementById("mis-apuestas");
+      onSnapshot(collection(db,"apuestas2"), (snap)=>{
+        let html = "<table><thead><tr><th>Partido</th><th>Marcador</th><th>Monto</th></tr></thead><tbody>";
+        let vacio = true;
+        snap.forEach(d=>{
+          const a=d.data();
+          if(a.usuario===correo){
+            vacio=false;
+            html += `<tr><td>${a.partido}</td><td>${a.marcador}</td><td>${money(a.monto)}</td></tr>`;
+          }
+        });
+        html += "</tbody></table>";
+        cont.innerHTML = vacio ? "<div class='muted'>No has hecho apuestas todavía.</div>" : html;
+      });
+    }
+
+    // --- Tabla general ---
+    function cargarGeneral(){
+      const cont = document.getElementById("tabla-apuestas");
+      onSnapshot(collection(db,"apuestas2"), async (snap)=>{
+        const apuestas = snap.docs.map(d=>d.data());
+        const correosUnicos = Array.from(new Set(apuestas.map(a=>a.usuario)));
+        await Promise.all(correosUnicos.map(getNombrePorCorreo));
+
+        let html = "<table><thead><tr><th>Jugador</th><th>Partido</th><th>Marcador</th><th>Monto</th></tr></thead><tbody>";
+        const porPartido = {};
+        apuestas.forEach(a=>{
+          const nombre = nombreCache.get(a.usuario) || a.usuario;
+          html += `<tr><td>${nombre}</td><td>${a.partido}</td><td>${a.marcador}</td><td>${money(a.monto)}</td></tr>`;
+          porPartido[a.partido] = porPartido[a.partido] || [];
+          porPartido[a.partido].push(a.monto);
+        });
+        html += "</tbody></table>";
+        cont.innerHTML = apuestas.length ? html : "<div class='muted'>Aún no hay apuestas registradas.</div>";
+
+        // Pozo: suma solo si hay más de una apuesta
+        let pozo = 0;
+        Object.values(porPartido).forEach(lista=>{
+          if (lista.length>1) pozo += lista.reduce((a,b)=>a+b,0);
+        });
+        pozoDiv.textContent = `💰 Pozo acumulado: ${money(pozo)}`;
+      });
+    }
+
+    // --- Estado usuario ---
+    onAuthStateChanged(auth, async (user)=>{
+      if(!user){ bloqueoMsg.textContent = "⚠ Debes iniciar sesión para ver esta página."; return; }
+      if (localStorage.getItem("user")===user.email && localStorage.getItem("nombre")){
+        nombreCache.set(user.email, localStorage.getItem("nombre"));
+      }
+      await cargarPartidos();
+      if (estaBloqueado()){
+        bloqueoMsg.textContent = "🚫 Las apuestas están bloqueadas (de viernes 6 pm a lunes 4 pm).";
+      } else {
+        bloqueoMsg.textContent = "";
+        document.getElementById("panel-apuesta").style.display = "block";
+      }
+      document.getElementById("panel-usuario").style.display = "block";
+      document.getElementById("panel-general").style.display = "block";
+      cargarMisApuestas(user.email);
+      cargarGeneral();
+    });
+  </script>
+</body>
+</html>
