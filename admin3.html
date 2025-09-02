@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - Apuestas</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 800px;
+    }
+    .card h2 {
+      margin-bottom: 1rem;
+      color: #222;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select {
+      padding: 0.6rem;
+      margin: 0.4rem 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 1.2rem;
+      background: #004aad;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #00327a;
+    }
+    .danger {
+      background: #d32f2f !important;
+    }
+    .danger:hover {
+      background: #9a0007 !important;
+    }
+    .success {
+      background: #2e7d32 !important;
+    }
+    .success:hover {
+      background: #1b5e20 !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>⚙️ Panel de Administración</h1>
+
+  <!-- Registrar marcadores -->
+  <div class="card">
+    <h2>📊 Registrar Marcadores Finales</h2>
+    <label for="partido">Seleccionar Partido</label>
+    <select id="partido"></select>
+
+    <label>Goles equipo 1</label>
+    <input type="number" id="goles1" min="0" />
+
+    <label>Goles equipo 2</label>
+    <input type="number" id="goles2" min="0" />
+
+    <button id="guardarResultado" class="success">✅ Guardar Resultado</button>
+  </div>
+
+  <!-- Modificar pozo -->
+  <div class="card">
+    <h2>💰 Control del Pozo</h2>
+    <label>Pozo acumulado ($)</label>
+    <input type="number" id="pozoInput" min="0" />
+    <button id="actualizarPozo">💾 Actualizar Pozo</button>
+  </div>
+
+  <!-- Limpiar apuestas -->
+  <div class="card">
+    <h2>🗑️ Limpiar Apuestas</h2>
+    <p style="color:#444">Esto borrará TODAS las apuestas registradas en la jornada actual y reiniciará el pozo.</p>
+    <button id="limpiarApuestas" class="danger">⚠️ Limpiar Apuestas</button>
+  </div>
+
+  <!-- Regresar -->
+  <div style="text-align:center;">
+    <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+    <button onclick="window.location.href='admin.html'">Regresar</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDocs,
+      getDoc,
+      setDoc,
+      updateDoc,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
+      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
+      projectId: "rifaboletos-c1d0d",
+      storageBucket: "rifaboletos-c1d0d.appspot.com",
+      messagingSenderId: "27051588350",
+      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Lista de administradores autorizados
+    const admins = ["jc@gmail.com", "guera00@gmail.com", "ti43300@uvp.edu.mx"];
+
+    // Checar login
+    onAuthStateChanged(auth, async (user) => {
+      if (!user || !admins.includes(user.email)) {
+        alert("Acceso denegado. No eres administrador.");
+        window.location.href = "menu.html";
+        return;
+      }
+      cargarPartidos();
+      cargarPozo();
+    });
+
+    // Cargar lista de partidos
+    async function cargarPartidos() {
+      const docSnap = await getDoc(doc(db, "config", "partidos"));
+      if (docSnap.exists()) {
+        const partidos = docSnap.data().partidos || [];
+        const select = document.getElementById("partido");
+        partidos.forEach((p, i) => {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = `${p.equipo1} vs ${p.equipo2}`;
+          select.appendChild(option);
+        });
+      }
+    }
+
+    // Guardar resultado
+    document.getElementById("guardarResultado").addEventListener("click", async () => {
+      const partido = document.getElementById("partido").value;
+      const goles1 = document.getElementById("goles1").value;
+      const goles2 = document.getElementById("goles2").value;
+
+      if (goles1 === "" || goles2 === "") {
+        alert("⚠️ Debes ingresar los goles de ambos equipos.");
+        return;
+      }
+
+      const marcador = `${goles1}-${goles2}`;
+      await updateDoc(doc(db, "resultados", "actuales"), {
+        [`partido${partido}`]: marcador
+      });
+
+      alert("✅ Resultado guardado correctamente.");
+    });
+
+    // Cargar pozo actual
+    async function cargarPozo() {
+      const pozoDoc = await getDoc(doc(db, "config", "pozo"));
+      if (pozoDoc.exists()) {
+        document.getElementById("pozoInput").value = pozoDoc.data().monto || 0;
+      }
+    }
+
+    // Actualizar pozo
+    document.getElementById("actualizarPozo").addEventListener("click", async () => {
+      const monto = parseInt(document.getElementById("pozoInput").value) || 0;
+      await setDoc(doc(db, "config", "pozo"), { monto });
+      alert("💰 Pozo actualizado correctamente.");
+    });
+
+    // Limpiar apuestas
+    document.getElementById("limpiarApuestas").addEventListener("click", async () => {
+      if (!confirm("⚠️ ¿Seguro que deseas borrar TODAS las apuestas y reiniciar el pozo?")) return;
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "apuestas2"));
+        for (const docSnap of querySnapshot.docs) {
+          await deleteDoc(doc(db, "apuestas2", docSnap.id));
+        }
+        // Reiniciar pozo
+        await setDoc(doc(db, "config", "pozo"), { monto: 0 });
+        document.getElementById("pozoInput").value = 0;
+
+        alert("🗑️ Todas las apuestas fueron eliminadas y el pozo se reinició.");
+      } catch (error) {
+        console.error("Error al limpiar apuestas:", error);
+        alert("❌ Ocurrió un error al limpiar las apuestas.");
+      }
+    });
+  </script>
+</body>
+</html>
