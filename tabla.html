@@ -69,6 +69,22 @@
       font-weight: bold;
       border: 2px solid #fbc02d;
     }
+    /* 🎉 Estilo especial para el jugador perfecto */
+    .perfecto {
+      background: linear-gradient(90deg, #ffd700, #ffb400, #ffd700);
+      color: #000 !important;
+      font-weight: bold;
+      border: 3px solid #ff9800 !important;
+      animation: brillo 2s infinite alternate;
+    }
+    @keyframes brillo {
+      from { box-shadow: 0 0 10px #ffd700; }
+      to   { box-shadow: 0 0 25px #ff9800; }
+    }
+    .perfecto strong {
+      font-size: 1.2rem;
+      color: #d32f2f;
+    }
     button {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -89,6 +105,18 @@
         padding: 0.4rem;
       }
     }
+    #bloqueo-msg {
+      text-align:center;
+      font-size:1.1rem;
+      color:#444;
+      background:#fff3cd;
+      border:1px solid #ffeeba;
+      padding:1rem;
+      border-radius:10px;
+      max-width:600px;
+      margin:2rem auto;
+      display:none;
+    }
   </style>
 </head>
 <body>
@@ -100,7 +128,13 @@
     🏆 <strong>Premio Final (90%):</strong> <span id="premio">$0</span>
   </div>
 
-  <table id="tabla">
+  <div id="bloqueo-msg">
+    ⏳ Las quinielas estarán visibles a partir del <b>viernes a las 5:00 pm</b>  
+    y hasta el <b>lunes a las 11:59 pm</b>.  
+    ¡Vuelve más tarde para ver la tabla general!
+  </div>
+
+  <table id="tabla" style="display:none;">
     <thead>
       <tr id="encabezado">
         <th>Usuario</th>
@@ -112,6 +146,7 @@
   </table>
 
   <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+  <button onclick="window.location.href='foro.html'">Ver ganadores!</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -138,6 +173,19 @@
     const encabezado = document.getElementById("encabezado");
     const tbody = document.querySelector("tbody");
 
+    function puedeVerTabla() {
+      const ahora = new Date();
+      const dia = ahora.getDay();
+      const horas = ahora.getHours();
+      const minutos = ahora.getMinutes();
+
+      if (dia === 5 && (horas > 17 || (horas === 17 && minutos >= 0))) return true;
+      if (dia === 6 || dia === 0) return true;
+      if (dia === 1 && horas < 24) return true;
+
+      return false;
+    }
+
     async function cargarPartidos() {
       const docRef = doc(db, "config", "partidos");
       const docSnap = await getDoc(docRef);
@@ -147,7 +195,6 @@
       }
       const data = docSnap.data();
 
-      // Mostrar jornada
       const jornada = data.jornada || "—";
       document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
       return data.partidos || [];
@@ -160,7 +207,20 @@
     async function mostrarQuinielas() {
       const partidos = await cargarPartidos();
 
-      // Crear encabezados
+      const querySnapshot = await getDocs(collection(db, "quinielas"));
+      const precioEntrada = 100;
+      const totalJugadores = querySnapshot.size;
+      const recaudado = precioEntrada * totalJugadores;
+      const premioFinal = Math.round(recaudado * 0.9);
+      document.getElementById("recaudado").textContent = `$${recaudado}`;
+      document.getElementById("premio").textContent = `$${premioFinal}`;
+
+      if (!puedeVerTabla()) {
+        document.getElementById("bloqueo-msg").style.display = "block";
+        return;
+      }
+      document.getElementById("tabla").style.display = "table";
+
       partidos.forEach((p, i) => {
         const th = document.createElement("th");
         th.textContent = `${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}`;
@@ -170,7 +230,6 @@
       const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
       const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
 
-      const querySnapshot = await getDocs(collection(db, "quinielas"));
       const datos = [];
 
       for (const docSnap of querySnapshot.docs) {
@@ -208,19 +267,8 @@
         datos.push(fila);
       }
 
-      // Mostrar premio
-      const precioEntrada = 100;
-      const totalJugadores = datos.length;
-      const recaudado = precioEntrada * totalJugadores;
-      const premioFinal = Math.round(recaudado * 0.9);
-      document.getElementById("recaudado").textContent = `$${recaudado}`;
-      document.getElementById("premio").textContent = `$${premioFinal}`;
-
-      // Ordenar y detectar máximos
       datos.sort((a, b) => b.aciertos - a.aciertos);
-      const maxAciertos = datos.length > 0 ? datos[0].aciertos : 0;
 
-      // Mostrar tabla
       datos.forEach(jugador => {
         const tr = document.createElement("tr");
         const predHtml = jugador.predicciones.map(p =>
@@ -234,10 +282,21 @@
               : ''
           }">${p.valor ?? "-"}</td>`).join("");
 
-        const claseAcierto = jugador.aciertos === maxAciertos ? 'lider' : '';
-        const aciertoHtml = `<td class="${claseAcierto}"><strong>${jugador.aciertos}</strong></td>`;
+        let claseAcierto = "";
+        if (jugador.aciertos === 10) {
+          claseAcierto = "perfecto";
+        } else if (jugador.aciertos === datos[0].aciertos) {
+          claseAcierto = "lider";
+        }
 
+        const aciertoHtml = `<td class="${claseAcierto}"><strong>${jugador.aciertos}</strong></td>`;
         tr.innerHTML = `<td>${jugador.usuario}</td>` + predHtml + aciertoHtml;
+
+        if (jugador.aciertos === 10) {
+          tr.classList.add("perfecto");
+          tr.cells[0].innerHTML = `🌟 ${jugador.usuario} 🌟`;
+        }
+
         tbody.appendChild(tr);
       });
     }
