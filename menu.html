@@ -34,16 +34,21 @@
       margin-bottom: 0.5rem;
     }
 
-    #buzon {
+    #buzon, #updates {
       position: absolute;
-      right: 1rem;
       top: 1rem;
       cursor: pointer;
     }
 
-    #buzon img {
-      width: 30px;
-      height: 30px;
+    /* Botón notificaciones (derecha) */
+    #buzon { right: 1rem; }
+
+    /* Botón avisos (izquierda) */
+    #updates { left: 1rem; }
+
+    #buzon img, #updates img {
+      width: 32px;
+      height: 32px;
     }
 
     #notificaciones {
@@ -52,12 +57,12 @@
       color: black;
       position: absolute;
       top: 60px;
-      right: 10px;
       border-radius: 10px;
       padding: 1rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      max-width: 300px;
+      max-width: 320px;
       z-index: 100;
+      right: 10px;
     }
 
     #notificaciones p {
@@ -115,14 +120,8 @@
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 1.3rem;
-      }
-
-      .boton {
-        font-size: 1rem;
-        padding: 1rem;
-      }
+      h1 { font-size: 1.3rem; }
+      .boton { font-size: 1rem; padding: 1rem; }
     }
   </style>
 </head>
@@ -131,9 +130,18 @@
     <img src="imagenes/logo1.png" alt="Logo" class="logo">
     <h1>Quiniela Santos MX</h1>
     <div id="saludo">Bienvenido</div>
+
+    <!-- Botón avisos (izquierda, abre avisos.html) -->
+    <a id="updates" href="avisos.html">
+      <img src="imagenes/avisos.png" alt="Avisos">
+    </a>
+
+    <!-- Botón notificaciones (derecha) -->
     <div id="buzon" onclick="toggleNotificaciones()">
       <img id="buzonImg" src="imagenes/sin.png" alt="Buzón">
     </div>
+
+    <!-- Ventana emergente solo para notificaciones -->
     <div id="notificaciones"></div>
   </header>
 
@@ -141,9 +149,9 @@
     <button class="boton" onclick="location.href='quiniela.html'">✍️ Llenar mi quiniela</button>
     <button class="boton" onclick="location.href='miquiniela.html'">📋 Ver mi quiniela</button>
     <button class="boton" onclick="location.href='tabla.html'">🏆 Ver tabla general</button>
-    <button class="boton" onclick="location.href='apuestas2.html'">💰Apuestas Exactas💰</button>
+    <button class="boton" onclick="location.href='apuestas2.html'">💰 Apuestas Exactas 💰</button>
     <button class="boton" onclick="location.href='foro.html'">📨 Chat</button>
-    <button class="boton" onclick="location.href='admin.html'">🔒SOLO ADMINISTRADORES🔒</button>
+    <button class="boton" onclick="location.href='admin.html'">🔒 SOLO ADMINISTRADORES 🔒</button>
     <button class="boton" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
   </main>
 
@@ -231,7 +239,7 @@
       }
 
       if (html === "<strong>🔔 Notificaciones:</strong><br><br>") {
-        html += `<p>No hay notificaciones nuevas de los administradores!.</p>`;
+        html += `<p>No hay notificaciones nuevas de los administradores.</p>`;
       }
 
       contenedor.innerHTML = html;
