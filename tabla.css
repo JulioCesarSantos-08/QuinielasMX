@@ -1,0 +1,115 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 1rem;
+}
+h1 {
+  text-align: center;
+  color: #004aad;
+  margin-bottom: 1rem;
+}
+#premio-box {
+  background: #e0f7fa;
+  border: 2px solid #00acc1;
+  color: #004d40;
+  padding: 1rem;
+  margin: 1rem auto 2rem;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  max-width: 600px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+th, td {
+  padding: 0.7rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+th {
+  background: #004aad;
+  color: white;
+  font-size: 0.9rem;
+}
+tr:hover {
+  background: #f9f9f9;
+}
+.correcto {
+  background: #c8e6c9;
+  font-weight: bold;
+}
+.incorrecto {
+  background: #ffcdd2;
+}
+.pendiente {
+  background: #e0e0e0;
+  color: #555;
+}
+.lider {
+  background-color: #ffeb3b !important;
+  color: #000;
+  font-weight: bold;
+  border: 2px solid #fbc02d;
+}
+.perfecto {
+  background: linear-gradient(90deg, #ffd700, #ffb400, #ffd700);
+  color: #000 !important;
+  font-weight: bold;
+  border: 3px solid #ff9800 !important;
+  animation: brillo 2s infinite alternate;
+}
+@keyframes brillo {
+  from { box-shadow: 0 0 10px #ffd700; }
+  to   { box-shadow: 0 0 25px #ff9800; }
+}
+.perfecto strong {
+  font-size: 1.2rem;
+  color: #d32f2f;
+}
+button {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  background: #004aad;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+button:hover {
+  background: #00327a;
+}
+@media (max-width: 768px) {
+  th, td {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+  }
+}
+#bloqueo-msg {
+  text-align:center;
+  font-size:1.1rem;
+  color:#444;
+  background:#fff3cd;
+  border:1px solid #ffeeba;
+  padding:1rem;
+  border-radius:10px;
+  max-width:600px;
+  margin:2rem auto;
+  display:none;
+}
+.marcador-final {
+  font-size: 0.8rem;
+  color: #ffffff;
+  display: block;
+  margin-top: 4px;
+}
