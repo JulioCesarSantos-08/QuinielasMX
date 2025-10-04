@@ -1,0 +1,70 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  color: #004aad;
+}
+
+.partido, .ganador-box {
+  margin-bottom: 1.2rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+select, input[type="text"] {
+  padding: 0.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  margin-top: 0.4rem;
+}
+
+input[type="text"] {
+  width: 140px;
+  text-align: center;
+}
+
+select[multiple] {
+  height: 150px;
+}
+
+button {
+  padding: 0.7rem 1.5rem;
+  background: #004aad;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background: #00327a;
+}
+
+#formulario {
+  display: none;
+}
+
+.volver {
+  margin-top: 2rem;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  background: #28a745;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+}
+
+.volver:hover {
+  background: #1e7e34;
+}
