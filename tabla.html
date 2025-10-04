@@ -69,7 +69,6 @@
       font-weight: bold;
       border: 2px solid #fbc02d;
     }
-    /* 🎉 Estilo especial para el jugador perfecto */
     .perfecto {
       background: linear-gradient(90deg, #ffd700, #ffb400, #ffd700);
       color: #000 !important;
@@ -116,6 +115,12 @@
       max-width:600px;
       margin:2rem auto;
       display:none;
+    }
+    .marcador-final {
+      font-size: 0.8rem;
+      color: #ffffff;
+      display: block;
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -221,14 +226,16 @@
       }
       document.getElementById("tabla").style.display = "table";
 
-      partidos.forEach((p, i) => {
-        const th = document.createElement("th");
-        th.textContent = `${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}`;
-        encabezado.insertBefore(th, encabezado.lastElementChild);
-      });
-
       const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
       const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
+
+      // Crear encabezado con marcador debajo
+      partidos.forEach((p, i) => {
+        const th = document.createElement("th");
+        const marcador = resultadosReales[`marcador${i}`] || "-";
+        th.innerHTML = `${formatearEquipo(p.equipo1)} vs ${formatearEquipo(p.equipo2)}<br><span class="marcador-final">${marcador}</span>`;
+        encabezado.insertBefore(th, encabezado.lastElementChild);
+      });
 
       const datos = [];
 
