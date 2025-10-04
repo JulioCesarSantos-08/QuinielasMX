@@ -24,10 +24,16 @@
       border-radius: 10px;
       box-shadow: 0 1px 5px rgba(0,0,0,0.1);
     }
-    select {
+    select, input[type="text"] {
       padding: 0.4rem;
       border-radius: 6px;
       font-size: 1rem;
+      border: 1px solid #ccc;
+      margin-top: 0.4rem;
+    }
+    input[type="text"] {
+      width: 140px;
+      text-align: center;
     }
     select[multiple] {
       height: 150px;
@@ -149,7 +155,8 @@
             <option value="local">Gana ${formatearEquipo(p.equipo1)}</option>
             <option value="empate">Empate</option>
             <option value="visitante">Gana ${formatearEquipo(p.equipo2)}</option>
-          </select>
+          </select><br>
+          <input type="text" id="marcador${i}" placeholder="Ej: 2-1" />
         `;
         form.appendChild(div);
       });
@@ -162,7 +169,9 @@
         const data = docSnap.data();
         for (let i = 0; i < partidos.length; i++) {
           const select = document.getElementById(`resultado${i}`);
+          const input = document.getElementById(`marcador${i}`);
           if (select) select.value = data[`partido${i}`] || "";
+          if (input) input.value = data[`marcador${i}`] || "";
         }
       }
     }
@@ -207,7 +216,9 @@
       const resultados = {};
       for (let i = 0; i < partidos.length; i++) {
         const select = document.getElementById(`resultado${i}`);
+        const input = document.getElementById(`marcador${i}`);
         resultados[`partido${i}`] = select ? select.value || null : null;
+        resultados[`marcador${i}`] = input ? input.value || "" : "";
       }
 
       const ganadores = Array.from(selectGanador.selectedOptions).map(opt => opt.value);
@@ -221,7 +232,7 @@
 
         await enviarNotificacionGanadores(ganadores);
 
-        alert("✅ Resultados y ganadores guardados correctamente.");
+        alert("✅ Resultados y marcadores guardados correctamente.");
       } catch (e) {
         alert("❌ Error al guardar: " + e.message);
       }
@@ -232,11 +243,9 @@
       if (!confirmar) return;
 
       try {
-        // 🔹 1. Eliminar resultados y configuración
         await deleteDoc(doc(db, "resultados", "actuales"));
         await deleteDoc(doc(db, "configuracion", "general"));
 
-        // 🔹 2. Resetear usuarios
         const usuariosSnapshot = await getDocs(collection(db, "usuarios"));
         for (const docu of usuariosSnapshot.docs) {
           const ref = doc(db, "usuarios", docu.id);
@@ -248,7 +257,6 @@
           });
         }
 
-        // 🔹 3. Borrar todas las quinielas de usuarios
         const quinielasSnapshot = await getDocs(collection(db, "quinielas"));
         for (const qDoc of quinielasSnapshot.docs) {
           await deleteDoc(doc(db, "quinielas", qDoc.id));
