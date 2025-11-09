@@ -315,7 +315,6 @@ function watchStateRealtime() {
 
     const myTeam = state.assignments?.[currentUserEmail];
     btnTake.disabled = !!myTeam || !state.teamsRemaining?.length;
-    if (myTeam) spinMsg.textContent = `Ya tienes asignado: ${myTeam}`;
   });
 
   // Escuchar cambios en configuración
