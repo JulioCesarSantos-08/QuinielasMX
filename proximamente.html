@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Octavos de Final - Próximamente</title>
+  <link rel="icon" href="imagenes/logo1.png">
+  <style>
+    :root {
+      --azul-santos: #0047BA;
+      --azul-oscuro: #002D73;
+      --dorado: #FFD700;
+      --blanco: #ffffff;
+      --gris: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      background: radial-gradient(circle at center, var(--azul-santos) 0%, var(--azul-oscuro) 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animación de ruleta de fondo */
+    .wheel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280px;
+      height: 280px;
+      margin: -140px 0 0 -140px;
+      border-radius: 50%;
+      border: 10px solid var(--dorado);
+      animation: spin 10s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .logo {
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-top: 15px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+
+    p {
+      max-width: 90%;
+      margin: 15px auto 25px;
+      color: var(--gris);
+      font-size: 1rem;
+      line-height: 1.5;
+      z-index: 2;
+    }
+
+    .spoilers {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--dorado);
+      font-weight: bold;
+      font-size: 1rem;
+      animation: fadeIn 2s ease-in-out;
+      z-index: 2;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      background-color: var(--dorado);
+      color: #222;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    .btn:hover {
+      background-color: #ffde59;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      z-index: 2;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      p { font-size: 0.9rem; }
+      .logo { width: 100px; }
+      .btn { padding: 10px 20px; font-size: 0.9rem; }
+      .wheel { width: 220px; height: 220px; margin: -110px 0 0 -110px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wheel"></div>
+  <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
+  <h1>🎡 ¡La Ruleta de los Octavos está por comenzar! ⚽</h1>
+  <p>Muy pronto podrás girar la ruleta y descubrir qué equipo te tocará.<br>
+     Solo 8 equipos… solo uno se llevará la gloria 🏆</p>
+
+  <div class="spoilers">
+    <div>🔹 8 participantes</div>
+    <div>🔹 8 equipos</div>
+    <div>🔹 1 ganador</div>
+  </div>
+
+  <a href="menu.html" class="btn">Regresar al menú</a>
+
+  <footer>© 2025 Quiniela Santos MX | Octavos de Final próximamente</footer>
+</body>
+</html>
