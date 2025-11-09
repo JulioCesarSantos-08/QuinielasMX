@@ -265,7 +265,6 @@ async function takeTeam() {
       if (!st.exists()) throw new Error("Estado no inicializado por el admin.");
       const s = st.data();
       if (!s.teamsRemaining?.length) throw new Error("No quedan equipos.");
-      if (s.assignments?.[currentUserEmail]) throw new Error(`Ya tienes equipo: ${s.assignments[currentUserEmail]}`);
 
       const idx = Math.floor(Math.random() * s.teamsRemaining.length);
       assigned = s.teamsRemaining[idx];
