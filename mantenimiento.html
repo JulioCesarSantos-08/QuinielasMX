@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mantenimiento - Quiniela Santos MX</title>
+  <link rel="icon" href="imagenes/logo1.png">
+  <style>
+    /* Colores principales */
+    :root {
+      --azul-santos: #0047BA;
+      --blanco: #ffffff;
+      --dorado: #FFD700;
+      --gris-oscuro: #222;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--azul-santos);
+      color: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-top: 15px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    }
+
+    p {
+      font-size: 1rem;
+      max-width: 90%;
+      margin: 10px auto 25px;
+      color: #f0f0f0;
+    }
+
+    .loader {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid var(--dorado);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1.2s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .btn {
+      background-color: var(--dorado);
+      color: var(--gris-oscuro);
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn:hover {
+      background-color: #ffde59;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ddd;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      p { font-size: 0.9rem; }
+      .logo { width: 100px; }
+      .btn { padding: 10px 20px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
+  <h1>Estamos en mantenimiento ⚙️</h1>
+  <p>Estamos mejorando nuestra Quiniela Santos MX para ofrecerte una mejor experiencia.<br>
+     Por favor, vuelve en unos momentos.</p>
+  <div class="loader"></div>
+  <a href="menu.html" class="btn">Regresar al menú</a>
+
+  <footer>© 2025 Quiniela Santos MX | Todos los derechos reservados</footer>
+</body>
+</html>
