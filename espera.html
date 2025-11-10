@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gracias por participar - Quiniela Santos MX</title>
+  <link rel="icon" href="imagenes/logo1.png">
+  <style>
+    :root {
+      --azul-santos: #0047BA;
+      --azul-oscuro: #002D73;
+      --dorado: #FFD700;
+      --blanco: #ffffff;
+      --gris: #ddd;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      background: radial-gradient(circle at center, var(--azul-santos), var(--azul-oscuro));
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Fondo en movimiento */
+    .background-glow {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+      animation: moveGlow 10s linear infinite alternate;
+      filter: blur(80px);
+      z-index: 0;
+    }
+
+    @keyframes moveGlow {
+      0% { transform: translate(-10%, -10%) rotate(0deg); }
+      100% { transform: translate(10%, 10%) rotate(360deg); }
+    }
+
+    /* Partículas doradas */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -10px;
+      width: 6px;
+      height: 6px;
+      background: var(--dorado);
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: rise 6s linear infinite;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-110vh) scale(0.8); opacity: 0; }
+    }
+
+    /* Posiciones aleatorias */
+    .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 25%; animation-delay: 1s; }
+    .particle:nth-child(3) { left: 40%; animation-delay: 2s; }
+    .particle:nth-child(4) { left: 60%; animation-delay: 0.5s; }
+    .particle:nth-child(5) { left: 75%; animation-delay: 1.5s; }
+    .particle:nth-child(6) { left: 90%; animation-delay: 2.5s; }
+
+    .logo {
+      width: 120px;
+      animation: float 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-top: 15px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    p {
+      max-width: 90%;
+      margin: 15px auto 25px;
+      color: var(--gris);
+      font-size: 1rem;
+      line-height: 1.6;
+      z-index: 2;
+    }
+
+    .btn {
+      background-color: var(--dorado);
+      color: #222;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    .btn:hover {
+      background-color: #ffde59;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      z-index: 2;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      p { font-size: 0.9rem; }
+      .logo { width: 100px; }
+      .btn { padding: 10px 20px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-glow"></div>
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
+  <h1>🎉 ¡Gracias por participar! 🎉</h1>
+  <p>La temporada ha llegado a su fin, pero la pasión por el fútbol continúa ⚽.<br>
+     Gracias por ser parte de <strong>Quiniela Santos MX</strong>.<br>
+     Nos vemos muy pronto en la <strong>próxima temporada</strong> 🏆.</p>
+
+  <a href="menu.html" class="btn">Regresar al menú</a>
+
+  <footer>© 2025 Quiniela Santos MX | ¡Nos vemos en la próxima temporada!</footer>
+</body>
+</html>
