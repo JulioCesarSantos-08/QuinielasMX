@@ -1,0 +1,176 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #f0f3f8;
+  margin: 0;
+  padding: 0;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background: #004aad;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.panel {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #004aad;
+  margin-top: 0;
+}
+
+.lista-usuarios, .lista-equipos {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.lista-usuarios label {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lista-usuarios label:hover {
+  background: #eaf0ff;
+}
+
+.lista-usuarios input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+.lista-equipos input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.btn-guardar {
+  margin-top: 1rem;
+  background: #004aad;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.btn-guardar:hover {
+  background: #00347a;
+}
+
+.btn-volver {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 90%;
+  max-width: 400px;
+  margin: 1rem auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+/* ===== TABLA DE ESTADO DE EQUIPOS ===== */
+.tabla-equipos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.tabla-equipos th, .tabla-equipos td {
+  border: 1px solid #ddd;
+  padding: 0.7rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.tabla-equipos th {
+  background-color: #004aad;
+  color: white;
+}
+
+.tabla-equipos tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.tabla-equipos select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.tabla-equipos select:focus {
+  outline: none;
+  border-color: #004aad;
+}
+
+/* ===== ESTILO DE EQUIPO GANADOR ===== */
+.ganador {
+  background-color: #c8f7c5 !important;
+  font-weight: bold;
+  color: #056608;
+  border: 2px solid #1abc9c;
+  box-shadow: 0 0 10px rgba(26, 188, 156, 0.5);
+  transition: 0.3s;
+}
+
+/* ===== ESTILO DE EQUIPO ELIMINADO ===== */
+.eliminado {
+  color: #999;
+  background-color: #f3f3f3 !important;
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 1.2rem; }
+  .btn-guardar, .btn-volver { font-size: 0.9rem; }
+  .tabla-equipos th, .tabla-equipos td { font-size: 0.85rem; padding: 0.5rem; }
+}
