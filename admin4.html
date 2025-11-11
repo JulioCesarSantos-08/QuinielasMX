@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin - Octavos de Final</title>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <link rel="stylesheet" href="admin4.css">
+</head>
+<body>
+  <header>
+    <img src="imagenes/logo1.png" class="logo" alt="Logo">
+    <h1>Administración — Octavos de Final</h1>
+  </header>
+
+  <main>
+    <!-- Panel de participantes -->
+    <section class="panel">
+      <h2>👥 Seleccionar los 8 Participantes</h2>
+      <p>Selecciona a los jugadores autorizados para participar en los Octavos.</p>
+      <div id="usuariosContainer" class="lista-usuarios"></div>
+      <button id="guardarParticipantes" class="btn-guardar">💾 Guardar Participantes</button>
+    </section>
+
+    <!-- Panel de equipos -->
+    <section class="panel">
+      <h2>⚽ Ingresar los 8 Equipos Finalistas</h2>
+      <p>Escribe los nombres exactos de los equipos (uno por campo).</p>
+      <div id="equiposContainer" class="lista-equipos"></div>
+      <button id="guardarEquipos" class="btn-guardar">💾 Guardar Equipos</button>
+    </section>
+
+    <!-- Panel de estado -->
+    <section class="panel">
+      <h2>📋 Estado Actual</h2>
+      <p><strong>Participantes autorizados:</strong></p>
+      <ul id="listaPermitidos"></ul>
+
+      <p><strong>Equipos registrados:</strong></p>
+      <ul id="listaEquipos"></ul>
+    </section>
+
+    <!-- NUEVA SECCIÓN: Control de estado de equipos -->
+    <section class="panel">
+      <h2>🏆 Control de Estado de Equipos</h2>
+      <p>Marca si el equipo sigue activo o ha sido eliminado de la competición.</p>
+
+      <table id="tablaEstadoEquipos">
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyEstadoEquipos">
+          <!-- Se llenará dinámicamente desde admin4.js -->
+        </tbody>
+      </table>
+
+      <button id="guardarEstado" class="btn-guardar">💾 Guardar Cambios</button>
+    </section>
+  </main>
+
+  <footer>
+    <button onclick="location.href='menu.html'" class="btn-volver">⬅ Volver al Menú</button>
+  </footer>
+
+  <script type="module" src="admin4.js"></script>
+</body>
+</html>
