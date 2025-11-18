@@ -7,9 +7,9 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ---------------- Firebase Config ---------------- */
 const firebaseConfig = {
   apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
   authDomain: "rifaboletos-c1d0d.firebaseapp.com",
@@ -22,7 +22,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* ---------------- Elementos del DOM ---------------- */
 const usuariosContainer = document.getElementById("usuariosContainer");
 const equiposContainer = document.getElementById("equiposContainer");
 const listaPermitidos = document.getElementById("listaPermitidos");
@@ -32,8 +31,8 @@ const tbodyEstadoEquipos = document.getElementById("tbodyEstadoEquipos");
 const btnGuardarParticipantes = document.getElementById("guardarParticipantes");
 const btnGuardarEquipos = document.getElementById("guardarEquipos");
 const btnGuardarEstado = document.getElementById("guardarEstado");
+const btnReiniciar = document.getElementById("btnReiniciar");
 
-/* ---------------- Cargar usuarios existentes ---------------- */
 async function cargarUsuarios() {
   usuariosContainer.innerHTML = "<p>Cargando usuarios...</p>";
   const usuariosSnap = await getDocs(collection(db, "usuarios"));
@@ -50,7 +49,6 @@ async function cargarUsuarios() {
   usuariosContainer.innerHTML = html;
 }
 
-/* ---------------- Guardar participantes ---------------- */
 btnGuardarParticipantes.addEventListener("click", async () => {
   const seleccionados = Array.from(
     usuariosContainer.querySelectorAll("input[type='checkbox']:checked")
@@ -66,7 +64,6 @@ btnGuardarParticipantes.addEventListener("click", async () => {
   mostrarPermitidos();
 });
 
-/* ---------------- Guardar equipos ---------------- */
 btnGuardarEquipos.addEventListener("click", async () => {
   const equipos = Array.from(document.querySelectorAll(".lista-equipos input"))
     .map((input) => input.value.trim())
@@ -78,21 +75,16 @@ btnGuardarEquipos.addEventListener("click", async () => {
   }
 
   await setDoc(doc(db, "octavos", "settings"), { teams: equipos });
-  // también inicializamos el estado en "activo"
+
   const estadoInicial = {};
   equipos.forEach((eq) => (estadoInicial[eq] = "activo"));
-  await setDoc(
-    doc(db, "octavos", "state"),
-    { teamStatus: estadoInicial },
-    { merge: true }
-  );
+  await setDoc(doc(db, "octavos", "state"), { teamStatus: estadoInicial }, { merge: true });
 
   alert("✅ Equipos guardados correctamente.");
   mostrarEquipos();
   mostrarTablaEstado();
 });
 
-/* ---------------- Mostrar participantes ---------------- */
 async function mostrarPermitidos() {
   const docSnap = await getDoc(doc(db, "octavos", "permitidos"));
   listaPermitidos.innerHTML = "";
@@ -105,7 +97,6 @@ async function mostrarPermitidos() {
   }
 }
 
-/* ---------------- Mostrar equipos ---------------- */
 async function mostrarEquipos() {
   const docSnap = await getDoc(doc(db, "octavos", "settings"));
   listaEquipos.innerHTML = "";
@@ -118,7 +109,6 @@ async function mostrarEquipos() {
   }
 }
 
-/* ---------------- Generar campos para ingresar equipos ---------------- */
 function generarCamposEquipos() {
   equiposContainer.innerHTML = "";
   for (let i = 1; i <= 8; i++) {
@@ -126,7 +116,6 @@ function generarCamposEquipos() {
   }
 }
 
-/* ---------------- Mostrar tabla de estado ---------------- */
 async function mostrarTablaEstado() {
   tbodyEstadoEquipos.innerHTML = "";
 
@@ -134,6 +123,7 @@ async function mostrarTablaEstado() {
   const stateSnap = await getDoc(doc(db, "octavos", "state"));
 
   if (!settingsSnap.exists()) return;
+
   const equipos = settingsSnap.data().teams || [];
   const teamStatus = stateSnap.exists() ? stateSnap.data().teamStatus || {} : {};
 
@@ -154,7 +144,6 @@ async function mostrarTablaEstado() {
   });
 }
 
-/* ---------------- Guardar cambios de estado ---------------- */
 btnGuardarEstado.addEventListener("click", async () => {
   const selects = tbodyEstadoEquipos.querySelectorAll("select");
   const nuevosEstados = {};
@@ -173,7 +162,23 @@ btnGuardarEstado.addEventListener("click", async () => {
   mostrarTablaEstado();
 });
 
-/* ---------------- Inicio ---------------- */
+btnReiniciar.addEventListener("click", async () => {
+  const seguro = confirm("¿Seguro que deseas REINICIAR TODO OCTAVOS? Esto borrará participantes, equipos y estados.");
+  if (!seguro) return;
+
+  try {
+    await deleteDoc(doc(db, "octavos", "permitidos"));
+    await deleteDoc(doc(db, "octavos", "settings"));
+    await deleteDoc(doc(db, "octavos", "state"));
+
+    alert("✔ Se ha reiniciado completamente la sección de Octavos.");
+    location.reload();
+  } catch (e) {
+    alert("Error al reiniciar.");
+    console.error(e);
+  }
+});
+
 generarCamposEquipos();
 cargarUsuarios();
 mostrarPermitidos();
