@@ -17,7 +17,7 @@
     <!-- Panel de participantes -->
     <section class="panel">
       <h2>👥 Seleccionar los 8 Participantes</h2>
-      <p>Selecciona a los jugadores autorizados para participar en los Octavos.</p>
+      <p>Selecciona a los jugadores autorizados para participaren los Octavos.</p>
       <div id="usuariosContainer" class="lista-usuarios"></div>
       <button id="guardarParticipantes" class="btn-guardar">💾 Guardar Participantes</button>
     </section>
@@ -40,10 +40,10 @@
       <ul id="listaEquipos"></ul>
     </section>
 
-    <!-- NUEVA SECCIÓN: Control de estado de equipos -->
+    <!-- Control de Estado -->
     <section class="panel">
       <h2>🏆 Control de Estado de Equipos</h2>
-      <p>Marca si el equipo sigue activo o ha sido eliminado de la competición.</p>
+      <p>Marca si el equipo sigue activo o eliminado.</p>
 
       <table id="tablaEstadoEquipos">
         <thead>
@@ -53,13 +53,23 @@
             <th>Acción</th>
           </tr>
         </thead>
-        <tbody id="tbodyEstadoEquipos">
-          <!-- Se llenará dinámicamente desde admin4.js -->
-        </tbody>
+        <tbody id="tbodyEstadoEquipos"></tbody>
       </table>
 
       <button id="guardarEstado" class="btn-guardar">💾 Guardar Cambios</button>
     </section>
+
+    <!-- NUEVA SECCIÓN: REINICIAR TODO -->
+    <section class="panel" style="border: 2px solid red;">
+      <h2>🧨 Reiniciar Octavos</h2>
+      <p style="color:red; font-weight:bold;">
+        Este botón eliminará TODOS los datos de Octavos (participantes, equipos, estados y asignaciones).
+      </p>
+      <button id="btnReiniciar" class="btn-eliminar" style="background:red;">
+        🔥 REINICIAR TODO
+      </button>
+    </section>
+
   </main>
 
   <footer>
