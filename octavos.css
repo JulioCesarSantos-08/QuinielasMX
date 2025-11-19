@@ -381,3 +381,23 @@ dialog::backdrop {
 .hidden {
   display: none !important;
 }
+/* Ajuste de columnas nuevas */
+.resultsTable th:nth-child(3),
+.resultsTable td:nth-child(3) {
+  width: 120px;
+}
+
+.resultsTable th:nth-child(4),
+.resultsTable td:nth-child(4) {
+  width: 160px;
+}
+
+/* Estilo visual para el estatus de competición */
+.comp-status {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  display: inline-block;
+}
