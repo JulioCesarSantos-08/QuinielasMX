@@ -49,7 +49,12 @@
         <div class="table-wrap">
           <table id="resultsTable" class="resultsTable">
             <thead>
-              <tr><th>Nombre</th><th>Equipo</th><th>Status</th></tr>
+              <tr>
+                <th>Nombre</th>
+                <th>Equipo</th>
+                <th>Asignación</th>
+                <th>Estatus Competición</th>
+              </tr>
             </thead>
             <tbody></tbody>
           </table>
@@ -64,7 +69,6 @@
     </section>
   </main>
 
-  <!-- Modal de ayuda -->
   <dialog id="helpModal" class="modal hidden">
     <div class="modal-card">
       <h3>¿Cómo funciona?</h3>
@@ -88,22 +92,20 @@
     const helpModal = document.getElementById("helpModal");
     const closeHelp = document.getElementById("closeHelp");
 
-    // 🔹 Asegura que el modal NO se muestre al cargar
     window.addEventListener("DOMContentLoaded", () => {
       if (helpModal.open) helpModal.close();
     });
 
-    // 🔹 Mostrar modal solo al hacer clic en “?”
     helpBtn.addEventListener("click", () => {
       helpModal.showModal();
     });
 
-    // 🔹 Cerrar modal al hacer clic en “Cerrar”
     closeHelp.addEventListener("click", () => {
       helpModal.close();
     });
   </script>
 
   <script type="module" src="octavos.js"></script>
+
 </body>
 </html>
