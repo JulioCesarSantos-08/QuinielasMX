@@ -369,12 +369,17 @@ function watchStateRealtime() {
     if (!snap.exists()) return
     state = snap.data()
     if (!state.teamStatus) state.teamStatus = {}
+
+    // --- LLAMADA INICIAL A updateVisibility ---
+    updateVisibility(); // Esto ocultará la ruleta si ya tienes equipo
+
     const wheelTeams = state.teamsRemaining?.length ? state.teamsRemaining : settings.teams
     const shouldDraw = wheelTeams && wheelTeams.length > 0 && !wheelCard.classList.contains("hidden")
     if (shouldDraw) drawWheel(wheelTeams)
-    renderParticipants()
-    checkWinner()
-    updateVisibility()
+    renderParticipants();
+    checkWinner();
+    highlightWinner();
+
     const myTeam = state.assignments?.[currentUserEmail]
     if (!suppressed.has(currentUserEmail)) {
       if (myTeam) spinMsg.textContent = `Ya tienes asignado: ${myTeam}`
@@ -383,12 +388,46 @@ function watchStateRealtime() {
       btnTake.disabled = true
     }
   })
+
   onSnapshot(settingsRef, (snap) => {
     if (snap.exists()) {
       const data = snap.data()
       if (Array.isArray(data.teams)) settings.teams = data.teams
     }
   })
+}
+
+
+function highlightWinner() {
+  if (!state || !state.teamStatus) return;
+
+  const activeTeams = Object.entries(state.teamStatus)
+    .filter(([_, status]) => status === "activo")
+    .map(([team]) => team);
+
+  if (activeTeams.length !== 1) {
+    // borrar estilos si no hay un ganador
+    document.querySelectorAll("#resultsTable tbody tr")
+      .forEach(tr => tr.classList.remove("winner-row"));
+    winnerBanner.classList.add("hidden");
+    return;
+  }
+
+  const winnerTeam = activeTeams[0];
+
+  const rows = document.querySelectorAll("#resultsTable tbody tr");
+
+  rows.forEach((tr) => {
+    const eq = tr.querySelector("td:nth-child(2)")?.textContent.trim();
+    if (eq === winnerTeam) {
+      tr.classList.add("winner-row");
+    } else {
+      tr.classList.remove("winner-row");
+    }
+  });
+
+  winnerBanner.textContent = `🏆 ¡${winnerTeam} es el campeón!`;
+  winnerBanner.classList.remove("hidden");
 }
 
 helpModal.classList.add("hidden")
@@ -425,6 +464,7 @@ helpModal.addEventListener("click", (e) => {
   const initialTeams = state.teamsRemaining?.length ? state.teamsRemaining : settings.teams
   drawWheel(initialTeams)
   renderParticipants()
+  highlightWinner();
   btnTake.addEventListener("click", async () => {
     if (audioCtx.state === "suspended") await audioCtx.resume()
     await takeTeam()
