@@ -138,8 +138,17 @@ async function loadSettingsAndState() {
 function renderParticipants() {
   resultsTbody.innerHTML = "";
 
+  const now = Date.now();
+
   participants.forEach((p) => {
-    const assignedTeam = state.assignments?.[p.email] || null;
+    const realAssigned = state.assignments?.[p.email] || null;
+
+    // Si este participante tiene un bloqueo activo, NO mostrará el equipo aún
+    const lockExpires = revealLocks.get(p.email);
+    const lockActive = lockExpires && lockExpires > now;
+
+    // Equipo visible (solo si NO está en bloqueo)
+    const assignedTeam = lockActive ? null : realAssigned;
 
     // --- ASIGNACIÓN ---
     const asignacionLabel = assignedTeam ? "Asignado" : "No asignado";
@@ -150,7 +159,7 @@ function renderParticipants() {
     let competenciaClass = "danger";
 
     if (!assignedTeam) {
-      // Si NO tiene equipo, no debería mostrar “Activo”, porque no participa aún.
+      // Si no está visible o no tiene equipo → no mostrar estado
       competenciaLabel = "-";
       competenciaClass = "muted";
     } else {
@@ -254,25 +263,35 @@ function animateWheelToTeam(teams, selectedTeam) {
     const n = teams.length
     const idx = teams.indexOf(selectedTeam)
     if (idx === -1) return resolve(false)
+
     const slice = 360 / n
     const targetDeg = 270 - (idx * slice + slice / 2)
     const spins = 5 + Math.floor(Math.random() * 3)
     const totalDeg = spins * 360 + targetDeg
     const duration = 5000
     const start = performance.now()
+
     function frame(now) {
       const t = Math.min((now - start) / duration, 1)
       const ease = 1 - Math.pow(1 - t, 3)
       const currentDeg = ease * totalDeg
+
       drawWheel(teams, currentDeg)
+
       if (t < 1) {
         if (Math.random() < 0.1) playBeep(600 + Math.random() * 400, 0.03)
         requestAnimationFrame(frame)
       } else {
         playWin()
         resolve(true)
+
+        // 🔥 REFRESCAR AUTOMÁTICAMENTE CUANDO LA RULETA TERMINA
+        setTimeout(() => {
+          location.reload()
+        }, 13000) // medio segundo para que se vea natural
       }
     }
+
     requestAnimationFrame(frame)
   })
 }
@@ -451,24 +470,40 @@ helpModal.addEventListener("click", (e) => {
 
 ;(async function init() {
   if (!checkSession()) return
+
   await loadParticipants()
   await loadSettingsAndState()
+
   const allowedEmails = participants.map(p => p.email)
+
   if (!allowedEmails.includes(currentUserEmail)) {
     subEl.textContent = "❌ No tienes acceso a esta sección"
     setTimeout(() => (window.location.href = "menu.html"), 2000)
     return
   }
+
   wheelCard.classList.remove("hidden")
   document.getElementById("resultsCard").classList.remove("hidden")
-  const initialTeams = state.teamsRemaining?.length ? state.teamsRemaining : settings.teams
+
+  const initialTeams =
+    state.teamsRemaining?.length ? state.teamsRemaining : settings.teams
+
+  // Dibujar ruleta inicial
   drawWheel(initialTeams)
+
+  // Render inicial (ya contiene la lógica para ocultar equipos si hay reveal lock)
   renderParticipants()
-  highlightWinner();
+  highlightWinner()
+
+  // Botón de obtener equipo
   btnTake.addEventListener("click", async () => {
     if (audioCtx.state === "suspended") await audioCtx.resume()
     await takeTeam()
   })
+
+  // Botón de regreso al menú
   backBtn.addEventListener("click", () => (window.location.href = "menu.html"))
+
+  // Activar listener en tiempo real
   watchStateRealtime()
 })()
