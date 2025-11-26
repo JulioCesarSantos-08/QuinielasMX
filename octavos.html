@@ -6,6 +6,7 @@
   <title>Octavos de Final — Ruleta Oficial</title>
   <link rel="icon" href="imagenes/logo1.png" type="image/png" />
   <link rel="stylesheet" href="octavos.css" />
+  <link rel="stylesheet" href="enfrentamientos.css" />
 </head>
 <body>
   <header class="topbar">
@@ -21,7 +22,6 @@
     </div>
   </header>
 
-  <!-- ⭐ BOTONES AGREGADOS ⭐ -->
   <div class="extra-buttons" style="display:flex; gap:12px; justify-content:center; margin:20px 0;">
     <a href="https://www.google.com/search?q=PARTIDOS+LIGA+MX" target="_blank" style="text-decoration:none;">
       <button class="primary" style="padding:10px 18px; font-size:15px;">
@@ -35,7 +35,6 @@
       </button>
     </a>
   </div>
-  <!-- ⭐ FIN BOTONES ⭐ -->
 
   <main class="main">
     <section id="panel" class="panel card">
@@ -57,8 +56,8 @@
         <div class="results-head">
           <h2>Participantes — Equipos asignados</h2>
           <div class="legend">
-            <span class="dot green"></span> Activo
-            <span class="dot red"></span> Eliminado
+            <span class="dot green"></span>Acti
+            <span class="dot red"></span>Elim
           </div>
         </div>
 
@@ -77,6 +76,31 @@
         </div>
 
         <div id="winnerBanner" class="winner hidden"></div>
+      </div>
+
+      <h2 class="titulo-tabla" style="margin-top:40px; text-align:center;">
+        Enfrentamientos
+      </h2>
+
+      <h2 class="titulo-tabla" style="margin-top:40px; text-align:center;">
+        Octavos de Final!
+      </h2>
+
+      <div class="table-wrap">
+        <table id="tablaEnfrentamientos" class="tabla-enfrentamientos">
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Participante</th>
+              <th></th>
+              <th>Participante</th>
+              <th>Equipo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Se llena dinámicamente desde enfrentamientos.js -->
+          </tbody>
+        </table>
       </div>
 
       <div class="bottom-actions">
@@ -121,7 +145,11 @@
     });
   </script>
 
+  <!-- SCRIPT PRINCIPAL -->
   <script type="module" src="octavos.js"></script>
+
+  <!-- ⚽ NUEVO SCRIPT DE ENFRENTAMIENTOS -->
+  <script type="module" src="enfrentamientos.js"></script>
 
 </body>
 </html>
