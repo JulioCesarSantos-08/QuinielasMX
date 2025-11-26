@@ -1,8 +1,3 @@
-// ===============================================
-//  🏆 ENFRENTAMIENTOS OFICIALES — OCTAVOS DE FINAL
-//  Este archivo genera los partidos y carga logos
-// ===============================================
-
 // ⚽ LISTA DE ENFRENTAMIENTOS DEFINIDOS POR TI  
 const enfrentamientos = [
   {
@@ -20,8 +15,8 @@ const enfrentamientos = [
   {
     local: "CHIT",
     visitante: "GAF",
-    logoLocal: "imagenes/Cruz-azul.png",
-    logoVisitante: "imagenes/Chivas.png"
+    logoLocal: "imagenes/cruz-azul.png",
+    logoVisitante: "imagenes/chivas.png"
   },
   {
     local: "GÜERA",
