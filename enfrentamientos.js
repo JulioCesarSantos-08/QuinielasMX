@@ -21,7 +21,7 @@ const enfrentamientos = [
   {
     local: "GÜERA",
     visitante: "FALIA",
-    logoLocal: "imagenes/america.png",
+    logoLocal: "imagenes/eliminado.png",
     logoVisitante: "imagenes/monterrey.png"
   }
 ];
