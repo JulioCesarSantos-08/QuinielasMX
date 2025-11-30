@@ -10,7 +10,7 @@ const enfrentamientos = [
     local: "ANGEL",
     visitante: "KING",
     logoLocal: "imagenes/tigres.png",
-    logoVisitante: "imagenes/xolos.png"
+    logoVisitante: "imagenes/eliminado.png"
   },
   {
     local: "CHIT",
