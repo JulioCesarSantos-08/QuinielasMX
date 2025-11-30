@@ -4,7 +4,7 @@ const enfrentamientos = [
     local: "J.C",
     visitante: "LEONEL",
     logoLocal: "imagenes/toluca.png",
-    logoVisitante: "imagenes/juarez.png"
+    logoVisitante: "imagenes/eliminado.png"
   },
   {
     local: "ANGEL",
