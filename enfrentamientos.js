@@ -31,13 +31,13 @@ const semifinales = [
   {
     local: "CHIT",
     visitante: "ANGEL",
-    logoLocal: "imagenes/cruz-azul.png",
+    logoLocal: "imagenes/eliminado.png",
     logoVisitante: "imagenes/tigres.png"
   },
   {
     local: "FALIA",
     visitante: "J.C",
-    logoLocal: "imagenes/monterrey.png",
+    logoLocal: "imagenes/eliminado.png",
     logoVisitante: "imagenes/toluca.png"
   }
 ];
