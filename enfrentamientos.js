@@ -42,6 +42,16 @@ const semifinales = [
   }
 ];
 
+// 🏆 PARTIDO FINAL — TOLUCA VS TIGRES
+const finalPartido = [
+  {
+    local: "J.C",
+    visitante: "ANGEL",
+    logoLocal: "imagenes/toluca.png",
+    logoVisitante: "imagenes/tigres.png"
+  }
+];
+
 document.addEventListener("DOMContentLoaded", () => {
 
   // =============================
@@ -69,9 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
     tablaCuartos.appendChild(fila);
   });
 
-
   // =============================
-  //  TABLA SEMIFINALES (IGUAL A CUARTOS)
+  //  TABLA SEMIFINALES
   // =============================
   const tablaSemis = document
     .getElementById("tabla-semis")
@@ -93,6 +102,31 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     tablaSemis.appendChild(fila);
+  });
+
+  // =============================
+  //  TABLA FINAL
+  // =============================
+  const tablaFinal = document
+    .getElementById("tabla-final")
+    .querySelector("tbody");
+
+  tablaFinal.innerHTML = "";
+
+  finalPartido.forEach((final) => {
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+      <td><img src="${final.logoLocal}" alt="${final.local}" class="logo-team"></td>
+      <td class="team-name">${final.local}</td>
+
+      <td class="vs">VS</td>
+
+      <td class="team-name">${final.visitante}</td>
+      <td><img src="${final.logoVisitante}" alt="${final.visitante}" class="logo-team"></td>
+    `;
+
+    tablaFinal.appendChild(fila);
   });
 
 });
