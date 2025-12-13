@@ -23,13 +23,13 @@
   </header>
 
   <div class="extra-buttons" style="display:flex; gap:12px; justify-content:center; margin:20px 0;">
-    <a href="https://www.google.com/search?q=PARTIDOS+LIGA+MX" target="_blank" style="text-decoration:none;">
+    <a href="https://www.google.com/search?q=PARTIDOS+LIGA+MX" target="_blank">
       <button class="primary" style="padding:10px 18px; font-size:15px;">
         📊 Marcadores en tiempo real
       </button>
     </a>
 
-    <a href="https://www.google.com/search?q=POSICIONES+LIGA+MX" target="_blank" style="text-decoration:none;">
+    <a href="https://www.google.com/search?q=POSICIONES+LIGA+MX" target="_blank">
       <button class="secondary" style="padding:10px 18px; font-size:15px;">
         🏆 Posiciones
       </button>
@@ -38,6 +38,10 @@
 
   <main class="main">
     <section id="panel" class="panel card">
+
+      <!-- ========================= -->
+      <!-- 🎯 RULETA -->
+      <!-- ========================= -->
       <div id="wheelCard" class="wheel-card hidden">
         <div class="wheel-wrap">
           <canvas id="wheel"></canvas>
@@ -52,6 +56,9 @@
         </div>
       </div>
 
+      <!-- ========================= -->
+      <!-- 📋 RESULTADOS -->
+      <!-- ========================= -->
       <div id="resultsCard" class="results-card hidden card">
         <div class="results-head">
           <h2>Participantes — Equipos asignados</h2>
@@ -83,7 +90,29 @@
       </h2>
 
       <!-- ========================= -->
-      <!--  🏆 NUEVA TABLA: SEMIFINAL -->
+      <!-- 🏆 FINAL (ARRIBA) -->
+      <!-- ========================= -->
+      <h2 class="titulo-tabla" style="margin-top:40px; text-align:center;">
+        🏆 Final
+      </h2>
+
+      <div class="table-wrap">
+        <table id="tabla-final" class="tabla-enfrentamientos">
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Participante</th>
+              <th>VS</th>
+              <th>Participante</th>
+              <th>Equipo</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- ========================= -->
+      <!-- 🏆 SEMIFINALES -->
       <!-- ========================= -->
       <h2 class="titulo-tabla" style="margin-top:40px; text-align:center;">
         Semifinales
@@ -100,12 +129,13 @@
               <th>Equipo</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Llenado dinámico -->
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
 
+      <!-- ========================= -->
+      <!-- ⚽ CUARTOS (ABAJO) -->
+      <!-- ========================= -->
       <h2 class="titulo-tabla" style="margin-top:40px; text-align:center;">
         Cuartos de Final!
       </h2>
@@ -121,15 +151,14 @@
               <th>Equipo</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Se llena dinámicamente desde enfrentamientos.js -->
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
 
       <div class="bottom-actions">
         <button id="backBtn" class="secondary">⬅ Volver al Menú</button>
       </div>
+
     </section>
   </main>
 
@@ -138,9 +167,7 @@
       <h3>¿Cómo funciona?</h3>
       <p>
         En esta sección los 8 participantes autorizados obtendrán un equipo
-        aleatorio al girar la ruleta. Cada equipo solo puede asignarse una vez.
-        El administrador configura los participantes y los equipos desde el
-        panel de administración.
+        aleatorio al girar la ruleta.
       </p>
       <ul>
         <li>Solo los usuarios autorizados ven la ruleta.</li>
@@ -160,19 +187,11 @@
       if (helpModal.open) helpModal.close();
     });
 
-    helpBtn.addEventListener("click", () => {
-      helpModal.showModal();
-    });
-
-    closeHelp.addEventListener("click", () => {
-      helpModal.close();
-    });
+    helpBtn.addEventListener("click", () => helpModal.showModal());
+    closeHelp.addEventListener("click", () => helpModal.close());
   </script>
 
-  <!-- SCRIPT PRINCIPAL -->
   <script type="module" src="octavos.js"></script>
-
-  <!-- ⚽ NUEVO SCRIPT DE ENFRENTAMIENTOS -->
   <script type="module" src="enfrentamientos.js"></script>
 
 </body>
