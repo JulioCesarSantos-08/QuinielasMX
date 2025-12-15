@@ -48,7 +48,7 @@ const finalPartido = [
     local: "J.C",
     visitante: "ANGEL",
     logoLocal: "imagenes/toluca.png",
-    logoVisitante: "imagenes/tigres.png"
+    logoVisitante: "imagenes/eliminado.png"
   }
 ];
 
