@@ -146,7 +146,7 @@
   <h1>Rellena Tu Quiniela 📝</h1>
   <h2 id="numero-jornada" style="text-align:center; color:#555; margin-top: 0;">Jornada: ...</h2>
   <h3 style="text-align:center; color:#555; margin-top: 0;">SOLO PUEDES ENVIAR UNA QUINIELA POR USUARIO!!</h3>
-  <h4 style="text-align:center; color:#555; margin-top: 0;">Para enviar más de 1 quiniela crea otro usuario.</h4>
+  <h4 style="text-align:center; color:#555; margin-top: 0;">Para enviar mas de 1 quiniela crea otro usuario.</h4>
 
   <div id="contador-tiempo"></div>
   <div id="bloqueo"></div>
@@ -201,23 +201,20 @@
       const partidos = data.partidos || [];
       if (data.jornada) {
         document.getElementById("numero-jornada").textContent = `Jornada: ${data.jornada}`;
-
         form.innerHTML = "";
-
         partidos.forEach((p, i) => {
           const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
           const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
-
           form.innerHTML += `
             <div class="partido">
               <div class="equipos">
                 <div class="equipo">
-                  <img src="imagenes/${equipoLocal}.png" alt="${equipoLocal}" />
+                  <img src="imagenes/${equipoLocal}.png" />
                   <span>${p.equipo1.toUpperCase()}</span>
                 </div>
                 <div class="vs">vs</div>
                 <div class="equipo">
-                  <img src="imagenes/${equipoVisitante}.png" alt="${equipoVisitante}" />
+                  <img src="imagenes/${equipoVisitante}.png" />
                   <span>${p.equipo2.toUpperCase()}</span>
                 </div>
               </div>
@@ -237,44 +234,21 @@
       }
     }
 
-    function actualizarContadores() {
-      const ahora = new Date();
-      const dia = ahora.getDay();
-      const hora = ahora.getHours();
-      const minutos = ahora.getMinutes();
+    async function actualizarEstadoQuiniela() {
+      const snap = await getDoc(doc(db, "configuracion", "estado"));
+      const activa = snap.exists() ? snap.data().quinielaActiva : true;
 
-      const bloqueado = (
-        (dia === 5 && (hora > 19 || (hora === 19 && minutos >= 0))) ||
-        dia === 6 || dia === 0 || (dia === 1 && hora < 17)
-      );
+      if (!activa) {
+        bloqueoDiv.textContent = "⛔ Quiniela cerrada por el administrador";
+        contadorDiv.textContent = "Estado: ❌ Cerrado";
 
-      if (bloqueado) {
-        let proximo = new Date();
-        if (dia === 5 && hora >= 19) proximo.setDate(proximo.getDate() + 3);
-        else if (dia === 6) proximo.setDate(proximo.getDate() + 2);
-        else if (dia === 0) proximo.setDate(proximo.getDate() + 1);
-        else if (dia === 1) proximo.setHours(17, 0, 0, 0);
-
-        proximo.setHours(17, 0, 0, 0);
-
-        const restante = proximo - ahora;
-        const horas = Math.floor(restante / (1000 * 60 * 60));
-        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-
-        bloqueoDiv.textContent = `⛔ Podrás enviar quinielas dentro de ${horas}h ${mins}min.`;
-        contadorDiv.textContent = "Estado: ❌ Bloqueado";
         btnGuardar.disabled = true;
         btnGuardar.style.background = '#ccc';
         btnGuardar.style.cursor = 'not-allowed';
       } else {
-        const viernes = new Date();
-        viernes.setDate(viernes.getDate() + ((5 - dia + 7) % 7));
-        viernes.setHours(19, 0, 0, 0);
-        const restante = viernes - ahora;
-        const horas = Math.floor(restante / (1000 * 60 * 60));
-        const mins = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
-        contadorDiv.textContent = `Estado: ✅ Habilitado — tiempo restante: ${horas}h ${mins}min.`;
         bloqueoDiv.textContent = "";
+        contadorDiv.textContent = "Estado: ✅ Abierto";
+
         btnGuardar.disabled = false;
         btnGuardar.style.background = '#004aad';
         btnGuardar.style.cursor = 'pointer';
@@ -288,9 +262,16 @@
         return;
       }
 
+      const snap = await getDoc(doc(db, "configuracion", "estado"));
+      const activa = snap.exists() ? snap.data().quinielaActiva : true;
+
+      if (!activa) {
+        alert("La quiniela está cerrada");
+        return;
+      }
+
       const quiniela = {};
       let incompletos = false;
-
       const partidosCount = form.querySelectorAll('.partido').length;
 
       for (let i = 0; i < partidosCount; i++) {
@@ -314,8 +295,8 @@
     };
 
     cargarPartidos();
-    actualizarContadores();
-    setInterval(actualizarContadores, 60000);
+    actualizarEstadoQuiniela();
+    setInterval(actualizarEstadoQuiniela, 5000);
   </script>
 </body>
 </html>
