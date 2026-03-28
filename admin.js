@@ -19,13 +19,12 @@ const form = document.getElementById("resultados-form");
 const selectGanador = document.getElementById("usuario-ganador");
 const btnGuardar = document.getElementById("btn-guardar");
 const btnReiniciar = document.getElementById("btn-reiniciar");
+const btnToggle = document.getElementById("btn-toggle");
 
 let partidos = [];
 
-// 🔑 Administradores permitidos
 const admins = ["ti43300@uvp.edu.mx", "jc@gmail.com", "guera00@gmail.com"];
 
-// Verificar usuario
 const user = localStorage.getItem("user");
 const nombre = localStorage.getItem("nombre");
 
@@ -40,6 +39,7 @@ if (!user) {
   document.getElementById("titulo").textContent = `Panel de Administrador ⚙️ - Bienvenido, ${nombre}`;
   cargarPartidos();
   cargarUsuarios();
+  actualizarBoton();
 }
 
 function formatearEquipo(nombre) {
@@ -114,11 +114,31 @@ async function enviarNotificacionGanadores(ganadores) {
         mensaje: "¡Felicidades! Has sido seleccionado como ganador 🎉",
       }, { merge: true });
     }
-    console.log("Mensajes enviados a los ganadores.");
   } catch (error) {
-    console.error("Error enviando mensajes a ganadores:", error);
+    console.error(error);
   }
 }
+
+async function obtenerEstado() {
+  const snap = await getDoc(doc(db, "configuracion", "estado"));
+  return snap.exists() ? snap.data().quinielaActiva : true;
+}
+
+async function actualizarBoton() {
+  const estado = await obtenerEstado();
+  btnToggle.textContent = estado ? "🔴 Desactivar Quiniela" : "🟢 Activar Quiniela";
+}
+
+btnToggle.addEventListener("click", async () => {
+  const estadoActual = await obtenerEstado();
+
+  await setDoc(doc(db, "configuracion", "estado"), {
+    quinielaActiva: !estadoActual
+  });
+
+  actualizarBoton();
+  alert("Estado actualizado");
+});
 
 btnGuardar.addEventListener("click", async () => {
   const resultados = {};
