@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximamente - Mundial</title>
+
+  <link rel="icon" href="imagenes/mundial.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+
+  <style>
+    body{
+      margin:0;
+      font-family:'Rubik',sans-serif;
+      background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.9)),
+      url("https://images.unsplash.com/photo-1508098682722-e99c643e7f0b");
+      background-size:cover;
+      background-position:center;
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      text-align:center;
+    }
+
+    .card{
+      background:rgba(255,255,255,.08);
+      padding:2rem;
+      border-radius:15px;
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.2);
+      max-width:400px;
+      animation:fadeIn 1s ease;
+    }
+
+    h1{
+      color:#FFD700;
+      margin-bottom:1rem;
+      text-shadow:0 0 10px #FFD700;
+    }
+
+    p{
+      margin:0.5rem 0;
+      color:#ddd;
+    }
+
+    .highlight{
+      color:#FFD700;
+      font-weight:bold;
+    }
+
+    .emoji{
+      font-size:2rem;
+      margin-bottom:1rem;
+      animation:bounce 1.5s infinite;
+    }
+
+    button{
+      margin-top:1.5rem;
+      padding:0.9rem 2rem;
+      border:none;
+      border-radius:10px;
+      background:#FFD700;
+      color:black;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    button:hover{
+      background:#e6c200;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(20px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes bounce{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-8px);}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="emoji">⚽🌍</div>
+
+    <h1>Mundial 2026</h1>
+
+    <p>🔥 Próximamente podrás jugar la quiniela del <span class="highlight">Mundial 2026</span></p>
+
+    <p>🏆 Vive la emoción de cada partido</p>
+
+    <p style="margin-top:1rem;">
+      📅 Disponible a partir de <span class="highlight">Junio</span>
+    </p>
+
+    <button onclick="window.location.href='menu.html'">
+      ⬅️ Volver al menú
+    </button>
+  </div>
+
+</body>
+</html>
