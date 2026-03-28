@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Menú Principal - Quiniela Liga MX</title>
+
   <link rel="icon" href="imagenes/logo1.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+
   <style>
     body {
       font-family: 'Rubik', sans-serif;
@@ -34,19 +36,14 @@
       margin-bottom: 0.5rem;
     }
 
-    #buzon, #updates {
+    #buzon {
       position: absolute;
       top: 1rem;
+      right: 1rem;
       cursor: pointer;
     }
 
-    /* Botón notificaciones (derecha) */
-    #buzon { right: 1rem; }
-
-    /* Botón avisos (izquierda) */
-    #updates { left: 1rem; }
-
-    #buzon img, #updates img {
+    #buzon img {
       width: 32px;
       height: 32px;
     }
@@ -105,6 +102,25 @@
       background-color: #00327a;
     }
 
+    .boton-mundial {
+      padding: 1.3rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FFD700, #ffcc00);
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,215,0,.6);
+      transition: all .3s ease;
+    }
+
+    .boton-mundial:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255,215,0,1);
+      background: linear-gradient(135deg, #ffea00, #ffd000);
+    }
+
     footer {
       background: #333;
       color: white;
@@ -125,33 +141,33 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <img src="imagenes/logo1.png" alt="Logo" class="logo">
     <h1>Quiniela Santos MX</h1>
     <div id="saludo">Bienvenido</div>
 
-    <!-- Botón avisos (izquierda, abre avisos.html) -->
-    <a id="updates" href="avisos.html">
-      <img src="imagenes/avisos.png" alt="Avisos">
-    </a>
-
-    <!-- Botón notificaciones (derecha) -->
     <div id="buzon" onclick="toggleNotificaciones()">
       <img id="buzonImg" src="imagenes/sin.png" alt="Buzón">
     </div>
 
-    <!-- Ventana emergente solo para notificaciones -->
     <div id="notificaciones"></div>
   </header>
 
   <main>
+
+    <button class="boton-mundial" onclick="location.href='mundial.html'">
+      🌍 MODO MUNDIAL ⚽🏆
+    </button>
+
     <button class="boton" onclick="location.href='quiniela.html'">✍️ Llenar mi quiniela</button>
     <button class="boton" onclick="location.href='miquiniela.html'">📋 Ver mi quiniela</button>
     <button class="boton" onclick="location.href='tabla.html'">🏆 Ver Concentrado</button>
     <button class="boton" onclick="location.href='foro.html'">📨 Chat</button>
     <button class="boton" onclick="location.href='admin.html'">🔒 SOLO ADMINISTRADORES 🔒</button>
     <button class="boton" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+
   </main>
 
   <footer>
@@ -162,7 +178,6 @@
     </p>
   </footer>
 
-  <!-- Firebase & Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -206,7 +221,7 @@
 
         buzonImg.src = hayMensajes ? "imagenes/con.gif" : "imagenes/sin.png";
       } catch (e) {
-        console.error("Error al verificar mensajes:", e);
+        console.error(e);
       }
     }
 
@@ -218,11 +233,9 @@
       const mensajes = [];
       mensajesSnap.forEach(doc => mensajes.push(doc.data().texto));
 
-      if (mensajes.length > 0) {
-        mensajes.forEach(msg => {
-          html += `<p>📝 ${msg}</p>`;
-        });
-      }
+      mensajes.forEach(msg => {
+        html += `<p>📝 ${msg}</p>`;
+      });
 
       const configDoc = await getDoc(doc(db, "configuracion", "general"));
       if (configDoc.exists()) {
@@ -231,14 +244,12 @@
         const fecha = data.fecha || "";
 
         if (ganadores.includes(user)) {
-          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como uno de los ganadores de la quiniela.</p><p><em>${fecha}</em></p>`;
-        } else if (ganadores.length > 0) {
-          html += `<p>😞 Esta vez no ganaste, ¡suerte para la próxima Jornada!</p><p><em>${fecha}</em></p>`;
+          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como ganador.</p><p><em>${fecha}</em></p>`;
         }
       }
 
       if (html === "<strong>🔔 Notificaciones:</strong><br><br>") {
-        html += `<p>No hay notificaciones nuevas de los administradores.</p>`;
+        html += `<p>No hay notificaciones.</p>`;
       }
 
       contenedor.innerHTML = html;
