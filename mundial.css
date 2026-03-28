@@ -1,0 +1,226 @@
+body{
+  margin:0;
+  padding:1rem;
+  font-family:'Rubik',sans-serif;
+  background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.9)),
+  url("https://images.unsplash.com/photo-1508098682722-e99c643e7f0b");
+  background-size:cover;
+  background-position:center;
+  color:#fff;
+}
+
+h1{
+  text-align:center;
+  color:#FFD700;
+  margin-bottom:.5rem;
+  text-shadow:0 0 10px #FFD700;
+}
+
+.logo{
+  display:block;
+  margin:0 auto .5rem;
+  width:80px;
+}
+
+#numero-jornada{
+  text-align:center;
+  color:#ccc;
+  margin-top:0;
+}
+
+h3, h4{
+  text-align:center;
+  color:#bbb;
+  margin-top:0;
+}
+
+#contador-tiempo{
+  text-align:center;
+  font-weight:bold;
+  font-size:1rem;
+  color:#FFD700;
+  margin-bottom:1rem;
+}
+
+#bloqueo{
+  text-align:center;
+  color:#ff4d4d;
+  font-weight:bold;
+  margin:0.5rem 0 1rem;
+}
+
+.partido{
+  background:rgba(255,255,255,.08);
+  border-radius:12px;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+  padding:1rem;
+  margin-bottom:1rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:.3s;
+}
+
+.partido:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 15px rgba(255,215,0,.3);
+}
+
+.equipos{
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+  align-items:center;
+  margin-bottom:.5rem;
+}
+
+.equipo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:30%;
+}
+
+.equipo img{
+  width:60px;
+  height:60px;
+  object-fit:contain;
+}
+
+.vs{
+  font-size:1.2rem;
+  font-weight:bold;
+  color:#FFD700;
+}
+
+.opciones{
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+  margin-top:.5rem;
+  flex-wrap:wrap;
+}
+
+.opciones label{
+  flex:1;
+  text-align:center;
+  padding:.5rem;
+  background:rgba(255,255,255,.15);
+  margin:.3rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.opciones label:hover{
+  background:#FFD700;
+  color:#000;
+  transform:scale(1.05);
+}
+
+.opciones input[type="radio"]{
+  display:none;
+}
+
+.opciones input[type="radio"]:checked + label{
+  background:#FFD700;
+  color:#000;
+  font-weight:bold;
+  box-shadow:0 0 12px #FFD700;
+  transform:scale(1.05);
+}
+
+button{
+  width:100%;
+  padding:1rem;
+  background:#FFD700;
+  color:#000;
+  font-size:1.1rem;
+  border:none;
+  border-radius:10px;
+  margin-top:1rem;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+}
+
+button:hover{
+  background:#e6c200;
+}
+
+.pago-section{
+  background:rgba(255,255,255,.08);
+  padding:1rem;
+  border-radius:12px;
+  text-align:center;
+  margin-top:1rem;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.pago-section p{
+  margin:.5rem 0;
+}
+
+.pago-section a{
+  display:inline-block;
+  background:#00c853;
+  color:#fff;
+  text-decoration:none;
+  padding:.7rem 1.2rem;
+  border-radius:8px;
+  margin:.5rem;
+}
+
+.pago-section a:hover{
+  background:#00a844;
+}
+
+.pago-info{
+  background:rgba(255,215,0,.2);
+  padding:.7rem;
+  border-radius:8px;
+  margin-top:.7rem;
+  font-weight:bold;
+  color:#fff;
+}
+
+/* INTRO */
+
+#intro{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  transition:opacity .8s;
+}
+
+.intro-content{
+  text-align:center;
+  color:#FFD700;
+  animation:fade 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes fade{
+  from{opacity:.4}
+  to{opacity:1}
+}
+
+.click-msg{
+  margin-top:20px;
+  font-size:0.9rem;
+  color:#aaa;
+  animation:parpadeo 1s infinite;
+}
+
+@keyframes parpadeo{
+  0%{opacity:1;}
+  50%{opacity:0.3;}
+  100%{opacity:1;}
+}

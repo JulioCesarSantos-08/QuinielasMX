@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Quiniela Mundial</title>
+
+  <link rel="icon" href="imagenes/mundial.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <link rel="stylesheet" href="mundial.css">
+</head>
+
+<body>
+
+<div id="intro">
+  <div class="intro-content">
+    <h1>⚽ Mundial 2026</h1>
+    <p>Cargando experiencia...</p>
+
+    <p class="click-msg">👆 Toca la pantalla para comenzar</p>
+  </div>
+</div>
+
+<audio id="musica" loop>
+  <source src="imagenes/mundial.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="silbatazo">
+  <source src="imagenes/silbato.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="bloqueadoSound">
+  <source src="imagenes/error.mp3" type="audio/mpeg">
+</audio>
+
+<div id="app" style="display:none;">
+
+  <img src="imagenes/mundial.png" alt="Logo" class="logo">
+
+  <h1>Quiniela Mundial 🏆</h1>
+
+  <h2 id="numero-jornada">Fase: ...</h2>
+
+  <h3>SOLO PUEDES ENVIAR UNA QUINIELA POR USUARIO</h3>
+  <h4>Para enviar más de 1 quiniela crea otro usuario</h4>
+
+  <div id="contador-tiempo">Estado: ...</div>
+  <div id="bloqueo"></div>
+
+  <form id="quiniela-form"></form>
+
+  <button id="btn-guardar" onclick="guardarQuiniela()">Guardar Quiniela</button>
+
+  <button onclick="window.location.href='menu.html'">⬅️ Regresar</button>
+
+  <div class="pago-section">
+    <p>💰 <strong>La quiniela cuesta $100 cada una.</strong></p>
+
+    <a href="https://maps.app.goo.gl/JSmoaiYQQLTCYzdJ7?g_st=aw" target="_blank">
+      Pagar en efectivo
+    </a>
+
+    <div class="pago-info">
+      Clave: 722969010705714482<br>
+      Banco: STP<br>
+      Nombre: Julio Cesar Santos
+    </div>
+  </div>
+
+</div>
+
+<script type="module" src="mundial.js"></script>
+
+<script>
+window.addEventListener("load", () => {
+  const musica = document.getElementById("musica");
+
+  document.body.addEventListener("click", () => {
+    musica.play().then(() => {
+      iniciarApp();
+    }).catch(()=>{});
+  }, { once:true });
+});
+
+function iniciarApp(){
+  const intro = document.getElementById("intro");
+  const app = document.getElementById("app");
+
+  setTimeout(() => {
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+      app.style.display = "block";
+    }, 800);
+
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
