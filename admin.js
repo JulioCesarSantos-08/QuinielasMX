@@ -165,11 +165,60 @@ btnGuardar.addEventListener("click", async () => {
   }
 });
 
+
+// 🔥 NUEVA FUNCIÓN: GUARDAR HISTORIAL
+async function guardarHistorial() {
+  try {
+    const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
+    const resultados = resultadosSnap.exists() ? resultadosSnap.data() : {};
+
+    const quinielasSnap = await getDocs(collection(db, "quinielas"));
+    const quinielas = [];
+    quinielasSnap.forEach(docu => {
+      quinielas.push(docu.data());
+    });
+
+    const usuariosSnap = await getDocs(collection(db, "usuarios"));
+    const usuarios = [];
+    usuariosSnap.forEach(docu => {
+      const data = docu.data();
+      usuarios.push({
+        nombre: data.nombre,
+        puntos: data.puntos,
+        aciertos: data.aciertos
+      });
+    });
+
+    const configSnap = await getDoc(doc(db, "config", "partidos"));
+    const jornadaActual = configSnap.exists() ? configSnap.data().jornada : "—";
+
+    const jornadaID = "jornada_" + Date.now();
+
+    await setDoc(doc(db, "historial_jornadas", jornadaID), {
+      fecha: new Date().toLocaleString(),
+      jornada: jornadaActual,
+      resultados,
+      quinielas,
+      usuarios
+    });
+
+    console.log("✅ Historial guardado");
+  } catch (error) {
+    console.error("Error guardando historial:", error);
+  }
+}
+
+
+// 🔁 REINICIAR JORNADA (YA MODIFICADO)
 btnReiniciar.addEventListener("click", async () => {
-  const confirmar = confirm("¿Estás seguro de que deseas reiniciar la jornada? Esto eliminará resultados, ganador, quinielas y puntuaciones.");
+  const confirmar = confirm("¿Estás seguro de que deseas reiniciar la jornada? Esto guardará la jornada actual y luego eliminará los datos.");
   if (!confirmar) return;
 
   try {
+    // 🔥 GUARDAR PRIMERO
+    await guardarHistorial();
+
+    // 🧹 LUEGO BORRAR
     await deleteDoc(doc(db, "resultados", "actuales"));
     await deleteDoc(doc(db, "configuracion", "general"));
 
@@ -189,8 +238,9 @@ btnReiniciar.addEventListener("click", async () => {
       await deleteDoc(doc(db, "quinielas", qDoc.id));
     }
 
-    alert("✅ Jornada reiniciada correctamente.");
+    alert("✅ Jornada guardada en historial y reiniciada correctamente.");
     location.reload();
+
   } catch (e) {
     alert("❌ Error al reiniciar: " + e.message);
   }
