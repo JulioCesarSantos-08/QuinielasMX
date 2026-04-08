@@ -1,0 +1,98 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 1rem;
+}
+
+/* TITULO */
+h1 {
+  text-align: center;
+  color: #004aad;
+  margin-bottom: 1.5rem;
+}
+
+/* CONTENEDOR */
+#mis-jornadas {
+  max-width: 600px;
+  margin: auto;
+}
+
+/* CARD DE JORNADA */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+/* HEADER */
+.card h3 {
+  margin: 0;
+  color: #004aad;
+}
+
+/* TEXTO */
+.card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* COLORES POR RENDIMIENTO */
+.alto {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.medio {
+  color: #f9a825;
+  font-weight: bold;
+}
+
+.bajo {
+  color: #c62828;
+  font-weight: bold;
+}
+
+/* GRAFICA */
+canvas {
+  margin-top: 2rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* BOTON */
+button {
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 100%;
+  background: #004aad;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00327a;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .card {
+    padding: 0.8rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}

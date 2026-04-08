@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial de Jornadas</title>
+
+  <!-- estilos -->
+  <link rel="stylesheet" href="tabla.css">
+  <link rel="stylesheet" href="historial.css">
+
+  <!-- fuente -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+</head>
+
+<body>
+
+  <h1>📜 Historial de Jornadas</h1>
+
+  <!-- LISTA DE JORNADAS -->
+  <div id="lista"></div>
+
+  <!-- PODIUM (se llena dinámicamente) -->
+  <div id="podium"></div>
+
+  <!-- DETALLE DE JORNADA -->
+  <div id="detalle" style="display:none;">
+    <h2 id="titulo"></h2>
+
+    <!-- info extra -->
+    <div id="info-extra" style="text-align:center; margin-bottom:1rem;"></div>
+
+    <table id="tabla">
+      <thead>
+        <tr id="encabezado">
+          <th>Usuario</th>
+          <!-- partidos dinámicos -->
+          <th>Aciertos</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- RANKING GLOBAL -->
+  <div id="ranking-global" style="margin-top:2rem;"></div>
+
+  <!-- BOTONES -->
+  <button onclick="window.location.href='menu.html'">⬅️ Volver</button>
+  <button onclick="window.location.href='mi-historial.html'">👤 Mi Historial</button>
+
+  <!-- scripts -->
+  <script type="module" src="historial.js"></script>
+
+</body>
+</html>
