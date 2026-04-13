@@ -1,4 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Historial</title>
+
+  <link rel="stylesheet" href="mi-historial.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+
+  <!-- gráfica -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
 <h1>📊 Mi Historial</h1>
+
+<!-- RESUMEN -->
+<div id="resumen"></div>
+
+<!-- GRAFICA -->
+<canvas id="grafica"></canvas>
+
+<!-- JORNADAS -->
 <div id="mis-jornadas"></div>
 
+<button onclick="window.location.href='historial.html'">⬅️ Volver</button>
+
 <script type="module" src="mi-historial.js"></script>
+
+</body>
+</html>
