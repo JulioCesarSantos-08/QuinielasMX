@@ -22,7 +22,21 @@ const rankingContainer = document.getElementById("ranking-global");
 const infoExtra = document.getElementById("info-extra");
 
 let rankingGlobal = {};
+let mapaUsuariosGlobal = {}; // 🔥 GLOBAL
 
+// 🔥 1. CARGAR USUARIOS REALES DESDE FIREBASE
+async function cargarUsuarios() {
+  const snap = await getDocs(collection(db, "usuarios"));
+
+  snap.forEach(docu => {
+    const email = docu.id;
+    const nombre = docu.data().nombre;
+
+    mapaUsuariosGlobal[email] = nombre;
+  });
+}
+
+// 🔥 2. CARGAR HISTORIAL
 async function cargarHistorial() {
   const snap = await getDocs(collection(db, "historial_jornadas"));
 
@@ -32,7 +46,6 @@ async function cargarHistorial() {
     jornadas.push(docu.data());
   });
 
-  // 🔥 ordenar por fecha real
   jornadas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
   jornadas.forEach(j => {
@@ -41,18 +54,31 @@ async function cargarHistorial() {
     btn.onclick = () => mostrarDetalle(j);
     lista.appendChild(btn);
 
-    // 📊 ranking global
-    j.usuarios.forEach(u => {
-      if (!rankingGlobal[u.nombre]) {
-        rankingGlobal[u.nombre] = 0;
+    const totalPartidos = Object.keys(j.resultados || {})
+      .filter(k => k.includes("partido")).length;
+
+    (j.quinielas || []).forEach(q => {
+      let aciertos = 0;
+
+      for (let i = 0; i < totalPartidos; i++) {
+        const res = j.resultados[`partido${i}`];
+        const pred = q.quiniela ? q.quiniela[`partido${i}`] : null;
+
+        if (res && pred === res) aciertos++;
       }
-      rankingGlobal[u.nombre] += u.aciertos || 0;
+
+      // 🔥 nombre REAL desde Firebase
+      const nombre = mapaUsuariosGlobal[q.usuario] || q.usuario;
+
+      if (!rankingGlobal[nombre]) rankingGlobal[nombre] = 0;
+      rankingGlobal[nombre] += aciertos;
     });
   });
 
   crearRankingGlobal();
 }
 
+// 🔥 MOSTRAR DETALLE
 function mostrarDetalle(data) {
   document.getElementById("detalle").style.display = "block";
 
@@ -62,11 +88,9 @@ function mostrarDetalle(data) {
 
   const resultados = data.resultados || {};
   const quinielas = data.quinielas || [];
-  const usuarios = data.usuarios || [];
 
   const totalPartidos = Object.keys(resultados).filter(k => k.includes("partido")).length;
 
-  // 🔥 encabezado dinámico
   for (let i = 0; i < totalPartidos; i++) {
     const th = document.createElement("th");
     th.textContent = `P${i + 1}`;
@@ -78,8 +102,6 @@ function mostrarDetalle(data) {
   const datos = [];
 
   quinielas.forEach(q => {
-    const user = usuarios.find(u => u.email === q.usuario);
-
     let aciertos = 0;
     const predicciones = [];
 
@@ -97,8 +119,11 @@ function mostrarDetalle(data) {
       }
     }
 
+    // 🔥 nombre REAL
+    const nombreUsuario = mapaUsuariosGlobal[q.usuario] || q.usuario;
+
     datos.push({
-      usuario: user ? user.nombre : q.usuario,
+      usuario: nombreUsuario,
       aciertos,
       predicciones
     });
@@ -106,10 +131,8 @@ function mostrarDetalle(data) {
 
   datos.sort((a, b) => b.aciertos - a.aciertos);
 
-  // 🏆 PODIUM
   crearPodium(datos.slice(0, 3));
 
-  // 💰 INFO EXTRA (si existe)
   if (data.premio || data.recaudado) {
     infoExtra.innerHTML = `
       💰 <strong>Recaudado:</strong> $${data.recaudado || 0}
@@ -131,7 +154,8 @@ function mostrarDetalle(data) {
         p.correcto === true ? 'correcto' :
         p.correcto === false ? 'incorrecto' :
         'pendiente'
-      }">${p.valor ?? "-"}</td>
+      }">${p.valor ?? "-"}
+      </td>
     `).join("");
 
     tr.className = claseTop;
@@ -185,4 +209,10 @@ function crearRankingGlobal() {
   rankingContainer.appendChild(tabla);
 }
 
-cargarHistorial();
+// 🔥 EJECUCIÓN CORRECTA
+async function init() {
+  await cargarUsuarios();   // 👈 PRIMERO usuarios reales
+  await cargarHistorial();  // 👈 luego historial
+}
+
+init();
