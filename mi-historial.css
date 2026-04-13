@@ -5,68 +5,50 @@ body {
   padding: 1rem;
 }
 
-/* TITULO */
 h1 {
   text-align: center;
   color: #004aad;
-  margin-bottom: 1.5rem;
 }
 
-/* CONTENEDOR */
-#mis-jornadas {
-  max-width: 600px;
-  margin: auto;
+/* RESUMEN */
+#resumen {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem auto;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
-/* CARD DE JORNADA */
+/* CARDS */
 .card {
   background: white;
   border-radius: 12px;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem auto;
+  max-width: 500px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  transition: 0.2s;
 }
 
 .card:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
-/* HEADER */
-.card h3 {
-  margin: 0;
-  color: #004aad;
-}
-
-/* TEXTO */
-.card p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-}
-
-/* COLORES POR RENDIMIENTO */
-.alto {
-  color: #2e7d32;
-  font-weight: bold;
-}
-
-.medio {
-  color: #f9a825;
-  font-weight: bold;
-}
-
-.bajo {
-  color: #c62828;
-  font-weight: bold;
-}
+/* COLORES */
+.alto { color: #2e7d32; font-weight: bold; }
+.medio { color: #f9a825; font-weight: bold; }
+.bajo { color: #c62828; font-weight: bold; }
 
 /* GRAFICA */
 canvas {
-  margin-top: 2rem;
+  margin: 2rem auto;
+  display: block;
+  max-width: 600px;
   background: white;
-  border-radius: 12px;
   padding: 1rem;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
 }
 
 /* BOTON */
@@ -78,21 +60,4 @@ button {
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #00327a;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .card {
-    padding: 0.8rem;
-  }
-
-  .card p {
-    font-size: 0.9rem;
-  }
 }
