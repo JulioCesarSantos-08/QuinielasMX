@@ -181,7 +181,7 @@ function crearPodium(top3) {
 
 // 📊 RANKING GLOBAL
 function crearRankingGlobal() {
-  rankingContainer.innerHTML = "<h2>📊 Ranking Global</h2>";
+  rankingContainer.innerHTML = "<h2>📊 Lider General</h2>";
 
   const tabla = document.createElement("table");
 
