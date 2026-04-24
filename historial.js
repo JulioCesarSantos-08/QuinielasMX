@@ -193,7 +193,7 @@ function crearRankingGlobal() {
     <thead>
       <tr>
         <th>Usuario</th>
-        <th>Total Aciertos</th>
+        <th>Aciertos Acumulados</th>
       </tr>
     </thead>
     <tbody>
