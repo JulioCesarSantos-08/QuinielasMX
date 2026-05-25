@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quinielas Santos Mundial</title>
+
+  <link rel="stylesheet" href="sorteoMundial.css">
+  <link rel="icon" href="imagenes/mundialsantos.png" type="image/png">
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="imagenes/Mundial.mp3" type="audio/mpeg">
+</audio>
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <img src="imagenes/mundialsantos.png" class="logo">
+
+    <div>
+      <h1>Quinielas Santos Mundial</h1>
+      <p id="subText">
+        Sorteo oficial de equipos Mundial 2026
+      </p>
+    </div>
+
+  </div>
+
+  <div class="top-actions">
+
+    <button id="themeToggle" class="iconBtn">
+      🌙
+    </button>
+
+    <button id="musicToggle" class="iconBtn">
+      🎵
+    </button>
+
+  </div>
+
+</header>
+
+<main class="main">
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h2 id="saludo">
+        Bienvenido
+      </h2>
+
+      <p>
+        Gira las ruletas para descubrir tus equipos del Mundial.
+      </p>
+
+      <div class="stats">
+
+        <div class="stat-card">
+          <span>🎟 Entradas</span>
+          <strong id="entradasText">0</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>🌎 Giros Fuertes</span>
+          <strong id="girosBuenosText">0</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>⚠️ Giros Regulares</span>
+          <strong id="girosMalosText">0</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="ruletas-grid">
+
+    <div class="ruleta-card">
+
+      <div class="ruleta-head">
+        <h2>🌎 Equipos Fuertes</h2>
+        <span class="badge good">
+          Mundial Elite
+        </span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="wheelBuenos"></canvas>
+        <div class="pointer">▼</div>
+      </div>
+
+      <button id="spinBuenos" class="spinBtn">
+        🎰 Girar Ruleta
+      </button>
+
+      <p id="msgBuenos" class="msg">
+        Esperando giro...
+      </p>
+
+    </div>
+
+    <div class="ruleta-card">
+
+      <div class="ruleta-head">
+        <h2>⚠️ Equipos Regulares</h2>
+        <span class="badge bad">
+          Mundial Random
+        </span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="wheelMalos"></canvas>
+        <div class="pointer">▼</div>
+      </div>
+
+      <button id="spinMalos" class="spinBtn">
+        🎰 Girar Ruleta
+      </button>
+
+      <p id="msgMalos" class="msg">
+        Esperando giro...
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="panel">
+
+    <div class="panel-head">
+
+      <h2>🏆 Mis Equipos</h2>
+
+      <span class="liveBadge">
+        EN VIVO
+      </span>
+
+    </div>
+
+    <div class="mis-equipos-grid">
+
+      <div class="equipos-box">
+
+        <h3>🌎 Equipos Fuertes</h3>
+
+        <div id="misBuenos" class="equipos-list"></div>
+
+      </div>
+
+      <div class="equipos-box">
+
+        <h3>⚠️ Equipos Regulares</h3>
+
+        <div id="misMalos" class="equipos-list"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="panel">
+
+    <div class="panel-head">
+
+      <h2>📋 Tabla General</h2>
+
+      <span class="liveBadge">
+        TIEMPO REAL
+      </span>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="tablaGeneral">
+
+        <thead>
+          <tr>
+            <th>Participante</th>
+            <th>Equipos Fuertes</th>
+            <th>Equipos Regulares</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+
+        <tbody id="tablaBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script type="module" src="sorteoMundial.js"></script>
+
+</body>
+</html>
