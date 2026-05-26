@@ -38,6 +38,15 @@ const settingsRef = doc(db, "mundialSorteo", "settings")
 const participantsRef = doc(db, "mundialSorteo", "participants")
 const stateRef = doc(db, "mundialSorteo", "state")
 
+function sanitize(email) {
+
+  return email
+    .trim()
+    .toLowerCase()
+    .replace(/\./g, "_")
+
+}
+
 async function cargarUsuarios() {
 
   usuariosBody.innerHTML = ""
@@ -59,16 +68,18 @@ async function cargarUsuarios() {
 
     const data = docSnap.data()
 
-    const email = docSnap.id
+    const originalEmail = docSnap.id
+
+    const email = sanitize(originalEmail)
 
     const nombre =
-      data.nombre || email
+      data.nombre || originalEmail
 
     const info =
       savedParticipants[email] || {}
 
     const participa =
-      info.entradas > 0
+      !!savedParticipants[email]
 
     const entradas =
       info.entradas || 0
@@ -108,7 +119,6 @@ async function cargarUsuarios() {
 function generarInputsEquipos() {
 
   equiposFuertes.innerHTML = ""
-
   equiposDebiles.innerHTML = ""
 
   for (let i = 1; i <= 24; i++) {
@@ -146,10 +156,7 @@ guardarUsuarios.addEventListener(
     checks.forEach((check, index) => {
 
       const email =
-  check.dataset.email
-  .trim()
-  .toLowerCase()
-  .replace(/\./g, "_")
+        sanitize(check.dataset.email)
 
       const entradas =
         Number(inputs[index].value) || 0
@@ -185,6 +192,8 @@ guardarUsuarios.addEventListener(
     alert(
       "Participantes guardados correctamente"
     )
+
+    await cargarUsuarios()
 
   }
 )
@@ -519,9 +528,7 @@ resetTotal.addEventListener(
     if (!seguro) return
 
     await deleteDoc(settingsRef)
-
     await deleteDoc(participantsRef)
-
     await deleteDoc(stateRef)
 
     alert(
@@ -535,8 +542,8 @@ resetTotal.addEventListener(
 
 generarInputsEquipos()
 
-cargarUsuarios()
+await cargarUsuarios()
 
-cargarEquiposGuardados()
+await cargarEquiposGuardados()
 
-actualizarTablaEstados()
+await actualizarTablaEstados()
