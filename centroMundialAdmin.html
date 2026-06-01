@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>
+Centro Mundial Admin
+</title>
+
+<link
+rel="icon"
+type="image/png"
+href="imagenes/mundialsantos.png"
+/>
+
+<link
+rel="shortcut icon"
+href="imagenes/mundialsantos.png"
+/>
+
+<link
+rel="apple-touch-icon"
+href="imagenes/mundialsantos.png"
+/>
+
+<link
+rel="stylesheet"
+href="centroMundialAdmin.css"
+/>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<img
+src="imagenes/mundialsantos.png"
+class="logo"
+alt="Mundial Santos"
+/>
+
+<h1>
+⚙️ Centro Mundial Admin
+</h1>
+
+<p>
+Panel central de administración del Mundial 2026
+</p>
+
+</header>
+
+<section class="card">
+
+<h2>
+💳 Estado de Pagos
+</h2>
+
+<div id="pagosContainer">
+
+Cargando...
+
+</div>
+
+<button id="guardarPagos">
+
+Guardar Pagos
+
+</button>
+
+</section>
+
+<section class="card">
+
+<h2>
+📅 Calendario Mundial
+</h2>
+
+<div id="partidosContainer">
+
+Cargando partidos...
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+⚽ Resultados de Partidos
+</h2>
+
+<p class="subtituloAdmin">
+Captura marcadores oficiales y actualiza automáticamente el sistema.
+</p>
+
+<div id="resultadosContainer">
+
+Cargando partidos...
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+📈 Estado del Torneo
+</h2>
+
+<div id="alertasAdmin">
+
+<div class="dato">
+
+Partidos registrados:
+
+<span id="totalPartidos">
+0
+</span>
+
+</div>
+
+<div class="dato">
+
+Partidos finalizados:
+
+<span id="partidosFinalizados">
+0
+</span>
+
+</div>
+
+<div class="dato">
+
+Equipos eliminados:
+
+<span id="equiposEliminados">
+0
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+📊 Resumen General
+</h2>
+
+<div id="resumen">
+
+<div class="dato">
+
+Participantes:
+
+<span id="totalParticipantes">
+0
+</span>
+
+</div>
+
+<div class="dato">
+
+Pagados:
+
+<span id="totalPagados">
+0
+</span>
+
+</div>
+
+<div class="dato">
+
+Pendientes:
+
+<span id="totalPendientes">
+0
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+🗄️ Base de Datos Mundial
+</h2>
+
+<div id="estadoSistema">
+
+<div class="dato">
+
+JSON Mundial:
+
+<span>
+✅ Activo
+</span>
+
+</div>
+
+<div class="dato">
+
+Firebase:
+
+<span>
+✅ Conectado
+</span>
+
+</div>
+
+<div class="dato">
+
+Resultados:
+
+<span id="estadoResultados">
+Preparado
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<script
+type="module"
+src="centroMundialAdmin.js"
+></script>
+
+</body>
+
+</html>

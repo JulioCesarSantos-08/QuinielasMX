@@ -1,0 +1,241 @@
+{
+  "configuracion": {
+    "torneo": "Mundial 2026",
+    "inicio": "2026-06-11",
+    "final": "2026-07-19"
+  },
+
+  "partidos": [
+
+    {
+      "id": 1,
+      "fecha": "2026-06-11",
+      "hora": "15:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "México",
+      "visitante": "Sudáfrica"
+    },
+
+    {
+      "id": 2,
+      "fecha": "2026-06-11",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "Corea del Sur",
+      "visitante": "Chequia"
+    },
+
+    {
+      "id": 3,
+      "fecha": "2026-06-12",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Canadá",
+      "visitante": "Bosnia y Herzegovina"
+    },
+
+    {
+      "id": 4,
+      "fecha": "2026-06-12",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Qatar",
+      "visitante": "Suiza"
+    },
+
+    {
+      "id": 5,
+      "fecha": "2026-06-12",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Brasil",
+      "visitante": "Marruecos"
+    },
+
+    {
+      "id": 6,
+      "fecha": "2026-06-12",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "D",
+      "local": "Estados Unidos",
+      "visitante": "Paraguay"
+    },
+
+    {
+      "id": 7,
+      "fecha": "2026-06-13",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Australia",
+      "visitante": "Turquía"
+    },
+
+    {
+      "id": 8,
+      "fecha": "2026-06-13",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Argentina",
+      "visitante": "Egipto"
+    },
+
+    {
+      "id": 9,
+      "fecha": "2026-06-14",
+      "hora": "15:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Alemania",
+      "visitante": "Curazao"
+    },
+
+    {
+      "id": 10,
+      "fecha": "2026-06-14",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "España",
+      "visitante": "Japón"
+    },
+
+    {
+      "id": 11,
+      "fecha": "2026-06-15",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Francia",
+      "visitante": "Nigeria"
+    },
+
+    {
+      "id": 12,
+      "fecha": "2026-06-15",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Portugal",
+      "visitante": "Irak"
+    },
+
+    {
+      "id": 13,
+      "fecha": "2026-06-16",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "Inglaterra",
+      "visitante": "Irán"
+    },
+
+    {
+      "id": 14,
+      "fecha": "2026-06-16",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Países Bajos",
+      "visitante": "Túnez"
+    },
+
+    {
+      "id": 15,
+      "fecha": "2026-06-18",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "México",
+      "visitante": "Corea del Sur"
+    },
+
+    {
+      "id": 16,
+      "fecha": "2026-06-18",
+      "hora": "22:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "Sudáfrica",
+      "visitante": "Chequia"
+    },
+
+    {
+      "id": 17,
+      "fecha": "2026-06-24",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "México",
+      "visitante": "Chequia"
+    },
+
+    {
+      "id": 18,
+      "fecha": "2026-06-24",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "Corea del Sur",
+      "visitante": "Sudáfrica"
+    },
+
+    {
+      "id": 90,
+      "fecha": "2026-06-28",
+      "hora": "18:00",
+      "fase": "Dieciseisavos",
+      "grupo": "-",
+      "local": "1A",
+      "visitante": "3B"
+    },
+
+    {
+      "id": 91,
+      "fecha": "2026-06-29",
+      "hora": "18:00",
+      "fase": "Dieciseisavos",
+      "grupo": "-",
+      "local": "1B",
+      "visitante": "3A"
+    },
+
+    {
+      "id": 100,
+      "fecha": "2026-07-09",
+      "hora": "19:00",
+      "fase": "Cuartos",
+      "grupo": "-",
+      "local": "Ganador 90",
+      "visitante": "Ganador 91"
+    },
+
+    {
+      "id": 101,
+      "fecha": "2026-07-14",
+      "hora": "20:00",
+      "fase": "Semifinal",
+      "grupo": "-",
+      "local": "Ganador 100",
+      "visitante": "Ganador 102"
+    },
+
+    {
+      "id": 104,
+      "fecha": "2026-07-19",
+      "hora": "15:00",
+      "fase": "Final",
+      "grupo": "-",
+      "local": "Ganador SF1",
+      "visitante": "Ganador SF2"
+    }
+
+  ]
+}
