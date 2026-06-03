@@ -4,19 +4,16 @@
     "inicio": "2026-06-11",
     "final": "2026-07-19"
   },
-
   "partidos": [
-
     {
       "id": 1,
       "fecha": "2026-06-11",
-      "hora": "15:00",
+      "hora": "13:00",
       "fase": "Grupos",
       "grupo": "A",
       "local": "México",
       "visitante": "Sudáfrica"
     },
-
     {
       "id": 2,
       "fecha": "2026-06-11",
@@ -24,218 +21,925 @@
       "fase": "Grupos",
       "grupo": "A",
       "local": "Corea del Sur",
-      "visitante": "Chequia"
+      "visitante": "República Checa"
     },
-
     {
       "id": 3,
       "fecha": "2026-06-12",
-      "hora": "18:00",
+      "hora": "13:00",
       "fase": "Grupos",
       "grupo": "B",
       "local": "Canadá",
       "visitante": "Bosnia y Herzegovina"
     },
-
     {
       "id": 4,
       "fecha": "2026-06-12",
-      "hora": "21:00",
-      "fase": "Grupos",
-      "grupo": "B",
-      "local": "Qatar",
-      "visitante": "Suiza"
-    },
-
-    {
-      "id": 5,
-      "fecha": "2026-06-12",
-      "hora": "18:00",
-      "fase": "Grupos",
-      "grupo": "C",
-      "local": "Brasil",
-      "visitante": "Marruecos"
-    },
-
-    {
-      "id": 6,
-      "fecha": "2026-06-12",
-      "hora": "21:00",
+      "hora": "19:00",
       "fase": "Grupos",
       "grupo": "D",
       "local": "Estados Unidos",
       "visitante": "Paraguay"
     },
-
+    {
+      "id": 5,
+      "fecha": "2026-06-13",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Catar",
+      "visitante": "Suiza"
+    },
+    {
+      "id": 6,
+      "fecha": "2026-06-13",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Brasil",
+      "visitante": "Marruecos"
+    },
     {
       "id": 7,
       "fecha": "2026-06-13",
-      "hora": "17:00",
+      "hora": "19:00",
       "fase": "Grupos",
-      "grupo": "E",
-      "local": "Australia",
-      "visitante": "Turquía"
+      "grupo": "C",
+      "local": "Haití",
+      "visitante": "Escocia"
     },
-
     {
       "id": 8,
       "fecha": "2026-06-13",
-      "hora": "20:00",
+      "hora": "22:00",
       "fase": "Grupos",
-      "grupo": "F",
-      "local": "Argentina",
-      "visitante": "Egipto"
+      "grupo": "D",
+      "local": "Australia",
+      "visitante": "Turquía"
     },
-
     {
       "id": 9,
       "fecha": "2026-06-14",
-      "hora": "15:00",
+      "hora": "11:00",
       "fase": "Grupos",
-      "grupo": "G",
+      "grupo": "E",
       "local": "Alemania",
       "visitante": "Curazao"
     },
-
     {
       "id": 10,
       "fecha": "2026-06-14",
-      "hora": "18:00",
+      "hora": "14:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Países Bajos",
+      "visitante": "Japón"
+    },
+    {
+      "id": 11,
+      "fecha": "2026-06-14",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Costa de Marfil",
+      "visitante": "Ecuador"
+    },
+    {
+      "id": 12,
+      "fecha": "2026-06-14",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Suecia",
+      "visitante": "Túnez"
+    },
+    {
+      "id": 13,
+      "fecha": "2026-06-15",
+      "hora": "10:00",
       "fase": "Grupos",
       "grupo": "H",
       "local": "España",
-      "visitante": "Japón"
+      "visitante": "Cabo Verde"
     },
-
     {
-      "id": 11,
+      "id": 14,
       "fecha": "2026-06-15",
-      "hora": "18:00",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Bélgica",
+      "visitante": "Egipto"
+    },
+    {
+      "id": 15,
+      "fecha": "2026-06-15",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "Arabia Saudita",
+      "visitante": "Uruguay"
+    },
+    {
+      "id": 16,
+      "fecha": "2026-06-15",
+      "hora": "19:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Irán",
+      "visitante": "Nueva Zelanda"
+    },
+    {
+      "id": 17,
+      "fecha": "2026-06-16",
+      "hora": "13:00",
       "fase": "Grupos",
       "grupo": "I",
       "local": "Francia",
-      "visitante": "Nigeria"
+      "visitante": "Senegal"
     },
-
     {
-      "id": 12,
-      "fecha": "2026-06-15",
-      "hora": "21:00",
+      "id": 18,
+      "fecha": "2026-06-16",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Irak",
+      "visitante": "Noruega"
+    },
+    {
+      "id": 19,
+      "fecha": "2026-06-16",
+      "hora": "19:00",
       "fase": "Grupos",
       "grupo": "J",
-      "local": "Portugal",
-      "visitante": "Irak"
+      "local": "Argentina",
+      "visitante": "Argelia"
     },
-
     {
-      "id": 13,
+      "id": 20,
       "fecha": "2026-06-16",
-      "hora": "18:00",
+      "hora": "22:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Austria",
+      "visitante": "Jordania"
+    },
+    {
+      "id": 21,
+      "fecha": "2026-06-17",
+      "hora": "11:00",
       "fase": "Grupos",
       "grupo": "K",
-      "local": "Inglaterra",
-      "visitante": "Irán"
+      "local": "Portugal",
+      "visitante": "RD Congo"
     },
-
     {
-      "id": 14,
-      "fecha": "2026-06-16",
-      "hora": "21:00",
+      "id": 22,
+      "fecha": "2026-06-17",
+      "hora": "14:00",
       "fase": "Grupos",
       "grupo": "L",
-      "local": "Países Bajos",
-      "visitante": "Túnez"
+      "local": "Inglaterra",
+      "visitante": "Croacia"
     },
-
     {
-      "id": 15,
-      "fecha": "2026-06-18",
+      "id": 23,
+      "fecha": "2026-06-17",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Ghana",
+      "visitante": "Panamá"
+    },
+    {
+      "id": 24,
+      "fecha": "2026-06-17",
       "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "Uzbekistán",
+      "visitante": "Colombia"
+    },
+    {
+      "id": 25,
+      "fecha": "2026-06-18",
+      "hora": "10:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "República Checa",
+      "visitante": "Sudáfrica"
+    },
+    {
+      "id": 26,
+      "fecha": "2026-06-18",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Suiza",
+      "visitante": "Bosnia y Herzegovina"
+    },
+    {
+      "id": 27,
+      "fecha": "2026-06-18",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Canadá",
+      "visitante": "Catar"
+    },
+    {
+      "id": 28,
+      "fecha": "2026-06-18",
+      "hora": "19:00",
       "fase": "Grupos",
       "grupo": "A",
       "local": "México",
       "visitante": "Corea del Sur"
     },
-
     {
-      "id": 16,
-      "fecha": "2026-06-18",
+      "id": 29,
+      "fecha": "2026-06-19",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "D",
+      "local": "Estados Unidos",
+      "visitante": "Australia"
+    },
+    {
+      "id": 30,
+      "fecha": "2026-06-19",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Escocia",
+      "visitante": "Marruecos"
+    },
+    {
+      "id": 31,
+      "fecha": "2026-06-19",
+      "hora": "18:30",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Brasil",
+      "visitante": "Haití"
+    },
+    {
+      "id": 32,
+      "fecha": "2026-06-19",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "D",
+      "local": "Turquía",
+      "visitante": "Paraguay"
+    },
+    {
+      "id": 33,
+      "fecha": "2026-06-20",
+      "hora": "11:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Países Bajos",
+      "visitante": "Suecia"
+    },
+    {
+      "id": 34,
+      "fecha": "2026-06-20",
+      "hora": "14:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Alemania",
+      "visitante": "Costa de Marfil"
+    },
+    {
+      "id": 35,
+      "fecha": "2026-06-20",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Ecuador",
+      "visitante": "Curazao"
+    },
+    {
+      "id": 36,
+      "fecha": "2026-06-20",
       "hora": "22:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Túnez",
+      "visitante": "Japón"
+    },
+    {
+      "id": 37,
+      "fecha": "2026-06-21",
+      "hora": "10:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "España",
+      "visitante": "Arabia Saudita"
+    },
+    {
+      "id": 38,
+      "fecha": "2026-06-21",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Bélgica",
+      "visitante": "Irán"
+    },
+    {
+      "id": 39,
+      "fecha": "2026-06-21",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "Uruguay",
+      "visitante": "Cabo Verde"
+    },
+    {
+      "id": 40,
+      "fecha": "2026-06-21",
+      "hora": "19:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Nueva Zelanda",
+      "visitante": "Egipto"
+    },
+    {
+      "id": 41,
+      "fecha": "2026-06-22",
+      "hora": "11:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Argentina",
+      "visitante": "Austria"
+    },
+    {
+      "id": 42,
+      "fecha": "2026-06-22",
+      "hora": "15:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Francia",
+      "visitante": "Irak"
+    },
+    {
+      "id": 43,
+      "fecha": "2026-06-22",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Noruega",
+      "visitante": "Senegal"
+    },
+    {
+      "id": 44,
+      "fecha": "2026-06-22",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Jordania",
+      "visitante": "Argelia"
+    },
+    {
+      "id": 45,
+      "fecha": "2026-06-23",
+      "hora": "11:00",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "Portugal",
+      "visitante": "Uzbekistán"
+    },
+    {
+      "id": 46,
+      "fecha": "2026-06-23",
+      "hora": "14:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Inglaterra",
+      "visitante": "Ghana"
+    },
+    {
+      "id": 47,
+      "fecha": "2026-06-23",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Panamá",
+      "visitante": "Croacia"
+    },
+    {
+      "id": 48,
+      "fecha": "2026-06-23",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "Colombia",
+      "visitante": "RD Congo"
+    },
+    {
+      "id": 49,
+      "fecha": "2026-06-24",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Suiza",
+      "visitante": "Canadá"
+    },
+    {
+      "id": 50,
+      "fecha": "2026-06-24",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "B",
+      "local": "Bosnia y Herzegovina",
+      "visitante": "Catar"
+    },
+    {
+      "id": 51,
+      "fecha": "2026-06-24",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Escocia",
+      "visitante": "Brasil"
+    },
+    {
+      "id": 52,
+      "fecha": "2026-06-24",
+      "hora": "16:00",
+      "fase": "Grupos",
+      "grupo": "C",
+      "local": "Marruecos",
+      "visitante": "Haití"
+    },
+    {
+      "id": 53,
+      "fecha": "2026-06-24",
+      "hora": "19:00",
+      "fase": "Grupos",
+      "grupo": "A",
+      "local": "República Checa",
+      "visitante": "México"
+    },
+    {
+      "id": 54,
+      "fecha": "2026-06-24",
+      "hora": "19:00",
       "fase": "Grupos",
       "grupo": "A",
       "local": "Sudáfrica",
-      "visitante": "Chequia"
+      "visitante": "Corea del Sur"
     },
-
     {
-      "id": 17,
-      "fecha": "2026-06-24",
+      "id": 55,
+      "fecha": "2026-06-25",
+      "hora": "14:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Curazao",
+      "visitante": "Costa de Marfil"
+    },
+    {
+      "id": 56,
+      "fecha": "2026-06-25",
+      "hora": "14:00",
+      "fase": "Grupos",
+      "grupo": "E",
+      "local": "Ecuador",
+      "visitante": "Alemania"
+    },
+    {
+      "id": 57,
+      "fecha": "2026-06-25",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Japón",
+      "visitante": "Suecia"
+    },
+    {
+      "id": 58,
+      "fecha": "2026-06-25",
+      "hora": "17:00",
+      "fase": "Grupos",
+      "grupo": "F",
+      "local": "Túnez",
+      "visitante": "Países Bajos"
+    },
+    {
+      "id": 59,
+      "fecha": "2026-06-25",
       "hora": "20:00",
       "fase": "Grupos",
-      "grupo": "A",
-      "local": "México",
-      "visitante": "Chequia"
+      "grupo": "D",
+      "local": "Turquía",
+      "visitante": "Estados Unidos"
     },
-
     {
-      "id": 18,
-      "fecha": "2026-06-24",
+      "id": 60,
+      "fecha": "2026-06-25",
       "hora": "20:00",
       "fase": "Grupos",
-      "grupo": "A",
-      "local": "Corea del Sur",
-      "visitante": "Sudáfrica"
+      "grupo": "D",
+      "local": "Paraguay",
+      "visitante": "Australia"
     },
-
+    {
+      "id": 61,
+      "fecha": "2026-06-26",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Noruega",
+      "visitante": "Francia"
+    },
+    {
+      "id": 62,
+      "fecha": "2026-06-26",
+      "hora": "13:00",
+      "fase": "Grupos",
+      "grupo": "I",
+      "local": "Senegal",
+      "visitante": "Irak"
+    },
+    {
+      "id": 63,
+      "fecha": "2026-06-26",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "Uruguay",
+      "visitante": "España"
+    },
+    {
+      "id": 64,
+      "fecha": "2026-06-26",
+      "hora": "18:00",
+      "fase": "Grupos",
+      "grupo": "H",
+      "local": "Cabo Verde",
+      "visitante": "Arabia Saudita"
+    },
+    {
+      "id": 65,
+      "fecha": "2026-06-26",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Egipto",
+      "visitante": "Irán"
+    },
+    {
+      "id": 66,
+      "fecha": "2026-06-26",
+      "hora": "21:00",
+      "fase": "Grupos",
+      "grupo": "G",
+      "local": "Nueva Zelanda",
+      "visitante": "Bélgica"
+    },
+    {
+      "id": 67,
+      "fecha": "2026-06-27",
+      "hora": "15:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Panamá",
+      "visitante": "Inglaterra"
+    },
+    {
+      "id": 68,
+      "fecha": "2026-06-27",
+      "hora": "15:00",
+      "fase": "Grupos",
+      "grupo": "L",
+      "local": "Croacia",
+      "visitante": "Ghana"
+    },
+    {
+      "id": 69,
+      "fecha": "2026-06-27",
+      "hora": "17:30",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "RD Congo",
+      "visitante": "Uzbekistán"
+    },
+    {
+      "id": 70,
+      "fecha": "2026-06-27",
+      "hora": "17:30",
+      "fase": "Grupos",
+      "grupo": "K",
+      "local": "Colombia",
+      "visitante": "Portugal"
+    },
+    {
+      "id": 71,
+      "fecha": "2026-06-27",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Jordania",
+      "visitante": "Argentina"
+    },
+    {
+      "id": 72,
+      "fecha": "2026-06-27",
+      "hora": "20:00",
+      "fase": "Grupos",
+      "grupo": "J",
+      "local": "Argelia",
+      "visitante": "Austria"
+    },
+    {
+      "id": 73,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 74,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 75,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 76,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 77,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 78,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 79,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 80,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 81,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 82,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 83,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 84,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 85,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 86,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 87,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 88,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 89,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
     {
       "id": 90,
-      "fecha": "2026-06-28",
+      "fecha": "2026-07-01",
       "hora": "18:00",
-      "fase": "Dieciseisavos",
+      "fase": "Eliminatoria",
       "grupo": "-",
-      "local": "1A",
-      "visitante": "3B"
+      "local": "Por definir",
+      "visitante": "Por definir"
     },
-
     {
       "id": 91,
-      "fecha": "2026-06-29",
+      "fecha": "2026-07-01",
       "hora": "18:00",
-      "fase": "Dieciseisavos",
+      "fase": "Eliminatoria",
       "grupo": "-",
-      "local": "1B",
-      "visitante": "3A"
+      "local": "Por definir",
+      "visitante": "Por definir"
     },
-
+    {
+      "id": 92,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 93,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 94,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 95,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 96,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 97,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 98,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 99,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
     {
       "id": 100,
-      "fecha": "2026-07-09",
-      "hora": "19:00",
-      "fase": "Cuartos",
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
       "grupo": "-",
-      "local": "Ganador 90",
-      "visitante": "Ganador 91"
+      "local": "Por definir",
+      "visitante": "Por definir"
     },
-
     {
       "id": 101,
-      "fecha": "2026-07-14",
-      "hora": "20:00",
-      "fase": "Semifinal",
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
       "grupo": "-",
-      "local": "Ganador 100",
-      "visitante": "Ganador 102"
+      "local": "Por definir",
+      "visitante": "Por definir"
     },
-
+    {
+      "id": 102,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
+    {
+      "id": 103,
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
+      "grupo": "-",
+      "local": "Por definir",
+      "visitante": "Por definir"
+    },
     {
       "id": 104,
-      "fecha": "2026-07-19",
-      "hora": "15:00",
-      "fase": "Final",
+      "fecha": "2026-07-01",
+      "hora": "18:00",
+      "fase": "Eliminatoria",
       "grupo": "-",
-      "local": "Ganador SF1",
-      "visitante": "Ganador SF2"
+      "local": "Por definir",
+      "visitante": "Por definir"
     }
-
   ]
 }
