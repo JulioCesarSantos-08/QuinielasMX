@@ -356,45 +356,239 @@ function renderMisPartidos(){
 
 function renderCalendario(){
 
-  if(partidosMundial.length===0){
+  const calendarioGrid =
+  document.getElementById("calendarioGrid")
 
-    calendarioMundial.innerHTML = `
-      <div class="empty">
-        No hay partidos disponibles
-      </div>
-    `
+  const fechaActual =
+  document.getElementById("fechaActual")
 
+  const partidosHoy =
+  document.getElementById("partidosHoy")
+
+  const partidosSeleccionados =
+  document.getElementById("partidosSeleccionados")
+
+  if(
+    !calendarioGrid ||
+    partidosMundial.length===0
+  ){
     return
-
   }
+
+  const hoy = new Date()
+
+  fechaActual.textContent =
+  hoy.toLocaleDateString(
+    "es-MX",
+    {
+      weekday:"long",
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  )
+
+  const year = 2026
+  const month = 5
+
+  const primerDia =
+  new Date(year,month,1)
+
+  const ultimoDia =
+  new Date(year,month+1,0)
+
+  const totalDias =
+  ultimoDia.getDate()
+
+  const offset =
+  (primerDia.getDay()+6)%7
 
   let html = ""
 
-  partidosMundial.forEach((partido)=>{
+  for(
+    let i=0;
+    i<offset;
+    i++
+  ){
+
+    html += `<div></div>`
+
+  }
+
+  for(
+    let dia=1;
+    dia<=totalDias;
+    dia++
+  ){
+
+    const fecha =
+    `2026-06-${String(dia).padStart(2,"0")}`
+
+    const juegos =
+    partidosMundial.filter(
+      p=>p.fecha===fecha
+    )
+
+    const esHoy =
+    hoy.getFullYear()===2026 &&
+    hoy.getMonth()===5 &&
+    hoy.getDate()===dia
 
     html += `
-      <div class="partido">
 
-        <div class="partidoFecha">
-          ${partido.fecha}
+      <div
+        class="
+          diaCalendario
+          ${esHoy ? "hoy" : ""}
+          ${juegos.length ? "tienePartido" : ""}
+        "
+        data-fecha="${fecha}"
+      >
+
+        <div class="numeroDia">
+          ${dia}
         </div>
 
-        <div class="partidoEquipos">
-          ${partido.local}
-          vs
-          ${partido.visitante}
-        </div>
-
-        <div class="partidoHora">
-          ${partido.hora}
-        </div>
+        ${
+          juegos
+          .slice(0,2)
+          .map(
+            p=>`
+            <div class="partidoMini">
+              ${p.local}
+              vs
+              ${p.visitante}
+            </div>
+            `
+          )
+          .join("")
+        }
 
       </div>
+
     `
+
+  }
+
+  calendarioGrid.innerHTML =
+  html
+
+  const hoyString =
+  `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,"0")}-${String(hoy.getDate()).padStart(2,"0")}`
+
+  const juegosHoy =
+  partidosMundial.filter(
+    p=>p.fecha===hoyString
+  )
+
+  if(juegosHoy.length){
+
+    partidosHoy.innerHTML =
+    juegosHoy.map(
+      p=>`
+      <div class="partidoHoyItem">
+        ${p.local}
+        vs
+        ${p.visitante}
+      </div>
+      `
+    ).join("")
+
+  }else{
+
+    partidosHoy.innerHTML =
+    "Sin partidos"
+
+  }
+
+  document
+  .querySelectorAll(
+    ".diaCalendario"
+  )
+  .forEach((dia)=>{
+
+    dia.addEventListener(
+      "click",
+      ()=>{
+
+        const fecha =
+        dia.dataset.fecha
+
+        const juegos =
+        partidosMundial.filter(
+          p=>p.fecha===fecha
+        )
+
+        if(!juegos.length){
+
+          partidosSeleccionados.innerHTML = `
+            <div class="empty">
+              No hay partidos este día
+            </div>
+          `
+
+          return
+
+        }
+
+        partidosSeleccionados.innerHTML =
+        juegos.map((p)=>{
+
+          const asignaciones =
+          state.assignments?.[currentUser]
+
+          const equiposUsuario = [
+
+            ...(asignaciones?.buenos || []),
+
+            ...(asignaciones?.malos || [])
+
+          ]
+
+          const esMio =
+
+          equiposUsuario.includes(
+            p.local
+          )
+          ||
+          equiposUsuario.includes(
+            p.visitante
+          )
+
+          return `
+
+            <div class="
+              partidoDetalle
+              ${
+                esMio
+                ? "partidoDetalleUsuario"
+                : ""
+              }
+            ">
+
+              <strong>
+                ${p.local}
+                vs
+                ${p.visitante}
+              </strong>
+
+              ${p.hora}
+
+              <div class="faseTag">
+                ${p.fase}
+              </div>
+
+            </div>
+
+          `
+
+        }).join("")
+
+      }
+    )
 
   })
 
-  calendarioMundial.innerHTML = html
 
 }
 
