@@ -27,12 +27,17 @@ window.addEventListener("click", () => {
 }, { once: true });
 
 async function cargarPartidos() {
+
   const docRef = doc(db, "config", "partidos");
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
-    form.innerHTML = "<p>No se encontraron partidos configurados.</p>";
+
+    form.innerHTML =
+      "<p>No se encontraron partidos configurados.</p>";
+
     btnGuardar.disabled = true;
+
     return;
   }
 
@@ -40,17 +45,31 @@ async function cargarPartidos() {
   const partidos = data.partidos || [];
 
   if (data.jornada) {
-    document.getElementById("numero-jornada").textContent = `Fase: ${data.jornada}`;
+
+    document.getElementById(
+      "numero-jornada"
+    ).textContent =
+      `Fase: ${data.jornada}`;
 
     form.innerHTML = "";
 
     partidos.forEach((p, i) => {
-      const equipoLocal = p.equipo1.toLowerCase().replace(/\s+/g, '-');
-      const equipoVisitante = p.equipo2.toLowerCase().replace(/\s+/g, '-');
+
+      const equipoLocal =
+        p.equipo1
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+
+      const equipoVisitante =
+        p.equipo2
+          .toLowerCase()
+          .replace(/\s+/g, "-");
 
       form.innerHTML += `
         <div class="partido">
+
           <div class="equipos">
+
             <div class="equipo">
               <img src="imagenes/${equipoLocal}.png" />
               <span>${p.equipo1.toUpperCase()}</span>
@@ -62,20 +81,72 @@ async function cargarPartidos() {
               <img src="imagenes/${equipoVisitante}.png" />
               <span>${p.equipo2.toUpperCase()}</span>
             </div>
+
           </div>
 
           <div class="opciones">
 
-            <input type="radio" name="partido${i}" id="local${i}" value="local">
-            <label for="local${i}">Gana ${p.equipo1.toUpperCase()}</label>
+            <input
+              type="radio"
+              name="partido${i}"
+              id="local${i}"
+              value="local"
+            >
 
-            <input type="radio" name="partido${i}" id="empate${i}" value="empate">
-            <label for="empate${i}">Empate</label>
+            <label for="local${i}">
+              Gana ${p.equipo1.toUpperCase()}
+            </label>
 
-            <input type="radio" name="partido${i}" id="visitante${i}" value="visitante">
-            <label for="visitante${i}">Gana ${p.equipo2.toUpperCase()}</label>
+            <input
+              type="radio"
+              name="partido${i}"
+              id="empate${i}"
+              value="empate"
+            >
+
+            <label for="empate${i}">
+              Empate
+            </label>
+
+            <input
+              type="radio"
+              name="partido${i}"
+              id="visitante${i}"
+              value="visitante"
+            >
+
+            <label for="visitante${i}">
+              Gana ${p.equipo2.toUpperCase()}
+            </label>
 
           </div>
+
+          <div class="marcador-prediccion">
+
+            <h4>
+              ⚽ Marcador Pronosticado
+            </h4>
+
+            <input
+              type="number"
+              min="0"
+              id="golesLocal${i}"
+              placeholder="0"
+            >
+
+            <span class="guion">
+              -
+            </span>
+
+            <input
+              type="number"
+              min="0"
+              id="golesVisitante${i}"
+              placeholder="0"
+            >
+
+          </div>
+
         </div>
       `;
     });
@@ -85,33 +156,67 @@ async function cargarPartidos() {
 let estadoAnterior = null;
 
 async function actualizarEstadoQuiniela() {
-  const snap = await getDoc(doc(db, "configuracion", "estado"));
-  const activa = snap.exists() ? snap.data().quinielaActiva : true;
 
-  if (estadoAnterior === null) estadoAnterior = activa;
+  const snap =
+    await getDoc(
+      doc(
+        db,
+        "configuracion",
+        "estado"
+      )
+    );
+
+  const activa =
+    snap.exists()
+      ? snap.data().quinielaActiva
+      : true;
+
+  if (estadoAnterior === null)
+    estadoAnterior = activa;
 
   if (!activa) {
-    bloqueoDiv.textContent = "⛔ Quiniela cerrada por el administrador";
-    contadorDiv.textContent = "Estado: ❌ Cerrado";
+
+    bloqueoDiv.textContent =
+      "⛔ Quiniela cerrada por el administrador";
+
+    contadorDiv.textContent =
+      "Estado: ❌ Cerrado";
 
     btnGuardar.disabled = true;
-    btnGuardar.style.background = '#555';
-    btnGuardar.style.cursor = 'not-allowed';
+
+    btnGuardar.style.background =
+      "#555";
+
+    btnGuardar.style.cursor =
+      "not-allowed";
 
     if (estadoAnterior !== activa) {
-      if (errorSound) errorSound.play().catch(()=>{});
+
+      if (errorSound)
+        errorSound.play().catch(()=>{});
+
     }
 
   } else {
+
     bloqueoDiv.textContent = "";
-    contadorDiv.textContent = "Estado: ✅ Abierto";
+
+    contadorDiv.textContent =
+      "Estado: ✅ Abierto";
 
     btnGuardar.disabled = false;
-    btnGuardar.style.background = '#FFD700';
-    btnGuardar.style.cursor = 'pointer';
+
+    btnGuardar.style.background =
+      "#FFD700";
+
+    btnGuardar.style.cursor =
+      "pointer";
 
     if (estadoAnterior !== activa) {
-      if (silbato) silbato.play().catch(()=>{});
+
+      if (silbato)
+        silbato.play().catch(()=>{});
+
     }
   }
 
@@ -119,50 +224,137 @@ async function actualizarEstadoQuiniela() {
 }
 
 window.guardarQuiniela = async function () {
-  const user = localStorage.getItem("user");
+
+  const user =
+    localStorage.getItem("user");
 
   if (!user) {
+
     alert("Debes iniciar sesión");
+
     return;
   }
 
-  const snap = await getDoc(doc(db, "configuracion", "estado"));
-  const activa = snap.exists() ? snap.data().quinielaActiva : true;
+  const snap =
+    await getDoc(
+      doc(
+        db,
+        "configuracion",
+        "estado"
+      )
+    );
+
+  const activa =
+    snap.exists()
+      ? snap.data().quinielaActiva
+      : true;
 
   if (!activa) {
-    if (errorSound) errorSound.play().catch(()=>{});
-    alert("La quiniela está cerrada");
+
+    if (errorSound)
+      errorSound.play().catch(()=>{});
+
+    alert(
+      "La quiniela está cerrada"
+    );
+
     return;
   }
 
-  const quiniela = {};
-  let incompletos = false;
+const quiniela = {};
 
-  const partidosCount = form.querySelectorAll('.partido').length;
+const partidosCount =
+  form.querySelectorAll(
+    ".partido"
+  ).length;
 
-  for (let i = 0; i < partidosCount; i++) {
-    const seleccionado = form.querySelector(`input[name="partido${i}"]:checked`);
+for (
+  let i = 0;
+  i < partidosCount;
+  i++
+) {
 
-    if (!seleccionado) incompletos = true;
+  const seleccionado =
+    form.querySelector(
+      `input[name="partido${i}"]:checked`
+    );
 
-    quiniela[`partido${i}`] = seleccionado ? seleccionado.value : null;
+  const golesLocal =
+    document.getElementById(
+      `golesLocal${i}`
+    );
+
+  const golesVisitante =
+    document.getElementById(
+      `golesVisitante${i}`
+    );
+
+  if (!seleccionado) {
+
+    alert(
+      `Debes elegir un resultado para el partido ${i + 1}`
+    );
+
+    return;
+
   }
 
-  if (incompletos && !confirm("Hay partidos sin seleccionar. ¿Deseas guardar así?")) return;
+  if (
+    golesLocal.value === "" ||
+    golesVisitante.value === ""
+  ) {
+
+    alert(
+      `Debes capturar el marcador del partido ${i + 1}`
+    );
+
+    return;
+
+  }
+
+  quiniela[`partido${i}`] =
+    seleccionado.value;
+
+  quiniela[`marcador${i}`] =
+    `${golesLocal.value}-${golesVisitante.value}`;
+
+}
 
   try {
-    await setDoc(doc(db, "quinielas", user), {
-      usuario: user,
-      quiniela,
-      timestamp: Date.now()
-    });
 
-    alert("¡Quiniela guardada con éxito!");
+    await setDoc(
+      doc(
+        db,
+        "quinielas",
+        user
+      ),
+      {
+        usuario: user,
+        quiniela,
+        timestamp: Date.now()
+      }
+    );
+
+    alert(
+      "¡Quiniela guardada con éxito!"
+    );
+
   } catch (e) {
-    alert("Error al guardar la quiniela: " + e.message);
+
+    alert(
+      "Error al guardar la quiniela: " +
+      e.message
+    );
+
   }
+
 };
 
 cargarPartidos();
+
 actualizarEstadoQuiniela();
-setInterval(actualizarEstadoQuiniela, 5000);
+
+setInterval(
+  actualizarEstadoQuiniela,
+  5000
+);
