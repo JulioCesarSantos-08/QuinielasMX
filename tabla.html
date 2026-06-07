@@ -4,23 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tabla General - Quiniela Liga MX</title>
+
   <link rel="icon" href="imagenes/logo1.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+  >
+
   <link rel="stylesheet" href="tabla.css">
 </head>
+
 <body>
+
   <h1>Tabla General 🏆</h1>
-  <h2 id="jornada" style="text-align:center; color:#444; margin-top:-0.5rem;">Jornada: —</h2>
+
+  <h2
+    id="jornada"
+    style="text-align:center; color:#444; margin-top:-0.5rem;"
+  >
+    Jornada: —
+  </h2>
 
   <div id="premio-box">
-    💰 <strong>Total Recaudado:</strong> <span id="recaudado">$0</span> &nbsp;&nbsp;
-    🏆 <strong>Premio Final (90%):</strong> <span id="premio">$0</span>
+    💰 <strong>Total Recaudado:</strong>
+    <span id="recaudado">$0</span>
+
+    &nbsp;&nbsp;
+
+    🏆 <strong>Premio Final (90%):</strong>
+    <span id="premio">$0</span>
   </div>
 
   <div id="bloqueo-msg">
-    ⏳ Las quinielas estarán visibles a partir del <b>viernes a las 5:00 pm</b>  
-    y hasta el <b>lunes a las 11:59 pm</b>.  
-    ¡Vuelve más tarde para ver la tabla general!
+    🔒 La tabla general se encuentra oculta temporalmente por el administrador.
+    <br><br>
+    Por favor vuelve más tarde.
   </div>
 
   <table id="tabla" style="display:none;">
@@ -28,16 +47,29 @@
       <tr id="encabezado">
         <th>Usuario</th>
         <!-- columnas dinámicas -->
-        <th>Aciertos</th>
+        <th>Puntos</th>
       </tr>
     </thead>
+
     <tbody></tbody>
   </table>
 
-  <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
-  <button onclick="window.location.href='historial.html'">Ver ganadores!</button>
-  <button onclick="window.location.href='https://www.google.com/search?q=partidos+liga+mx'">Marcadores en tiempo real</button>
+  <button onclick="window.location.href='menu.html'">
+    ⬅️ Regresar al menú
+  </button>
 
-  <script type="module" src="tabla.js"></script>
+  <button onclick="window.location.href='historial.html'">
+    Ver ganadores!
+  </button>
+
+  <button onclick="window.location.href='https://www.google.com/search?q=partidos+liga+mx'">
+    Marcadores en tiempo real
+  </button>
+
+  <script
+    type="module"
+    src="tabla.js"
+  ></script>
+
 </body>
 </html>
