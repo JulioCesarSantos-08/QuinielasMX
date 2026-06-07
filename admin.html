@@ -1,41 +1,115 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Panel Admin - Resultados</title>
+
   <link rel="icon" href="imagenes/logo1.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+  >
+
   <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
-  <h1 id="titulo">Panel de Administrador ⚙️</h1>
+
+  <h1 id="titulo">
+    Panel de Administrador ⚙️
+  </h1>
 
   <div id="formulario">
+
     <form id="resultados-form"></form>
 
     <div class="ganador-box">
-      <label><strong>Seleccionar Usuarios Ganadores</strong></label><br>
-      <select id="usuario-ganador" multiple></select>
+      <label>
+        <strong>
+          Seleccionar Usuarios Ganadores
+        </strong>
+      </label>
+
+      <br>
+
+      <select
+        id="usuario-ganador"
+        multiple
+      ></select>
     </div>
 
-    <button id="btn-guardar">Guardar Resultados y Ganadores</button>
+    <button id="btn-guardar">
+      Guardar Resultados y Ganadores
+    </button>
+
     <br><br>
 
-    <button id="btn-toggle" style="background:#ffc107; color:black;">
+    <button
+      id="btn-toggle"
+      style="background:#ffc107;color:black;"
+    >
       🔄 Cambiar estado de Quiniela
     </button>
+
     <br><br>
 
-    <button id="btn-reiniciar" style="background: #dc3545;">🧹 Reiniciar Jornada</button>
+    <!-- NUEVO -->
+
+    <button
+      id="btn-tabla"
+      type="button"
+      style="background:#17a2b8;color:white;"
+    >
+      👁️ Mostrar/Ocultar Tabla General
+    </button>
+
     <br><br>
 
-    <a href="admin2.html" class="volver">Administrar Partidos</a>
-    <a href="sorteoMundialAdmin.html" class="volver">Muldial</a>
-    <a href="centroMundialAdmin.html" class="volver">Muldial parte 2</a>
-    <a href="menu.html" class="volver">⬅️ Volver al Menú</a>
+    <button
+      id="btn-reiniciar"
+      style="background:#dc3545;"
+    >
+      🧹 Reiniciar Jornada
+    </button>
+
+    <br><br>
+
+    <a
+      href="admin2.html"
+      class="volver"
+    >
+      Administrar Partidos
+    </a>
+
+    <a
+      href="sorteoMundialAdmin.html"
+      class="volver"
+    >
+      Mundial
+    </a>
+
+    <a
+      href="centroMundialAdmin.html"
+      class="volver"
+    >
+      Mundial parte 2
+    </a>
+
+    <a
+      href="menu.html"
+      class="volver"
+    >
+      ⬅️ Volver al Menú
+    </a>
+
   </div>
 
-  <script type="module" src="admin.js"></script>
+  <script
+    type="module"
+    src="admin.js"
+  ></script>
+
 </body>
 </html>
