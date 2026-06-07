@@ -20,6 +20,7 @@ const selectGanador = document.getElementById("usuario-ganador");
 const btnGuardar = document.getElementById("btn-guardar");
 const btnReiniciar = document.getElementById("btn-reiniciar");
 const btnToggle = document.getElementById("btn-toggle");
+const btnTabla = document.getElementById("btn-tabla");
 
 let partidos = [];
 
@@ -40,6 +41,7 @@ if (!user) {
   cargarPartidos();
   cargarUsuarios();
   actualizarBoton();
+  actualizarBotonTabla();
 }
 
 function formatearEquipo(nombre) {
@@ -124,6 +126,30 @@ async function obtenerEstado() {
   return snap.exists() ? snap.data().quinielaActiva : true;
 }
 
+async function obtenerEstadoTabla() {
+
+  const snap = await getDoc(
+    doc(db, "configuracion", "estadoTabla")
+  );
+
+  return snap.exists()
+    ? snap.data().tablaVisible
+    : false;
+
+}
+
+async function actualizarBotonTabla() {
+
+  const visible =
+    await obtenerEstadoTabla();
+
+  btnTabla.textContent =
+    visible
+      ? "🙈 Ocultar Tabla General"
+      : "👁️ Mostrar Tabla General";
+
+}
+
 async function actualizarBoton() {
   const estado = await obtenerEstado();
   btnToggle.textContent = estado ? "🔴 Desactivar Quiniela" : "🟢 Activar Quiniela";
@@ -139,6 +165,36 @@ btnToggle.addEventListener("click", async () => {
   actualizarBoton();
   alert("Estado actualizado");
 });
+
+btnTabla.addEventListener(
+  "click",
+  async () => {
+
+    const visibleActual =
+      await obtenerEstadoTabla();
+
+    await setDoc(
+      doc(
+        db,
+        "configuracion",
+        "estadoTabla"
+      ),
+      {
+        tablaVisible:
+          !visibleActual
+      }
+    );
+
+    await actualizarBotonTabla();
+
+    alert(
+      !visibleActual
+        ? "✅ Tabla visible"
+        : "🙈 Tabla oculta"
+    );
+
+  }
+);
 
 btnGuardar.addEventListener("click", async () => {
   const resultados = {};
