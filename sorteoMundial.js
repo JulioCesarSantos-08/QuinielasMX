@@ -439,134 +439,155 @@ async function spin(type) {
 
   }
 
-  const disponibles =
-    type === "buenos"
-      ? state.equiposBuenosDisponibles || []
-      : state.equiposMalosDisponibles || []
 
-  if (disponibles.length === 0) {
+let selected = null
 
-    showToast(
-      "No quedan equipos disponibles"
+try {
+
+  await runTransaction(db, async (transaction) => {
+
+  const stateSnap =
+    await transaction.get(stateRef)
+
+  const participantsSnap =
+    await transaction.get(participantsRef)
+
+  const currentState =
+    stateSnap.data()
+
+  const currentParticipants =
+    normalizeParticipants(
+      participantsSnap.data()
     )
 
-    spinningBuenos = false
-    spinningMalos = false
+  const userData =
+    currentParticipants[currentUser]
 
-    return
+  if (!currentState.assignments) {
+
+    currentState.assignments = {}
 
   }
 
-  const selected =
+  if (!currentState.assignments[currentUser]) {
+
+    currentState.assignments[currentUser] = {
+      buenos: [],
+      malos: []
+    }
+
+  }
+
+  const disponibles =
+    type === "buenos"
+      ? [...(currentState.equiposBuenosDisponibles || [])]
+      : [...(currentState.equiposMalosDisponibles || [])]
+
+  if (disponibles.length === 0) {
+
+    throw new Error(
+      "No quedan equipos disponibles"
+    )
+
+  }
+
+  selected =
     disponibles[
       Math.floor(
-        Math.random() * disponibles.length
+        Math.random() *
+        disponibles.length
       )
     ]
 
   if (type === "buenos") {
 
-    msgBuenos.textContent =
-      "🎡 Girando ruleta..."
+    currentState
+      .assignments[currentUser]
+      .buenos
+      .push(selected)
 
-    await animateWheel(
-      canvasBuenos,
-      ctxBuenos,
-      disponibles,
-      selected
-    )
+    currentState
+      .equiposBuenosDisponibles =
+      currentState
+        .equiposBuenosDisponibles
+        .filter(t => t !== selected)
+
+    userData.girosBuenos -= 1
 
   } else {
 
-    msgMalos.textContent =
-      "🎡 Girando ruleta..."
+    currentState
+      .assignments[currentUser]
+      .malos
+      .push(selected)
 
-    await animateWheel(
-      canvasMalos,
-      ctxMalos,
-      disponibles,
-      selected
-    )
+    currentState
+      .equiposMalosDisponibles =
+      currentState
+        .equiposMalosDisponibles
+        .filter(t => t !== selected)
+
+    userData.girosMalos -= 1
 
   }
 
-  await runTransaction(db, async (transaction) => {
+  transaction.set(
+    participantsRef,
+    currentParticipants
+  )
 
-    const stateSnap =
-      await transaction.get(stateRef)
+  transaction.update(
+    stateRef,
+    currentState
+  )
 
-    const participantsSnap =
-      await transaction.get(participantsRef)
+})
 
-    const currentState =
-      stateSnap.data()
+} catch (error) {
 
-    const currentParticipants =
-      normalizeParticipants(
-        participantsSnap.data()
-      )
+  console.error(error)
 
-    const userData =
-      currentParticipants[currentUser]
+  showToast(
+    "Error al asignar equipo"
+  )
 
-    if (!currentState.assignments) {
+  spinningBuenos = false
+  spinningMalos = false
 
-      currentState.assignments = {}
+  return
 
-    }
+}
 
-    if (!currentState.assignments[currentUser]) {
+const equiposActuales =
+  type === "buenos"
+    ? settings.equiposBuenos || []
+    : settings.equiposMalos || []
 
-      currentState.assignments[currentUser] = {
-        buenos: [],
-        malos: []
-      }
+if (type === "buenos") {
 
-    }
+  msgBuenos.textContent =
+    "🎡 Girando ruleta..."
 
-    if (type === "buenos") {
+  await animateWheel(
+    canvasBuenos,
+    ctxBuenos,
+    equiposActuales,
+    selected
+  )
 
-      currentState
-        .assignments[currentUser]
-        .buenos
-        .push(selected)
+} else {
 
-      currentState
-        .equiposBuenosDisponibles =
-        currentState
-          .equiposBuenosDisponibles
-          .filter(t => t !== selected)
+  msgMalos.textContent =
+    "🎡 Girando ruleta..."
 
-      userData.girosBuenos -= 1
+  await animateWheel(
+    canvasMalos,
+    ctxMalos,
+    equiposActuales,
+    selected
+  )
 
-    } else {
-
-      currentState
-        .assignments[currentUser]
-        .malos
-        .push(selected)
-
-      currentState
-        .equiposMalosDisponibles =
-        currentState
-          .equiposMalosDisponibles
-          .filter(t => t !== selected)
-
-      userData.girosMalos -= 1
-
-    }
-
-    transaction.set(
-      participantsRef,
-      currentParticipants
-    )
-
-    transaction.update(
-      stateRef,
-      currentState
-    )
-
-  })
+}
 
   if (type === "buenos") {
 
