@@ -1,225 +1,167 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Quiniela</title>
-  <link rel="icon" href="imagenes/logo1.png" type="image/png" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
-  <style>
-    body {
-      font-family: 'Rubik', sans-serif;
-      background: #f2f2f2;
-      margin: 0;
-      padding: 1rem;
-    }
-    h1 {
-      text-align: center;
-      color: #004aad;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .logo {
-      width: 35px;
-      height: 35px;
-    }
-    .partido {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .info {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-    }
-    .acierto {
-      background: #c8e6c9;
-      border-radius: 5px;
-      padding: 0.3rem;
-      font-weight: bold;
-    }
-    .fallo {
-      background: #ffcdd2;
-      border-radius: 5px;
-      padding: 0.3rem;
-      font-weight: bold;
-    }
-    .pendiente {
-      background: #e0e0e0;
-      border-radius: 5px;
-      padding: 0.3rem;
-      font-weight: bold;
-      color: #555;
-    }
-    .resumen {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    .fecha-guardado {
-      background: #ffffff;
-      border-left: 5px solid #004aad;
-      padding: 0.8rem 1.2rem;
-      margin: 1rem auto;
-      max-width: 500px;
-      border-radius: 8px;
-      font-size: 1rem;
-      color: #333;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .fecha-guardado strong {
-      color: #004aad;
-    }
-    button {
-      display: block;
-      margin: 1.5rem auto 0 auto;
-      padding: 1rem 2rem;
-      background: #004aad;
-      color: white;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background: #00327a;
-    }
-  </style>
+
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>
+Mi Quiniela PRO
+</title>
+
+<link
+rel="icon"
+href="imagenes/logo1.png"
+type="image/png"
+/>
+
+<link
+rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap"
+/>
+
+<link
+rel="stylesheet"
+href="miquiniela.css"
+/>
+
 </head>
+
 <body>
-  <h1>
-    <img src="imagenes/logo1.png" class="logo" alt="Logo"> Mi Quiniela 📋
-  </h1>
-  <h2 id="jornada" style="text-align:center; color:#333; margin-top: 0;">Jornada: —</h2>
 
-  <div id="contenedor"></div>
-  <div class="resumen" id="resumen"></div>
+<div class="page">
 
-  <button onclick="window.location.href='menu.html'">⬅️ Regresar al menú</button>
+  <header class="hero">
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <img
+      src="imagenes/logo1.png"
+      class="logo"
+      alt="Logo"
+    >
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
-      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
-      projectId: "rifaboletos-c1d0d",
-      storageBucket: "rifaboletos-c1d0d.appspot.com",
-      messagingSenderId: "27051588350",
-      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
-    };
+    <div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+      <h1>
+        🏆 Mi Quiniela
+      </h1>
 
-    const user = localStorage.getItem("user");
-    const contenedor = document.getElementById("contenedor");
-    const resumen = document.getElementById("resumen");
+      <p class="subtitulo">
+        Revisa tus pronósticos y puntuación
+      </p>
 
-    function formatearEquipo(nombre) {
-      if (!nombre) return "";
-      return nombre.charAt(0).toUpperCase() + nombre.slice(1);
-    }
+    </div>
 
-    function mostrarTexto(valor) {
-      if (valor === "local") return "Gana Local";
-      if (valor === "visitante") return "Gana Visitante";
-      if (valor === "empate") return "Empate";
-      return "No respondido";
-    }
+  </header>
 
-    async function cargarQuiniela() {
-      if (!user) {
-        contenedor.innerHTML = "<p>Debes iniciar sesión primero.</p>";
-        return;
-      }
+  <section class="panel-resumen">
 
-      const partidosSnap = await getDoc(doc(db, "config", "partidos"));
-      if (!partidosSnap.exists()) {
-        contenedor.innerHTML = "<p>No se encontraron partidos configurados.</p>";
-        return;
-      }
-      const partidos = partidosSnap.data().partidos || [];
-      const jornada = partidosSnap.data().jornada || "—";
-      document.getElementById("jornada").textContent = `Jornada: ${jornada}`;
+    <div class="resumen-card principal">
 
-      const docRef = doc(db, "quinielas", user);
-      const docSnap = await getDoc(docRef);
-      if (!docSnap.exists()) {
-        contenedor.innerHTML = "<p>No se encontró tu quiniela. ¿Ya la enviaste?</p>";
-        return;
-      }
+      <span class="titulo-card">
+        Puntuación Total
+      </span>
 
-      const fechaGuardado = docSnap.data().fechaGuardado;
-      if (fechaGuardado) {
-        const fecha = fechaGuardado.toDate();
-        const fechaTexto = fecha.toLocaleString("es-MX", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-        const fechaDiv = document.createElement("div");
-        fechaDiv.className = "fecha-guardado";
-        fechaDiv.innerHTML = `🕒 Quiniela guardada el <strong>${fechaTexto}</strong>`;
-        contenedor.appendChild(fechaDiv);
-      }
+      <div
+        id="puntosTotales"
+        class="valor-grande"
+      >
+        0 / 0
+      </div>
 
-      const resultadosSnap = await getDoc(doc(db, "resultados", "actuales"));
-      const resultadosReales = resultadosSnap.exists() ? resultadosSnap.data() : {};
+    </div>
 
-      const data = docSnap.data().quiniela;
-      let aciertos = 0;
+    <div class="resumen-card">
 
-      for (let i = 0; i < partidos.length; i++) {
-        const partido = partidos[i];
-        const pred = data ? data[`partido${i}`] : null;
-        const res = resultadosReales ? resultadosReales[`partido${i}`] : null;
+      <span class="titulo-card">
+        ✅ Resultados Correctos
+      </span>
 
-        let clase = "pendiente";
-        let mensaje = "⏳ Partido aún no jugado";
+      <div
+        id="aciertosResultado"
+        class="valor-mediano"
+      >
+        0
+      </div>
 
-        if (res !== null && res !== "") {
-          if (pred === res) {
-            clase = "acierto";
-            mensaje = "✔️ Acierto";
-            aciertos++;
-          } else {
-            clase = "fallo";
-            mensaje = "❌ Fallo";
-          }
-        }
+    </div>
 
-        const div = document.createElement("div");
-        div.classList.add("partido");
-        div.innerHTML = `
-          <strong>${formatearEquipo(partido.equipo1)} vs ${formatearEquipo(partido.equipo2)}</strong>
-          <div class="info">
-            <div>Tu predicción: <strong>${mostrarTexto(pred)}</strong></div>
-            <div>Resultado real: <strong>${res ? mostrarTexto(res) : "Pendiente"}</strong></div>
-            <div class="${clase}">${mensaje}</div>
-          </div>
-        `;
-        contenedor.appendChild(div);
-      }
+    <div class="resumen-card">
 
-      resumen.textContent = `🎯 Total de aciertos: ${aciertos} de ${partidos.length}`;
-    }
+      <span class="titulo-card">
+        ⭐ Marcadores Exactos
+      </span>
 
-    cargarQuiniela();
-  </script>
+      <div
+        id="aciertosMarcador"
+        class="valor-mediano"
+      >
+        0
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="barra-panel">
+
+    <div class="barra-titulo">
+      Rendimiento
+    </div>
+
+    <div class="barra-fondo">
+
+      <div
+        id="barraProgreso"
+        class="barra-progreso"
+      ></div>
+
+    </div>
+
+  </section>
+
+  <section class="jornada-box">
+
+    <h2
+      id="jornada"
+      class="jornada"
+    >
+      Jornada: —
+    </h2>
+
+  </section>
+
+  <section
+    id="contenedor"
+    class="contenedor"
+  >
+
+  </section>
+
+  <div
+    id="resumen"
+    class="resumen-final"
+  >
+  </div>
+
+  <button
+    class="btn-regresar"
+    onclick="location.href='menu.html'"
+  >
+    ⬅️ Regresar al menú
+  </button>
+
+</div>
+
+<script
+type="module"
+src="miquiniela.js"
+></script>
+
 </body>
+
 </html>
