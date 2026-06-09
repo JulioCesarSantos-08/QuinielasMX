@@ -614,6 +614,8 @@ function renderClasificacion(){
 
     let vivos = 0
 
+    const equiposVivos = []
+
     equipos.forEach((team)=>{
 
       const status =
@@ -622,6 +624,8 @@ function renderClasificacion(){
       if(status==="activo"){
 
         vivos++
+
+        equiposVivos.push(team)
 
       }
 
@@ -632,7 +636,9 @@ function renderClasificacion(){
       nombre:
       data.nombre || user,
 
-      vivos
+      vivos,
+
+      equiposVivos
 
     })
 
@@ -649,28 +655,111 @@ function renderClasificacion(){
   ranking.forEach((item,index)=>{
 
     html += `
-      <div class="rankingItem">
+  <div class="rankingItem">
 
-        <div class="posicion">
-          ${index+1}
-        </div>
+    <div class="posicion">
+      ${index+1}
+    </div>
 
-        <div class="usuario">
-          ${item.nombre}
-        </div>
+    <div class="usuario">
+      ${item.nombre}
+    </div>
 
-        <div class="puntos">
-          ${item.vivos} vivos
-        </div>
+    <div
+      class="puntos"
+      data-equipos='${JSON.stringify(item.equiposVivos)}'
+    >
+      ${item.vivos} vivos
+    </div>
 
-      </div>
-    `
+  </div>
+`
 
   })
 
   html += "</div>"
 
   clasificacion.innerHTML = html
+
+  document
+.querySelectorAll(".puntos")
+.forEach(btn=>{
+
+  btn.addEventListener(
+    "click",
+    ()=>{
+
+      const equipos =
+      JSON.parse(
+        btn.dataset.equipos
+      )
+
+      mostrarEquiposVivos(
+        equipos
+      )
+
+    }
+  )
+
+})
+
+}
+
+function mostrarEquiposVivos(equipos){
+
+  const modal =
+  document.getElementById(
+    "modalVivos"
+  )
+
+  const lista =
+  document.getElementById(
+    "listaEquiposVivos"
+  )
+
+  const titulo =
+  document.getElementById(
+    "tituloModal"
+  )
+
+  titulo.textContent =
+  "🏆 Equipos vivos"
+
+  if(!equipos.length){
+
+    lista.innerHTML = `
+      <div class="empty">
+        Sin equipos vivos
+      </div>
+    `
+
+  }else{
+
+    lista.innerHTML =
+    equipos.map(team=>`
+
+      <div class="equipoVivo">
+        🟢 ${team}
+      </div>
+
+    `).join("")
+
+  }
+
+  modal.style.display =
+  "flex"
+
+}
+
+function cerrarModalVivos(){
+
+  const modal =
+  document.getElementById(
+    "modalVivos"
+  )
+
+  modal.style.display =
+  "none"
 
 }
 
@@ -737,6 +826,44 @@ async function init(){
 
     }
   )
+  const cerrarBtn =
+  document.getElementById(
+    "cerrarModal"
+  )
+
+  if(cerrarBtn){
+
+    cerrarBtn.addEventListener(
+      "click",
+      cerrarModalVivos
+    )
+
+  }
+
+  const modal =
+  document.getElementById(
+    "modalVivos"
+  )
+
+  if(modal){
+
+    modal.addEventListener(
+      "click",
+      (e)=>{
+
+        if(
+          e.target === modal
+        ){
+
+          cerrarModalVivos()
+
+        }
+
+      }
+    )
+
+  }
+
 
 }
 
