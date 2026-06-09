@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Espera del Sorteo Mundial</title>
+
+<link rel="icon" href="imagenes/mundial.png" type="image/png">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:'Rubik',sans-serif;
+
+  min-height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:20px;
+
+  background:
+  linear-gradient(
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.9)
+  ),
+  url("https://images.unsplash.com/photo-1508098682722-e99c643e7f0b");
+
+  background-size:cover;
+  background-position:center;
+
+  color:white;
+
+}
+
+.contenedor{
+
+  width:100%;
+  max-width:800px;
+
+  text-align:center;
+
+  background:rgba(255,255,255,.08);
+
+  border:1px solid rgba(255,255,255,.15);
+
+  backdrop-filter:blur(10px);
+
+  border-radius:20px;
+
+  padding:30px;
+
+}
+
+.logo{
+
+  width:140px;
+
+  display:block;
+
+  margin:0 auto 15px auto;
+
+}
+
+h1{
+
+  color:#FFD700;
+
+  font-size:3rem;
+
+  margin-bottom:10px;
+
+  text-shadow:0 0 20px #FFD700;
+
+}
+
+.subtitulo{
+
+  color:#ddd;
+
+  font-size:1.2rem;
+
+  margin-bottom:25px;
+
+}
+
+.contador{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:15px;
+
+  flex-wrap:wrap;
+
+  margin:30px 0;
+
+}
+
+.caja{
+
+  min-width:120px;
+
+  background:rgba(255,215,0,.15);
+
+  border:2px solid #FFD700;
+
+  border-radius:15px;
+
+  padding:20px;
+
+}
+
+.numero{
+
+  font-size:2.8rem;
+
+  font-weight:bold;
+
+  color:#FFD700;
+
+}
+
+.texto{
+
+  margin-top:5px;
+
+  font-size:.9rem;
+
+}
+
+.info{
+
+  margin-top:25px;
+
+  text-align:left;
+
+  background:rgba(255,255,255,.08);
+
+  padding:20px;
+
+  border-radius:15px;
+
+}
+
+.info h2{
+
+  color:#FFD700;
+
+  margin-bottom:15px;
+
+}
+
+.info p{
+
+  margin-bottom:10px;
+
+  line-height:1.6;
+
+}
+
+.finalizado{
+
+  margin-top:25px;
+
+  display:none;
+
+  background:#28a745;
+
+  padding:20px;
+
+  border-radius:15px;
+
+  font-size:1.2rem;
+
+  font-weight:bold;
+
+}
+
+.btn{
+
+  display:inline-block;
+
+  margin-top:25px;
+
+  background:#FFD700;
+
+  color:black;
+
+  text-decoration:none;
+
+  padding:12px 25px;
+
+  border-radius:10px;
+
+  font-weight:bold;
+
+}
+
+.btn:hover{
+
+  background:#e6c200;
+
+}
+
+@media(max-width:768px){
+
+  h1{
+    font-size:2rem;
+  }
+
+  .numero{
+    font-size:2rem;
+  }
+
+  .caja{
+    min-width:90px;
+    padding:15px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+
+  <img
+    src="imagenes/mundial.png"
+    class="logo"
+    alt="Mundial"
+  >
+
+  <h1>🏆 Sorteo Mundial</h1>
+
+  <p class="subtitulo">
+    El sorteo oficial comenzará hoy a las 8:00 PM.
+  </p>
+
+  <div class="contador">
+
+    <div class="caja">
+      <div class="numero" id="dias">00</div>
+      <div class="texto">DÍAS</div>
+    </div>
+
+    <div class="caja">
+      <div class="numero" id="horas">00</div>
+      <div class="texto">HORAS</div>
+    </div>
+
+    <div class="caja">
+      <div class="numero" id="minutos">00</div>
+      <div class="texto">MINUTOS</div>
+    </div>
+
+    <div class="caja">
+      <div class="numero" id="segundos">00</div>
+      <div class="texto">SEGUNDOS</div>
+    </div>
+
+  </div>
+
+  <div class="info">
+
+    <h2>📢 Información importante</h2>
+
+    <p>
+      ⚽ Todos los participantes recibirán un equipo mediante una ruleta aleatoria.
+    </p>
+
+    <p>
+      🏆 El equipo que obtengas será tu selección oficial para todo el Mundial.
+    </p>
+
+    <p>
+      🎯 Solo tendrás una oportunidad para realizar el sorteo.
+    </p>
+
+    <p>
+      🔒 Una vez asignado el equipo no podrá cambiarse.
+    </p>
+
+    <p>
+      🔄 Cuando el contador llegue a cero, refresca la página o vuelve a entrar para acceder al sistema de sorteo.
+    </p>
+
+  </div>
+
+  <div
+    id="mensajeFinal"
+    class="finalizado"
+  >
+    🎉 ¡El sorteo ya está disponible!
+
+    <br><br>
+
+    Refresca la página o vuelve a ingresar al sistema.
+  </div>
+
+  <a
+    href="menu.html"
+    class="btn"
+  >
+    ⬅️ Regresar al menú
+  </a>
+
+</div>
+
+<script>
+
+const fechaSorteo =
+new Date(
+  "2026-06-08T20:00:00"
+).getTime();
+
+function actualizarContador(){
+
+  const ahora =
+    new Date().getTime();
+
+  const diferencia =
+    fechaSorteo - ahora;
+
+  if(diferencia <= 0){
+
+    document.getElementById(
+      "dias"
+    ).textContent = "00";
+
+    document.getElementById(
+      "horas"
+    ).textContent = "00";
+
+    document.getElementById(
+      "minutos"
+    ).textContent = "00";
+
+    document.getElementById(
+      "segundos"
+    ).textContent = "00";
+
+    document.getElementById(
+      "mensajeFinal"
+    ).style.display = "block";
+
+    return;
+  }
+
+  const dias =
+    Math.floor(
+      diferencia /
+      (1000*60*60*24)
+    );
+
+  const horas =
+    Math.floor(
+      (diferencia %
+      (1000*60*60*24))
+      /
+      (1000*60*60)
+    );
+
+  const minutos =
+    Math.floor(
+      (diferencia %
+      (1000*60*60))
+      /
+      (1000*60)
+    );
+
+  const segundos =
+    Math.floor(
+      (diferencia %
+      (1000*60))
+      /
+      1000
+    );
+
+  document.getElementById(
+    "dias"
+  ).textContent =
+    String(dias)
+    .padStart(2,"0");
+
+  document.getElementById(
+    "horas"
+  ).textContent =
+    String(horas)
+    .padStart(2,"0");
+
+  document.getElementById(
+    "minutos"
+  ).textContent =
+    String(minutos)
+    .padStart(2,"0");
+
+  document.getElementById(
+    "segundos"
+  ).textContent =
+    String(segundos)
+    .padStart(2,"0");
+
+}
+
+actualizarContador();
+
+setInterval(
+  actualizarContador,
+  1000
+);
+
+</script>
+
+</body>
+</html>
