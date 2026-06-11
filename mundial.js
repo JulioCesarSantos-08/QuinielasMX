@@ -292,7 +292,7 @@ for (
   if (!seleccionado) {
 
     alert(
-      `Debes elegir un resultado para el partido ${i + 1}`
+      `❌Debes elegir un resultado para el partido ${i + 1}❌`
     );
 
     return;
@@ -305,7 +305,7 @@ for (
   ) {
 
     alert(
-      `Debes capturar el marcador del partido ${i + 1}`
+      `❌Debes capturar el marcador del partido ${i + 1}❌`
     );
 
     return;
@@ -336,13 +336,13 @@ for (
     );
 
     alert(
-      "¡Quiniela guardada con éxito!"
+      "✅¡Quiniela guardada con éxito!✅"
     );
 
   } catch (e) {
 
     alert(
-      "Error al guardar la quiniela: " +
+      "❌Error al guardar la quiniela: ❌" +
       e.message
     );
 
