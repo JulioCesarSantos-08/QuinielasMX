@@ -1,0 +1,310 @@
+body{
+  margin:0;
+  padding:0;
+  font-family:'Rubik',sans-serif;
+  background:#0f172a;
+  color:#fff;
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:15px;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.logo{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+  margin-bottom:10px;
+}
+
+.hero h1{
+  margin:0;
+  color:#FFD700;
+  font-size:2rem;
+}
+
+#saludo{
+  color:#cbd5e1;
+  margin-top:8px;
+}
+
+.card{
+  background:#1e293b;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+
+.card h2{
+  margin-top:0;
+  margin-bottom:15px;
+  color:#FFD700;
+  font-size:1.15rem;
+}
+
+.empty{
+  text-align:center;
+  color:#94a3b8;
+  padding:20px;
+}
+
+.miEquipoCard{
+  background:#0f172a;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  border-left:4px solid #22c55e;
+}
+
+.equipoNombre{
+  font-size:1rem;
+  font-weight:700;
+}
+
+.equipoPais{
+  color:#cbd5e1;
+  margin-top:4px;
+}
+
+.estadoVivo{
+  color:#22c55e;
+  font-weight:bold;
+}
+
+.estadoMuerto{
+  color:#ef4444;
+  font-weight:bold;
+}
+
+.grupoCard{
+  background:#0f172a;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:15px;
+}
+
+.grupoTitulo{
+  font-size:1.1rem;
+  font-weight:bold;
+  color:#FFD700;
+  margin-bottom:12px;
+}
+
+.integrante{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#1e293b;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+.integranteInfo{
+  display:flex;
+  flex-direction:column;
+}
+
+.usuario{
+  font-weight:700;
+}
+
+.equipo{
+  color:#cbd5e1;
+  font-size:.9rem;
+}
+
+.partidoCard{
+  background:#0f172a;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.vs{
+  text-align:center;
+  font-size:1rem;
+  font-weight:bold;
+  color:#FFD700;
+}
+
+.clasificado{
+  border-left:4px solid #22c55e;
+}
+
+.eliminado{
+  border-left:4px solid #ef4444;
+}
+
+.tablaGrupo{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.posicion{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#0f172a;
+  padding:12px;
+  border-radius:12px;
+}
+
+.numeroPosicion{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#FFD700;
+  color:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.llavesContainer{
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+.llavesMensaje{
+  text-align:center;
+  color:#cbd5e1;
+  padding:30px 10px;
+}
+
+.acciones{
+  margin-top:20px;
+  margin-bottom:30px;
+}
+
+.btnVolver{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  background:#FFD700;
+  color:#000;
+  padding:14px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.btnVolver:hover{
+  opacity:.9;
+}
+
+@media (max-width:768px){
+
+  .container{
+    padding:12px;
+  }
+
+  .hero h1{
+    font-size:1.6rem;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .grupoTitulo{
+    font-size:1rem;
+  }
+
+  .usuario{
+    font-size:.95rem;
+  }
+
+  .equipo{
+    font-size:.8rem;
+  }
+
+}
+#octavosConfirmados{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.partidoCard{
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.vs{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.vs > div{
+  flex:1;
+}
+
+.vs > div:first-child{
+  text-align:left;
+}
+
+.vs > div:last-child{
+  text-align:right;
+}
+
+.llaveSimple{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.llaveRonda{
+  background:#0f172a;
+  border-radius:14px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.llaveTitulo{
+  color:#FFD700;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.llaveEquipo{
+  background:#1e293b;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:8px;
+}
+
+.llaveEquipoNombre{
+  color:white;
+  font-weight:bold;
+}
+
+.llaveEquipoUsuario{
+  color:#94a3b8;
+  font-size:.85rem;
+}
+
+.llaveGanador{
+  border-left:4px solid #22c55e;
+}
+
+.llavePendiente{
+  border-left:4px solid #FFD700;
+}
+
+.llaveEliminado{
+  border-left:4px solid #ef4444;
+}
