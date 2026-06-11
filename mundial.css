@@ -234,7 +234,7 @@ button:hover{
 
   align-items:center;
 
-  gap:10px;
+  gap:12px;
 
 }
 
@@ -245,6 +245,18 @@ button:hover{
   color:#FFD700;
 
   font-size:.95rem;
+
+}
+
+.marcador-prediccion > div{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:12px;
 
 }
 
@@ -283,16 +295,6 @@ button:hover{
   font-weight:bold;
 
   color:#FFD700;
-
-}
-
-.marcador-prediccion > div{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
 
 }
 /* ===== AJUSTES MÓVIL ===== */
