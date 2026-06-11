@@ -121,31 +121,35 @@ async function cargarPartidos() {
 
           </div>
 
-          <div class="marcador-prediccion">
+<div class="marcador-prediccion">
 
-            <h4>
-              ⚽ Marcador Pronosticado
-            </h4>
+  <h4>
+    ⚽ Marcador Pronosticado
+  </h4>
 
-            <input
-              type="number"
-              min="0"
-              id="golesLocal${i}"
-              placeholder="0"
-            >
+  <div class="marcador-fila">
 
-            <span class="guion">
-              -
-            </span>
+    <input
+      type="number"
+      min="0"
+      id="golesLocal${i}"
+      placeholder="número"
+    >
 
-            <input
-              type="number"
-              min="0"
-              id="golesVisitante${i}"
-              placeholder="0"
-            >
+    <span class="guion">
+      -
+    </span>
 
-          </div>
+    <input
+      type="number"
+      min="0"
+      id="golesVisitante${i}"
+      placeholder="número"
+    >
+
+  </div>
+
+</div>
 
         </div>
       `;
