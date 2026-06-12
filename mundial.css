@@ -234,7 +234,9 @@ button:hover{
 
   align-items:center;
 
-  gap:12px;
+  gap:10px;
+
+  width:100%;
 
 }
 
@@ -248,23 +250,40 @@ button:hover{
 
 }
 
-.marcador-prediccion > div{
+.marcador-fila{
 
-  display:flex;
+  display:grid;
 
-  justify-content:center;
+  grid-template-columns:
+  1fr
+  auto
+  1fr;
 
   align-items:center;
 
-  gap:12px;
+  width:100%;
+
+  margin-top:5px;
+
+}
+
+.marcador-fila input:first-child{
+
+  justify-self:start;
+
+}
+
+.marcador-fila input:last-child{
+
+  justify-self:end;
 
 }
 
 .marcador-prediccion input{
 
-  width:70px;
+  width:85px;
 
-  height:40px;
+  height:42px;
 
   text-align:center;
 
@@ -289,6 +308,8 @@ button:hover{
 }
 
 .guion{
+
+  justify-self:center;
 
   font-size:1.5rem;
 
@@ -352,21 +373,37 @@ button:hover{
 
   }
 
+  .marcador-fila{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    width:100%;
+
+    padding:0 10px;
+
+    box-sizing:border-box;
+
+  }
+
   .marcador-prediccion h4{
 
     font-size:.9rem;
 
   }
 
-  .marcador-prediccion input{
+.marcador-prediccion input{
 
-    width:60px;
+  width:85px;
 
-    height:36px;
+  height:40px;
 
-    font-size:1rem;
+  font-size:1rem;
 
-  }
+}
 
   .guion{
 
