@@ -22,197 +22,479 @@ const rankingContainer = document.getElementById("ranking-global");
 const infoExtra = document.getElementById("info-extra");
 
 let rankingGlobal = {};
-let mapaUsuariosGlobal = {}; // 🔥 GLOBAL
+let mapaUsuariosGlobal = {};
 
-// 🔥 1. CARGAR USUARIOS REALES DESDE FIREBASE
+// ==========================
+// CARGAR USUARIOS
+// ==========================
+
 async function cargarUsuarios() {
-  const snap = await getDocs(collection(db, "usuarios"));
+
+  const snap =
+  await getDocs(
+    collection(db, "usuarios")
+  );
 
   snap.forEach(docu => {
-    const email = docu.id;
-    const nombre = docu.data().nombre;
 
-    mapaUsuariosGlobal[email] = nombre;
+    const email =
+    docu.id;
+
+    const nombre =
+    docu.data().nombre;
+
+    mapaUsuariosGlobal[email] =
+    nombre;
+
   });
+
 }
 
-// 🔥 2. CARGAR HISTORIAL
+// ==========================
+// CARGAR HISTORIAL
+// ==========================
+
 async function cargarHistorial() {
-  const snap = await getDocs(collection(db, "historial_jornadas"));
+
+  const snap =
+  await getDocs(
+    collection(
+      db,
+      "historial_jornadas"
+    )
+  );
 
   let jornadas = [];
 
   snap.forEach(docu => {
-    jornadas.push(docu.data());
+
+    jornadas.push(
+      docu.data()
+    );
+
   });
 
-  jornadas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  jornadas.sort(
+    (a,b)=>
+    new Date(b.fecha) -
+    new Date(a.fecha)
+  );
 
   jornadas.forEach(j => {
-    const btn = document.createElement("button");
-    btn.textContent = `📅 Jornada ${j.jornada} - ${j.fecha}`;
-    btn.onclick = () => mostrarDetalle(j);
+
+    const btn =
+    document.createElement(
+      "button"
+    );
+
+    btn.textContent =
+    `📅 Jornada ${j.jornada} - ${j.fecha}`;
+
+    btn.onclick =
+    ()=>mostrarDetalle(j);
+
     lista.appendChild(btn);
 
-    const totalPartidos = Object.keys(j.resultados || {})
-      .filter(k => k.includes("partido")).length;
+    const totalPartidos =
+    Object.keys(
+      j.resultados || {}
+    ).filter(
+      k => k.includes("partido")
+    ).length;
 
     (j.quinielas || []).forEach(q => {
-      let aciertos = 0;
 
-      for (let i = 0; i < totalPartidos; i++) {
-        const res = j.resultados[`partido${i}`];
-        const pred = q.quiniela ? q.quiniela[`partido${i}`] : null;
+      let puntos = 0;
 
-        if (res && pred === res) aciertos++;
+      for(
+        let i=0;
+        i<totalPartidos;
+        i++
+      ){
+
+        const resultadoReal =
+        j.resultados[
+          `partido${i}`
+        ];
+
+        const resultadoUsuario =
+        q.quiniela
+        ? q.quiniela[
+            `partido${i}`
+          ]
+        : null;
+
+        const marcadorReal =
+        j.resultados[
+          `marcador${i}`
+        ];
+
+        const marcadorUsuario =
+        q.quiniela
+        ? q.quiniela[
+            `marcador${i}`
+          ]
+        : null;
+
+        if(
+          resultadoReal &&
+          resultadoUsuario === resultadoReal
+        ){
+          puntos += 1;
+        }
+
+        if(
+          marcadorReal &&
+          marcadorUsuario &&
+          marcadorUsuario === marcadorReal
+        ){
+          puntos += 1;
+        }
+
       }
 
-      // 🔥 nombre REAL desde Firebase
-      const nombre = mapaUsuariosGlobal[q.usuario] || q.usuario;
+      const nombre =
+      mapaUsuariosGlobal[
+        q.usuario
+      ] || q.usuario;
 
-      if (!rankingGlobal[nombre]) rankingGlobal[nombre] = 0;
-      rankingGlobal[nombre] += aciertos;
+      if(
+        !rankingGlobal[nombre]
+      ){
+        rankingGlobal[nombre] = 0;
+      }
+
+      rankingGlobal[nombre] +=
+      puntos;
+
     });
+
   });
 
   crearRankingGlobal();
+
 }
 
-// 🔥 MOSTRAR DETALLE
-function mostrarDetalle(data) {
-  document.getElementById("detalle").style.display = "block";
+// ==========================
+// MOSTRAR DETALLE
+// ==========================
 
-  encabezado.innerHTML = "<th>Usuario</th>";
+function mostrarDetalle(data){
+
+  document.getElementById(
+    "detalle"
+  ).style.display = "block";
+
+  encabezado.innerHTML =
+  "<th>Usuario</th>";
+
   tbody.innerHTML = "";
+
   infoExtra.innerHTML = "";
 
-  const resultados = data.resultados || {};
-  const quinielas = data.quinielas || [];
+  const resultados =
+  data.resultados || {};
 
-  const totalPartidos = Object.keys(resultados).filter(k => k.includes("partido")).length;
+  const quinielas =
+  data.quinielas || [];
 
-  for (let i = 0; i < totalPartidos; i++) {
-    const th = document.createElement("th");
-    th.textContent = `P${i + 1}`;
-    encabezado.appendChild(th);
+  const totalPartidos =
+  Object.keys(resultados)
+  .filter(
+    k=>k.includes("partido")
+  )
+  .length;
+
+  for(
+    let i=0;
+    i<totalPartidos;
+    i++
+  ){
+
+    const th =
+    document.createElement(
+      "th"
+    );
+
+    th.textContent =
+    `P${i+1}`;
+
+    encabezado.appendChild(
+      th
+    );
+
   }
 
-  encabezado.innerHTML += "<th>Aciertos</th>";
+  encabezado.innerHTML += `
+    <th>Resultados</th>
+    <th>Marcadores</th>
+    <th>Total</th>
+  `;
 
   const datos = [];
 
-  quinielas.forEach(q => {
-    let aciertos = 0;
+  quinielas.forEach(q=>{
+
+    let resultadosCorrectos = 0;
+    let marcadoresExactos = 0;
+
     const predicciones = [];
 
-    for (let i = 0; i < totalPartidos; i++) {
-      const res = resultados[`partido${i}`];
-      const pred = q.quiniela ? q.quiniela[`partido${i}`] : null;
+    for(
+      let i=0;
+      i<totalPartidos;
+      i++
+    ){
 
-      if (res === null || res === "") {
-        predicciones.push({ valor: pred, correcto: null });
-      } else if (pred === res) {
-        predicciones.push({ valor: pred, correcto: true });
-        aciertos++;
-      } else {
-        predicciones.push({ valor: pred, correcto: false });
+      const resultadoReal =
+      resultados[
+        `partido${i}`
+      ];
+
+      const resultadoUsuario =
+      q.quiniela
+      ? q.quiniela[
+          `partido${i}`
+        ]
+      : null;
+
+      const marcadorReal =
+      resultados[
+        `marcador${i}`
+      ];
+
+      const marcadorUsuario =
+      q.quiniela
+      ? q.quiniela[
+          `marcador${i}`
+        ]
+      : null;
+
+      if(
+        resultadoReal === null ||
+        resultadoReal === ""
+      ){
+
+        predicciones.push({
+          valor: resultadoUsuario,
+          correcto: null
+        });
+
+      }else if(
+        resultadoUsuario === resultadoReal
+      ){
+
+        predicciones.push({
+          valor: resultadoUsuario,
+          correcto: true
+        });
+
+        resultadosCorrectos++;
+
+      }else{
+
+        predicciones.push({
+          valor: resultadoUsuario,
+          correcto: false
+        });
+
       }
+
+      if(
+        marcadorReal &&
+        marcadorUsuario &&
+        marcadorUsuario === marcadorReal
+      ){
+        marcadoresExactos++;
+      }
+
     }
 
-    // 🔥 nombre REAL
-    const nombreUsuario = mapaUsuariosGlobal[q.usuario] || q.usuario;
+    const nombreUsuario =
+    mapaUsuariosGlobal[
+      q.usuario
+    ] || q.usuario;
 
     datos.push({
-      usuario: nombreUsuario,
-      aciertos,
+
+      usuario:
+      nombreUsuario,
+
+      resultados:
+      resultadosCorrectos,
+
+      marcadores:
+      marcadoresExactos,
+
+      puntos:
+      resultadosCorrectos +
+      marcadoresExactos,
+
       predicciones
+
     });
+
   });
 
-  datos.sort((a, b) => b.aciertos - a.aciertos);
+  datos.sort(
+    (a,b)=>
+    b.puntos - a.puntos
+  );
 
-  crearPodium(datos.slice(0, 3));
+  crearPodium(
+    datos.slice(0,3)
+  );
 
-  if (data.premio || data.recaudado) {
+  if(
+    data.premio ||
+    data.recaudado
+  ){
+
     infoExtra.innerHTML = `
       💰 <strong>Recaudado:</strong> $${data.recaudado || 0}
       &nbsp;&nbsp;
       🏆 <strong>Premio:</strong> $${data.premio || 0}
     `;
+
   }
 
-  datos.forEach((jugador, index) => {
-    const tr = document.createElement("tr");
+  datos.forEach(
+    (jugador,index)=>{
 
-    let claseTop = "";
-    if (index === 0) claseTop = "top1";
-    else if (index === 1) claseTop = "top2";
-    else if (index === 2) claseTop = "top3";
+      const tr =
+      document.createElement(
+        "tr"
+      );
 
-    const predHtml = jugador.predicciones.map(p => `
-      <td class="${
-        p.correcto === true ? 'correcto' :
-        p.correcto === false ? 'incorrecto' :
-        'pendiente'
-      }">${p.valor ?? "-"}
-      </td>
-    `).join("");
+      let claseTop = "";
 
-    tr.className = claseTop;
+      if(index===0)
+        claseTop="top1";
 
-    tr.innerHTML = `
-      <td>${jugador.usuario}</td>
-      ${predHtml}
-      <td><strong>${jugador.aciertos}</strong></td>
-    `;
+      else if(index===1)
+        claseTop="top2";
 
-    tbody.appendChild(tr);
-  });
+      else if(index===2)
+        claseTop="top3";
+
+      const predHtml =
+      jugador.predicciones
+      .map(p=>`
+
+        <td class="${
+          p.correcto===true
+          ? "correcto"
+          : p.correcto===false
+          ? "incorrecto"
+          : "pendiente"
+        }">
+          ${p.valor ?? "-"}
+        </td>
+
+      `).join("");
+
+      tr.className =
+      claseTop;
+
+      tr.innerHTML = `
+        <td>${jugador.usuario}</td>
+        ${predHtml}
+        <td>${jugador.resultados}</td>
+        <td>${jugador.marcadores}</td>
+        <td><strong>${jugador.puntos}</strong></td>
+      `;
+
+      tbody.appendChild(tr);
+
+    }
+  );
+
 }
 
-// 🥇 PODIUM
-function crearPodium(top3) {
+// ==========================
+// PODIUM
+// ==========================
+
+function crearPodium(top3){
+
   podium.innerHTML = `
-    <div class="podium-box second">🥈 ${top3[1]?.usuario || "-"}</div>
-    <div class="podium-box first">🥇 ${top3[0]?.usuario || "-"}</div>
-    <div class="podium-box third">🥉 ${top3[2]?.usuario || "-"}</div>
+    <div class="podium-box second">
+      🥈 ${top3[1]?.usuario || "-"}
+    </div>
+
+    <div class="podium-box first">
+      🥇 ${top3[0]?.usuario || "-"}
+    </div>
+
+    <div class="podium-box third">
+      🥉 ${top3[2]?.usuario || "-"}
+    </div>
   `;
+
 }
 
-// 📊 RANKING GLOBAL
-function crearRankingGlobal() {
-  rankingContainer.innerHTML = "<h2>📊 Lider General</h2>";
+// ==========================
+// RANKING GLOBAL
+// ==========================
 
-  const tabla = document.createElement("table");
+function crearRankingGlobal(){
 
-  const datos = Object.entries(rankingGlobal)
-    .map(([nombre, puntos]) => ({ nombre, puntos }))
-    .sort((a, b) => b.puntos - a.puntos);
+  rankingContainer.innerHTML =
+  "<h2>📊 Ranking Global</h2>";
+
+  const tabla =
+  document.createElement(
+    "table"
+  );
+
+  const datos =
+  Object.entries(
+    rankingGlobal
+  )
+  .map(([nombre,puntos])=>({
+    nombre,
+    puntos
+  }))
+  .sort(
+    (a,b)=>
+    b.puntos-a.puntos
+  );
 
   tabla.innerHTML = `
     <thead>
       <tr>
         <th>Usuario</th>
-        <th>Aciertos Acumulados</th>
+        <th>Total Puntos</th>
       </tr>
     </thead>
+
     <tbody>
-      ${datos.map(d => `
+
+      ${datos.map(d=>`
+
         <tr>
           <td>${d.nombre}</td>
           <td>${d.puntos}</td>
         </tr>
+
       `).join("")}
+
     </tbody>
   `;
 
-  rankingContainer.appendChild(tabla);
+  rankingContainer.appendChild(
+    tabla
+  );
+
 }
 
-// 🔥 EJECUCIÓN CORRECTA
-async function init() {
-  await cargarUsuarios();   // 👈 PRIMERO usuarios reales
-  await cargarHistorial();  // 👈 luego historial
+
+async function init(){
+
+  await cargarUsuarios();
+
+  await cargarHistorial();
+
 }
 
 init();
