@@ -1,153 +1,447 @@
-body {
-  font-family: 'Rubik', sans-serif;
-  background: #f2f2f2;
-  margin: 0;
-  padding: 1rem;
+body{
+
+  font-family:'Rubik',sans-serif;
+
+  background:#eef3f8;
+
+  max-width:1600px;
+
+  margin:auto;
+
+  padding:1rem;
+
 }
 
 /* TITULOS */
-h1 {
-  text-align: center;
-  color: #004aad;
-  margin-bottom: 1rem;
+
+h1{
+
+  text-align:center;
+
+  color:#004aad;
+
+  margin-bottom:1.5rem;
+
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 1rem;
+h2{
+
+  text-align:center;
+
+  margin-bottom:1rem;
+
 }
 
 /* LISTA DE JORNADAS */
-#lista button {
-  background: linear-gradient(135deg, #004aad, #007bff);
-  color: white;
-  border: none;
-  padding: 1rem;
-  border-radius: 12px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 0.7rem;
-  transition: all 0.2s ease;
+
+#lista{
+
+  max-width:1000px;
+
+  margin:0 auto 30px auto;
+
 }
 
-#lista button:hover {
-  transform: scale(1.03);
-  background: linear-gradient(135deg, #00327a, #0056b3);
+#lista button{
+
+  background:linear-gradient(
+    135deg,
+    #004aad,
+    #007bff
+  );
+
+  color:white;
+
+  border:none;
+
+  padding:1rem;
+
+  border-radius:12px;
+
+  font-size:1rem;
+
+  cursor:pointer;
+
+  margin-bottom:.7rem;
+
+  transition:all .2s ease;
+
+}
+
+#lista button:hover{
+
+  transform:scale(1.03);
+
+  background:linear-gradient(
+    135deg,
+    #00327a,
+    #0056b3
+  );
+
+}
+
+/* CONTENEDOR DETALLE */
+
+#detalle{
+
+  max-width:1450px;
+
+  margin:30px auto;
+
 }
 
 /* TABLA */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  border-radius: 12px;
-  overflow: hidden;
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  background:white;
+
+  box-shadow:
+  0 4px 10px
+  rgba(0,0,0,.1);
+
+  border-radius:12px;
+
+  overflow:hidden;
+
+  display:block;
+
+  overflow-x:auto;
+
 }
 
-th, td {
-  padding: 0.7rem;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-  font-size: 0.9rem;
+th,
+td{
+
+  padding:.7rem;
+
+  text-align:center;
+
+  border-bottom:
+  1px solid #ddd;
+
+  font-size:.9rem;
+
 }
 
-th {
-  background: #004aad;
-  color: white;
+th{
+
+  background:#004aad;
+
+  color:white;
+
+  white-space:nowrap;
+
 }
 
 /* FILAS */
-tr:hover {
-  background: #f9f9f9;
+
+tr:hover{
+
+  background:#f9f9f9;
+
 }
 
-/* COLORES DE RESULTADOS */
-.correcto {
-  background: #c8e6c9;
-  font-weight: bold;
+/* RESULTADOS */
+
+.correcto{
+
+  background:#c8e6c9;
+
+  font-weight:bold;
+
 }
 
-.incorrecto {
-  background: #ffcdd2;
+.incorrecto{
+
+  background:#ffcdd2;
+
 }
 
-.lider {
-  background-color: #ffeb3b !important;
-  color: #000;
-  font-weight: bold;
-  border: 2px solid #fbc02d;
+.pendiente{
+
+  background:#eeeeee;
+
 }
 
-/* 🥇 TOP 3 */
-.top1 {
-  background: linear-gradient(90deg, #ffd700, #ffcc00);
-  font-weight: bold;
+.marcador-exacto{
+
+  background:#fff3cd;
+
+  color:#856404;
+
+  font-weight:bold;
+
 }
 
-.top2 {
-  background: linear-gradient(90deg, #c0c0c0, #d9d9d9);
-  font-weight: bold;
+.puntos-total{
+
+  background:#d4edda;
+
+  color:#155724;
+
+  font-weight:bold;
+
 }
 
-.top3 {
-  background: linear-gradient(90deg, #cd7f32, #e0a96d);
-  font-weight: bold;
+.lider{
+
+  background-color:#ffeb3b !important;
+
+  color:#000;
+
+  font-weight:bold;
+
+  border:2px solid #fbc02d;
+
 }
 
-/* BOTON VOLVER */
-button {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  width: 100%;
-  background: #004aad;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  cursor: pointer;
+/* TOP 3 */
+
+.top1{
+
+  background:
+  linear-gradient(
+    90deg,
+    #ffd700,
+    #ffcc00
+  );
+
+  font-weight:bold;
+
 }
 
-button:hover {
-  background: #00327a;
+.top2{
+
+  background:
+  linear-gradient(
+    90deg,
+    #c0c0c0,
+    #d9d9d9
+  );
+
+  font-weight:bold;
+
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  th, td {
-    font-size: 0.7rem;
-    padding: 0.4rem;
-  }
+.top3{
+
+  background:
+  linear-gradient(
+    90deg,
+    #cd7f32,
+    #e0a96d
+  );
+
+  font-weight:bold;
+
 }
 
 /* PODIUM */
-#podium {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 1rem;
-  margin-bottom: 2rem;
+
+#podium{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:flex-end;
+
+  gap:1.2rem;
+
+  margin:40px auto;
+
+  flex-wrap:wrap;
+
 }
 
-.podium-box {
-  padding: 1rem;
-  border-radius: 10px;
-  color: white;
-  font-weight: bold;
-  text-align: center;
+.podium-box{
+
+  min-width:140px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  padding:1rem;
+
+  border-radius:12px;
+
+  color:white;
+
+  font-weight:bold;
+
+  font-size:1.05rem;
+
 }
 
-.first {
-  background: gold;
-  height: 100px;
+.first{
+
+  background:gold;
+
+  height:140px;
+
 }
 
-.second {
-  background: silver;
-  height: 80px;
+.second{
+
+  background:silver;
+
+  height:110px;
+
 }
 
-.third {
-  background: #cd7f32;
-  height: 60px;
+.third{
+
+  background:#cd7f32;
+
+  height:90px;
+
+}
+
+/* INFO EXTRA */
+
+#info-extra{
+
+  font-size:1rem;
+
+  font-weight:bold;
+
+  color:#004aad;
+
+  text-align:center;
+
+  margin-bottom:15px;
+
+}
+
+/* RANKING GLOBAL */
+
+#ranking-global{
+
+  max-width:900px;
+
+  margin:40px auto;
+
+}
+
+#ranking-global h2{
+
+  text-align:center;
+
+  color:#004aad;
+
+}
+
+#ranking-global table{
+
+  width:100%;
+
+  display:table;
+
+  margin-top:15px;
+
+}
+
+/* BOTONES */
+
+button{
+
+  margin-top:1.5rem;
+
+  padding:1rem;
+
+  width:100%;
+
+  background:#004aad;
+
+  color:white;
+
+  border:none;
+
+  border-radius:10px;
+
+  font-size:1.1rem;
+
+  cursor:pointer;
+
+}
+
+button:hover{
+
+  background:#00327a;
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px){
+
+  body{
+
+    padding:.5rem;
+
+  }
+
+  table{
+
+    display:block;
+
+    overflow-x:auto;
+
+    white-space:nowrap;
+
+  }
+
+  th,
+  td{
+
+    font-size:.7rem;
+
+    padding:.4rem;
+
+  }
+
+  #podium{
+
+    gap:.5rem;
+
+  }
+
+  .podium-box{
+
+    min-width:90px;
+
+    font-size:.8rem;
+
+    padding:.6rem;
+
+  }
+
+  .first{
+
+    height:100px;
+
+  }
+
+  .second{
+
+    height:80px;
+
+  }
+
+  .third{
+
+    height:60px;
+
+  }
+
 }
