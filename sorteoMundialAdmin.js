@@ -384,40 +384,65 @@ async function actualizarTablaEstados() {
     const tr =
       document.createElement("tr")
 
-    tr.innerHTML = `
-      <td>${team}</td>
+const eliminadoPor =
+(
+stateSnap.exists()
+?
+(
+stateSnap.data().eliminadoPor?.[team]
+||
+""
+)
+:
+""
+)
 
-      <td>
+tr.innerHTML = `
+  <td>${team}</td>
 
-        <select data-team="${team}">
+  <td>
 
-          <option
-            value="activo"
-            ${estado === "activo"
-              ? "selected"
-              : ""}
-          >
-            Compitiendo
-          </option>
+    <select data-team="${team}">
 
-          <option
-            value="eliminado"
-            ${estado === "eliminado"
-              ? "selected"
-              : ""}
-          >
-            Eliminado
-          </option>
+      <option
+        value="activo"
+        ${estado === "activo"
+          ? "selected"
+          : ""}
+      >
+        Compitiendo
+      </option>
 
-        </select>
+      <option
+        value="eliminado"
+        ${estado === "eliminado"
+          ? "selected"
+          : ""}
+      >
+        Eliminado
+      </option>
 
-        <span class="estado ${estado}">
-          ${estado === "activo"
-            ? "🟢 Compitiendo"
-            : "❌ Eliminado"}
-        </span>
+    </select>
 
-      </td>
+    <span class="estado ${estado}">
+      ${estado === "activo"
+        ? "🟢 Compitiendo"
+        : "❌ Eliminado"}
+    </span>
+
+  </td>
+
+  <td>
+
+    <input
+      type="text"
+      class="inputEliminador"
+      data-team="${team}"
+      placeholder="Ej: Alemania"
+      value="${eliminadoPor}"
+    >
+
+  </td>
     `
 
     estadoEquiposBody.appendChild(tr)
@@ -433,26 +458,59 @@ guardarEstados.addEventListener(
     const selects =
       estadoEquiposBody.querySelectorAll("select")
 
+    const inputsEliminador =
+      estadoEquiposBody.querySelectorAll(".inputEliminador")
+
     const estados = {}
+
+    const eliminadoPor = {}
 
     selects.forEach((sel) => {
 
       const team =
         sel.dataset.team
 
-      estados[team] = sel.value
+      estados[team] =
+        sel.value
 
     })
 
-    await setDoc(stateRef, {
+    inputsEliminador.forEach(input => {
 
-      teamStatus: estados
+      const team =
+        input.dataset.team
 
-    }, { merge: true })
+      const ganador =
+        input.value.trim()
+
+      if(ganador){
+
+        eliminadoPor[team] =
+          ganador
+
+      }
+
+    })
+
+    await setDoc(
+      stateRef,
+      {
+
+        teamStatus: estados,
+
+        eliminadoPor: eliminadoPor
+
+      },
+      {
+        merge:true
+      }
+    )
 
     await actualizarTablaEstados()
 
-    alert("Estados actualizados")
+    alert(
+      "Estados actualizados correctamente"
+    )
 
   }
 )
