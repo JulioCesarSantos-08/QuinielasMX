@@ -1,226 +1,313 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiniela Liga MX - Iniciar sesión</title>
-  <link rel="icon" href="imagenes/logo1.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
 
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
+<meta charset="UTF-8">
 
-    .logo {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 1rem;
-    }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-    h1 {
-      color: #004aad;
-      margin-bottom: 1.5rem;
-      font-size: 1.6rem;
-    }
+<title>
+Quinielas Santos MX
+</title>
 
-    input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
+<link
+rel="icon"
+type="image/png"
+href="imagenes/logo1.png"
+/>
 
-    button {
-      width: 100%;
-      padding: 0.9rem;
-      margin-top: 0.8rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #004aad;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+/>
 
-    button:hover {
-      background-color: #00327a;
-    }
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+/>
 
-    .link {
-      display: block;
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
-      color: #004aad;
-      cursor: pointer;
-      text-decoration: underline;
-    }
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
 
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      text-align: center;
-      color: #777;
-    }
+<link
+rel="stylesheet"
+href="estilos.css"
+/>
 
-    .footer a {
-      color: #555;
-      text-decoration: none;
-      margin: 0 0.3rem;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Estilo especial para el botón de ayuda */
-    .help-btn {
-      background-color: #28a745;
-      margin-top: 1rem;
-    }
-
-    .help-btn:hover {
-      background-color: #1e7e34;
-    }
-  </style>
 </head>
+
 <body>
-  <div class="container">
-    <img src="imagenes/logo1.png" class="logo" alt="Logo">
-    <h1>Quiniela Santos MX 🏆</h1>
-    <h4 style="text-align:center; color:#555; margin-top: 0;">El correo no necesariamente debe ser real "usuario@gmail.com"</h4>
-    <h4 style="text-align:center; color:#555; margin-top: 0;">Mínimo de 6 dígitos en la contraseña!</h4>
 
-    <input type="email" id="email" placeholder="Correo electrónico" required />
-    <input type="password" id="password" placeholder="Contraseña" required />
+<div class="background">
 
-    <button onclick="login()">Iniciar sesión</button>
-    <button onclick="register()">Registrarse</button>
-    <button class="help-btn" onclick="window.open('https://youtube.com/shorts/NyhX9grnFsw?feature=share', '_blank')">❓ Ayuda</button>
+<div class="glow glow1"></div>
 
-    <span class="link" onclick="resetPassword()">¿Olvidaste tu contraseña?</span>
-  </div>
+<div class="glow glow2"></div>
 
-  <div class="footer">
-    <p>Todos los derechos reservados Santos © 2025</p>
-    <p>
-      <a href="privacidad.html">Política de privacidad</a> |
-      <a href="terminos.html">Términos y condiciones</a>
-    </p>
-  </div>
+<div class="glow glow3"></div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
-      authDomain: "rifaboletos-c1d0d.firebaseapp.com",
-      projectId: "rifaboletos-c1d0d",
-      storageBucket: "rifaboletos-c1d0d.appspot.com",
-      messagingSenderId: "27051588350",
-      appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
-    };
+<div class="loginContainer">
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<div class="loginCard">
 
-    window.login = async function () {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+<img
+src="imagenes/logo1.png"
+class="logo"
+alt="Logo"
+/>
 
-      if (!email || !password) {
-        alert("Por favor completa ambos campos.");
-        return;
-      }
+<h1>
 
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        const docRef = doc(db, "usuarios", email);
-        const docSnap = await getDoc(docRef);
+Quinielas Santos MX 🏆
 
-        let nombre;
-        if (docSnap.exists()) {
-          nombre = docSnap.data().nombre;
-        }
+</h1>
 
-        if (!nombre) {
-          nombre = prompt("Ingresa tu nombre de usuario:");
-          if (!nombre) {
-            alert("Nombre obligatorio. Cerrando sesión.");
-            return;
-          }
-          await setDoc(docRef, { nombre }, { merge: true });
-        }
+<p class="subtitulo">
 
-        localStorage.setItem("user", email);
-        localStorage.setItem("nombre", nombre);
-        window.location.href = "menu.html";
-      } catch (error) {
-        alert("Error al iniciar sesión: " + error.message);
-      }
-    };
+Mundial 2026
 
-    window.register = async function () {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+</p>
 
-      if (!email || !password) {
-        alert("Por favor completa ambos campos.");
-        return;
-      }
+<div class="mensaje">
 
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        const nombre = prompt("Ingresa tu nombre de usuario:");
-        if (!nombre) {
-          alert("Registro cancelado. El nombre es obligatorio.");
-          return;
-        }
-        await setDoc(doc(db, "usuarios", email), { nombre });
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
-      } catch (error) {
-        alert("Error al registrarse: " + error.message);
-      }
-    };
+<p>
 
-    // ✅ Restablecer contraseña
-    window.resetPassword = async function () {
-      const email = document.getElementById("email").value.trim();
-      if (!email) {
-        alert("Por favor ingresa tu correo en el campo de email.");
-        return;
-      }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Se ha enviado un enlace de restablecimiento a tu correo. Recuerda que tu correo debe existir realmente, sino a donde llegar el gmail de reestablecimiento? En la parte de Spam");
-      } catch (error) {
-        alert("Error al enviar el correo de restablecimiento: " + error.message);
-      }
-    };
-  </script>
+El correo no necesita existir realmente
+si utilizarás únicamente el acceso tradicional.
+
+</p>
+
+<p>
+
+Para iniciar con Google sí deberá existir.
+
+</p>
+
+</div>
+
+<div class="inputGroup">
+
+<label>
+
+📧 Correo electrónico
+
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="usuario@gmail.com"
+/>
+
+</div>
+
+<div class="inputGroup">
+
+<label>
+
+🔒 Contraseña
+
+</label>
+
+<input
+type="password"
+id="password"
+placeholder="********"
+/>
+
+</div>
+
+<button
+id="btnLogin"
+class="btnLogin"
+>
+
+Iniciar sesión
+
+</button>
+
+<div class="separador">
+
+<span>
+
+o
+
+</span>
+
+</div>
+
+<button
+id="btnGoogle"
+class="btnGoogle"
+>
+
+<img
+src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+class="googleIcon"
+alt=""
+>
+
+Continuar con Google
+
+</button>
+
+<button
+id="btnRegister"
+class="btnRegister"
+>
+
+Registrarse
+
+</button>
+
+<button
+id="btnHelp"
+class="btnHelp"
+>
+
+❓ Ayuda
+
+</button>
+
+<button
+id="btnReset"
+class="btnReset"
+>
+
+¿Olvidaste tu contraseña?
+
+</button>
+
+</div>
+
+<footer>
+
+<p>
+
+Todos los derechos reservados Santos © 2026
+
+</p>
+
+<div>
+
+<a href="privacidad.html">
+
+Política de privacidad
+
+</a>
+
+|
+
+<a href="terminos.html">
+
+Términos y condiciones
+
+</a>
+
+</div>
+
+</footer>
+
+</div>
+
+<div
+id="modalNombre"
+class="modal"
+>
+
+<div class="modalCard">
+
+<h2>
+
+👤 Bienvenido
+
+</h2>
+
+<p>
+
+¿Cómo quieres aparecer
+en la Quiniela?
+
+</p>
+
+<input
+type="text"
+id="nombreUsuario"
+maxlength="18"
+autocomplete="off"
+placeholder="Ejemplo: KING"
+/>
+
+<div
+id="estadoNombre"
+class="estadoNombre"
+>
+
+Escribe un nombre de usuario.
+
+</div>
+
+<div class="modalBotones">
+
+<button
+id="cancelarNombre"
+class="btnCancelarNombre"
+>
+
+Cancelar
+
+</button>
+
+<button
+id="guardarNombre"
+class="btnGuardarNombre"
+disabled
+>
+
+Continuar
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script
+type="module"
+src="firebase.js"
+></script>
+
+<script
+type="module"
+src="modal.js"
+></script>
+
+<script
+type="module"
+src="register.js"
+></script>
+
+<script
+type="module"
+src="google.js"
+></script>
+
+<script
+type="module"
+src="login.js"
+></script>
+
 </body>
+
 </html>
