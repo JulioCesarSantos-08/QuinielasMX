@@ -19,11 +19,40 @@ const contadorDiv = document.getElementById("contador-tiempo");
 const btnGuardar = document.getElementById("btn-guardar");
 
 const musica = document.getElementById("musica");
+
+const canciones = [
+  "imagenes/mundial.mp3",
+  "imagenes/mundial2.mp3",
+  "imagenes/mundial3.mp3",
+  "imagenes/mundial4.mp3"
+];
+
+let ultimaCancion = -1;
+
+function reproducirCancionAleatoria() {
+
+  let indice;
+
+  do {
+    indice = Math.floor(Math.random() * canciones.length);
+  } while (indice === ultimaCancion);
+
+  ultimaCancion = indice;
+
+  musica.src = canciones[indice];
+
+  musica.play().catch(() => {});
+}
+
+musica.addEventListener("ended", () => {
+  reproducirCancionAleatoria();
+});
+
 const silbato = document.getElementById("silbatazo");
 const errorSound = document.getElementById("bloqueadoSound");
 
 window.addEventListener("click", () => {
-  if (musica) musica.play().catch(() => {});
+  reproducirCancionAleatoria();
 }, { once: true });
 
 async function cargarPartidos() {
