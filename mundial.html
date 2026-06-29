@@ -22,9 +22,7 @@
   </div>
 </div>
 
-<audio id="musica" loop>
-  <source src="imagenes/mundial.mp3" type="audio/mpeg">
-</audio>
+<audio id="musica"></audio>
 
 <audio id="silbatazo">
   <source src="imagenes/silbato.mp3" type="audio/mpeg">
@@ -76,11 +74,9 @@
 window.addEventListener("load", () => {
   const musica = document.getElementById("musica");
 
-  document.body.addEventListener("click", () => {
-    musica.play().then(() => {
-      iniciarApp();
-    }).catch(()=>{});
-  }, { once:true });
+document.body.addEventListener("click", () => {
+  iniciarApp();
+}, { once:true });
 });
 
 function iniciarApp(){
