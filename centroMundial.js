@@ -45,6 +45,10 @@ let participants = {}
 let state = {}
 let partidosMundial = []
 
+let mesesDisponibles = []
+
+let indiceMesActual = 0
+
 function sanitize(user){
 
   return user
@@ -80,6 +84,62 @@ function checkSession(){
 
 }
 
+function obtenerMesesDisponibles(){
+
+  const mapa = new Map()
+
+  partidosMundial.forEach(partido=>{
+
+    const fecha =
+    new Date(partido.fecha)
+
+    const year =
+    fecha.getFullYear()
+
+    const month =
+    fecha.getMonth()
+
+    const key =
+    `${year}-${month}`
+
+    if(!mapa.has(key)){
+
+      mapa.set(
+        key,
+        {
+          year,
+          month
+        }
+      )
+
+    }
+
+  })
+
+  mesesDisponibles =
+  Array.from(mapa.values())
+
+  const hoy =
+  new Date()
+
+  const indice =
+  mesesDisponibles.findIndex(m=>
+
+    m.year===hoy.getFullYear()
+
+    &&
+
+    m.month===hoy.getMonth()
+
+  )
+
+  indiceMesActual =
+  indice>=0
+  ? indice
+  : 0
+
+}
+
 async function cargarPartidos(){
 
   try{
@@ -92,6 +152,8 @@ async function cargarPartidos(){
 
     partidosMundial =
     data.partidos || []
+
+    obtenerMesesDisponibles()
 
   }
 
@@ -368,6 +430,15 @@ function renderCalendario(){
   const partidosSeleccionados =
   document.getElementById("partidosSeleccionados")
 
+  const tituloMes =
+document.getElementById("tituloMes")
+
+const btnAnterior =
+document.getElementById("mesAnterior")
+
+const btnSiguiente =
+document.getElementById("mesSiguiente")
+
   if(
     !calendarioGrid ||
     partidosMundial.length===0
@@ -388,8 +459,64 @@ function renderCalendario(){
     }
   )
 
-  const year = 2026
-  const month = 5
+const year =
+mesesDisponibles[indiceMesActual].year
+
+const month =
+mesesDisponibles[indiceMesActual].month
+
+const nombreMes =
+
+new Date(year,month)
+.toLocaleDateString(
+"es-MX",
+{
+month:"long",
+year:"numeric"
+}
+)
+
+tituloMes.textContent =
+
+nombreMes.charAt(0).toUpperCase()
+
++
+
+nombreMes.slice(1)
+
+btnAnterior.disabled =
+indiceMesActual===0
+
+btnSiguiente.disabled =
+indiceMesActual===
+mesesDisponibles.length-1
+
+btnAnterior.onclick = ()=>{
+
+  if(indiceMesActual>0){
+
+    indiceMesActual--
+
+    renderCalendario()
+
+  }
+
+}
+
+btnSiguiente.onclick = ()=>{
+
+  if(
+    indiceMesActual<
+    mesesDisponibles.length-1
+  ){
+
+    indiceMesActual++
+
+    renderCalendario()
+
+  }
+
+}
 
   const primerDia =
   new Date(year,month,1)
@@ -421,18 +548,22 @@ function renderCalendario(){
     dia++
   ){
 
-    const fecha =
-    `2026-06-${String(dia).padStart(2,"0")}`
+const fecha =
+
+`${year}-${String(month+1).padStart(2,"0")}-${String(dia).padStart(2,"0")}`
 
     const juegos =
     partidosMundial.filter(
       p=>p.fecha===fecha
     )
 
-    const esHoy =
-    hoy.getFullYear()===2026 &&
-    hoy.getMonth()===5 &&
-    hoy.getDate()===dia
+const esHoy =
+
+hoy.getFullYear()===year &&
+
+hoy.getMonth()===month &&
+
+hoy.getDate()===dia
 
     html += `
 
@@ -450,19 +581,31 @@ function renderCalendario(){
         </div>
 
         ${
-          juegos
-          .slice(0,2)
-          .map(
-            p=>`
-            <div class="partidoMini">
-              ${p.local}
-              vs
-              ${p.visitante}
-            </div>
-            `
-          )
-          .join("")
-        }
+  juegos
+  .slice(0,2)
+  .map(
+    p=>`
+    <div class="partidoMini">
+      ${p.local}
+      vs
+      ${p.visitante}
+    </div>
+    `
+  )
+  .join("")
+}
+
+${
+  juegos.length>2
+  ?
+  `
+  <div class="partidoMini">
+    +${juegos.length-2} partidos
+  </div>
+  `
+  :
+  ""
+}
 
       </div>
 
