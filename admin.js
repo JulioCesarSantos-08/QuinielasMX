@@ -118,6 +118,8 @@ async function enviarNotificacionGanadores(ganadores) {
     }
   } catch (error) {
     console.error(error);
+
+throw error;
   }
 }
 
