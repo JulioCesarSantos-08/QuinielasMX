@@ -3,178 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>16Avos de Final - Próximamente</title>
+  <title>8Avos de Final - Próximamente</title>
   <link rel="icon" href="imagenes/logo1.png">
+
   <style>
-    :root {
-      --azul-santos: #0047BA;
-      --azul-oscuro: #002D73;
-      --dorado: #FFD700;
-      --blanco: #ffffff;
-      --gris: #ddd;
+    :root{
+      --azul-santos:#0047BA;
+      --azul-oscuro:#002D73;
+      --dorado:#FFD700;
+      --blanco:#ffffff;
+      --gris:#dddddd;
+      --verde:#22c55e;
     }
 
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      color: var(--blanco);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-      background: linear-gradient(120deg, var(--azul-oscuro), var(--azul-santos), var(--azul-oscuro));
-      background-size: 200% 200%;
-      animation: moveBackground 8s ease-in-out infinite;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    /* Movimiento del fondo */
-    @keyframes moveBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    body{
+      font-family:'Poppins',sans-serif;
+      color:var(--blanco);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      overflow:hidden;
+      position:relative;
+      text-align:center;
+      background:linear-gradient(120deg,#001b4d,#0047BA,#001b4d);
+      background-size:250% 250%;
+      animation:fondo 10s ease infinite;
     }
 
-    /* Efecto de rayo dorado que cruza la pantalla */
-    .light-line {
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent 0%, rgba(255, 215, 0, 0.3) 50%, transparent 100%);
-      animation: moveLight 6s linear infinite;
-      filter: blur(20px);
+    @keyframes fondo{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
     }
 
-    @keyframes moveLight {
-      0% { left: -150%; }
-      50% { left: 100%; }
-      100% { left: 150%; }
+    .light-line{
+      position:absolute;
+      left:-150%;
+      top:0;
+      width:50%;
+      height:100%;
+      background:linear-gradient(120deg,transparent,rgba(255,215,0,.35),transparent);
+      filter:blur(20px);
+      animation:luz 6s linear infinite;
     }
 
-    /* Ruleta decorativa de fondo */
-    .wheel {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 280px;
-      height: 280px;
-      margin: -140px 0 0 -140px;
-      border-radius: 50%;
-      border: 8px solid var(--dorado);
-      animation: spin 10s linear infinite;
-      opacity: 0.1;
+    @keyframes luz{
+      0%{left:-150%;}
+      100%{left:150%;}
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    .wheel{
+      position:absolute;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      border:8px solid rgba(255,215,0,.35);
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      animation:girar 12s linear infinite;
+      opacity:.12;
     }
 
-    .logo {
-      width: 120px;
-      animation: float 3s ease-in-out infinite;
-      z-index: 2;
+    @keyframes girar{
+      from{transform:translate(-50%,-50%) rotate(0deg);}
+      to{transform:translate(-50%,-50%) rotate(360deg);}
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    .logo{
+      width:130px;
+      margin-bottom:18px;
+      animation:flotar 3s ease-in-out infinite;
+      z-index:2;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-top: 15px;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-      z-index: 2;
+    @keyframes flotar{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-10px);
+      }
     }
 
-    p {
-      max-width: 90%;
-      margin: 15px auto 25px;
-      color: var(--gris);
-      font-size: 1rem;
-      line-height: 1.5;
-      z-index: 2;
+    .contenedor{
+      z-index:5;
+      width:min(95%,900px);
+      padding:30px;
+      backdrop-filter:blur(10px);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:25px;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
     }
 
-    .spoilers {
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      color: var(--dorado);
-      font-weight: bold;
-      font-size: 1rem;
-      animation: fadeIn 2s ease-in-out;
-      z-index: 2;
+    h1{
+      font-size:2.2rem;
+      margin-bottom:10px;
+      text-shadow:0 4px 10px rgba(0,0,0,.5);
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
+    h2{
+      color:var(--dorado);
+      margin-bottom:18px;
+      font-size:1.4rem;
     }
 
-    .btn {
-      background-color: var(--dorado);
-      color: #222;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      z-index: 2;
+    .descripcion{
+      font-size:1.05rem;
+      color:#f2f2f2;
+      line-height:1.7;
+      margin-bottom:25px;
     }
 
-    .btn:hover {
-      background-color: #ffde59;
-      transform: translateY(-2px);
+    .fecha{
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:12px;
+      background:rgba(255,215,0,.15);
+      color:var(--dorado);
+      font-weight:bold;
+      margin-bottom:30px;
+      border:1px solid rgba(255,215,0,.35);
     }
 
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.8rem;
-      color: #ccc;
-      z-index: 2;
+    .tituloCuenta{
+      font-size:1.3rem;
+      margin-bottom:18px;
+      font-weight:bold;
     }
 
-    /* Responsivo */
-    @media (max-width: 600px) {
-      h1 { font-size: 1.5rem; }
-      p { font-size: 0.9rem; }
-      .logo { width: 100px; }
-      .btn { padding: 10px 20px; font-size: 0.9rem; }
-      .wheel { width: 220px; height: 220px; margin: -110px 0 0 -110px; }
+    .contador{
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+      margin-bottom:30px;
     }
+
+    .box{
+      width:120px;
+      padding:20px 10px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      transition:.3s;
+      animation:latido 1.5s infinite;
+    }
+
+    @keyframes latido{
+      0%,100%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.05);
+      }
+    }
+
+    .numero{
+      font-size:2.8rem;
+      font-weight:bold;
+      color:var(--dorado);
+      line-height:1;
+    }
+
+    .texto{
+      margin-top:10px;
+      font-size:.95rem;
+      color:#ddd;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .spoilers{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:15px;
+      margin:30px 0;
+    }
+
+    .spoiler{
+      padding:12px 18px;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-weight:bold;
+      color:var(--dorado);
+    }
+
+    #mensajeFinal{
+      display:none;
+      margin-top:20px;
+      color:var(--verde);
+      font-size:1.4rem;
+      font-weight:bold;
+      animation:parpadear .8s infinite;
+    }
+
+    @keyframes parpadear{
+      50%{
+        opacity:.3;
+      }
+    }
+
+    .btn{
+      display:inline-block;
+      margin-top:30px;
+      padding:14px 28px;
+      background:var(--dorado);
+      color:#111;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:bold;
+      transition:.3s;
+    }
+
+    .btn:hover{
+      transform:translateY(-3px);
+      background:#ffe44f;
+    }
+
+    footer{
+      position:absolute;
+      bottom:15px;
+      color:#ccc;
+      font-size:.85rem;
+      z-index:5;
+    }
+
+    @media(max-width:700px){
+
+      .contenedor{
+        width:95%;
+        padding:20px;
+      }
+
+      h1{
+        font-size:1.6rem;
+      }
+
+      h2{
+        font-size:1.2rem;
+      }
+
+      .contador{
+        gap:10px;
+      }
+
+      .box{
+        width:90px;
+        padding:15px 5px;
+      }
+
+      .numero{
+        font-size:2rem;
+      }
+
+      .texto{
+        font-size:.75rem;
+      }
+
+      .logo{
+        width:100px;
+      }
+
+    }
+
   </style>
 </head>
 <body>
-  <div class="light-line"></div>
-  <div class="wheel"></div>
-  <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
-  <h1>🎡 ¡La Ruleta de los 8Avos está por comenzar! ⚽</h1>
-  <h2>Costo de entrada: $100</h2>
-  <p>Muy pronto podrás girar la ruleta y descubrir qué equipo te tocará.<br>
-     32 equipos… solo uno se llevará la gloria 🏆<BR>
-     dia ---- Hora ----</p>
 
-  <div class="spoilers">
-    <div>🔹 16 participantes</div>
-    <div>🔹 16 equipos</div>
-    <div>🔹 1 ganador</div>
-  </div>
+<div class="light-line"></div>
+<div class="wheel"></div>
 
-  <a href="menu.html" class="btn">Regresar al menú</a>
+<div class="contenedor">
 
-  <footer>© 2025 Quiniela Santos MX | Octavos de Final próximamente</footer>
+    <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
+
+    <h1>🎡 ¡La Ruleta de los Octavos de Final está por comenzar! ⚽</h1>
+
+    <h2>Costo de entrada: $100 MXN</h2>
+
+    <p class="descripcion">
+        Muy pronto podrás girar la ruleta y descubrir qué selección nacional será tuya durante los Octavos de Final.<br><br>
+        Solo habrá <b>16 equipos</b>, <b>16 participantes</b> y únicamente <b>1 campeón</b>. 🏆
+    </p>
+
+    <div class="fecha">
+        📅 Apertura oficial: <b>Viernes 03 de Julio de 2026 • 22:00 hrs</b>
+    </div>
+
+    <div class="tituloCuenta">
+        ⏳ Tiempo restante para abrir la ruleta
+    </div>
+
+    <div class="contador">
+
+        <div class="box">
+            <div class="numero" id="dias">00</div>
+            <div class="texto">Días</div>
+        </div>
+
+        <div class="box">
+            <div class="numero" id="horas">00</div>
+            <div class="texto">Horas</div>
+        </div>
+
+        <div class="box">
+            <div class="numero" id="minutos">00</div>
+            <div class="texto">Minutos</div>
+        </div>
+
+        <div class="box">
+            <div class="numero" id="segundos">00</div>
+            <div class="texto">Segundos</div>
+        </div>
+
+    </div>
+
+    <div class="spoilers">
+
+        <div class="spoiler">🎯 16 Participantes</div>
+
+        <div class="spoiler">⚽ 16 Equipos</div>
+
+        <div class="spoiler">🏆 1 Campeón</div>
+
+    </div>
+
+    <div id="mensajeFinal">
+        🎉 ¡La Ruleta ya está disponible! Redireccionando...
+    </div>
+
+    <a href="menu.html" class="btn">
+        Regresar al menú
+    </a>
+
+</div>
+
+<footer>
+© 2026 Quiniela Santos MX | Octavos de Final
+</footer>
+
+<script>
+
+const fechaApertura = new Date(2026,6,3,22,0,0);
+
+const dias=document.getElementById("dias");
+const horas=document.getElementById("horas");
+const minutos=document.getElementById("minutos");
+const segundos=document.getElementById("segundos");
+const mensaje=document.getElementById("mensajeFinal");
+
+function formato(numero){
+    return numero.toString().padStart(2,"0");
+}
+
+function actualizarCuenta(){
+
+    const ahora=new Date();
+
+    const diferencia=fechaApertura-ahora;
+
+    if(diferencia<=0){
+
+        dias.textContent="00";
+        horas.textContent="00";
+        minutos.textContent="00";
+        segundos.textContent="00";
+
+        mensaje.style.display="block";
+
+        clearInterval(intervalo);
+
+        setTimeout(()=>{
+            window.location.replace("ruleta16s.html");
+        },2500);
+
+        return;
+
+    }
+
+    const totalSegundos=Math.floor(diferencia/1000);
+
+    const d=Math.floor(totalSegundos/(60*60*24));
+
+    const h=Math.floor((totalSegundos%(60*60*24))/(60*60));
+
+    const m=Math.floor((totalSegundos%(60*60))/60);
+
+    const s=totalSegundos%60;
+
+    dias.textContent=formato(d);
+
+    horas.textContent=formato(h);
+
+    minutos.textContent=formato(m);
+
+    segundos.textContent=formato(s);
+
+}
+
+actualizarCuenta();
+
+const intervalo=setInterval(actualizarCuenta,1000);
+
+if(new Date()>=fechaApertura){
+    window.location.replace("ruleta16s.html");
+}
+
+</script>
+
 </body>
 </html>
