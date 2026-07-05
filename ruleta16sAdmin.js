@@ -180,7 +180,7 @@ for(
 
 let i=1;
 
-i<=16;
+i<=8;
 
 i++
 
@@ -320,11 +320,11 @@ equipos.querySelectorAll("input")
 
 .filter(Boolean)
 
-if(lista.length!==16){
+if(lista.length!==8){
 
 alert(
 
-"Debes ingresar exactamente 16 equipos"
+"Debes ingresar exactamente 8 equipos"
 
 )
 
