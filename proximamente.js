@@ -6,10 +6,10 @@ const estado=document.getElementById("estado")
 const audio=document.getElementById("bgMusic")
 
 const playlistOriginal=[
-"imagenes/Mundial.mp3",
-"imagenes/Mundial2.mp3",
-"imagenes/Mundial3.mp3",
-"imagenes/Mundial4.mp3"
+"imagenes/mundial.mp3",
+"imagenes/mundial2.mp3",
+"imagenes/mundial3.mp3",
+"imagenes/mundial4.mp3"
 ]
 
 let playlist=[]
@@ -69,11 +69,7 @@ iniciarMusica
 
 }
 
-try{
-
-reproducirSiguiente()
-
-}catch{
+reproducirSiguiente().catch(()=>{
 
 document.addEventListener(
 "click",
@@ -87,7 +83,7 @@ iniciarMusica,
 {once:true}
 )
 
-}
+})
 
 const objetivo=new Date(
 "2026-07-08T20:30:00"
