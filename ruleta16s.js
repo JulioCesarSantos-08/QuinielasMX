@@ -48,8 +48,6 @@ const tablaBody = document.getElementById("tablaBody")
 
 const misEquipos = document.getElementById("misEquipos")
 
-const musicToggle = document.getElementById("musicToggle")
-
 const themeToggle = document.getElementById("themeToggle")
 
 const toast = document.getElementById("toast")
@@ -105,6 +103,79 @@ let state = {}
 let participants = {}
 
 let spinning = false
+
+const playlistOriginal=[
+
+"imagenes/Mundial.mp3",
+
+"imagenes/Mundial2.mp3",
+
+"imagenes/Mundial3.mp3",
+
+"imagenes/Mundial4.mp3"
+
+]
+
+let playlist=[]
+
+function mezclarCanciones(){
+
+playlist=[...playlistOriginal]
+
+for(
+
+let i=playlist.length-1;
+
+i>0;
+
+i--
+
+){
+
+const j=Math.floor(
+
+Math.random()*(i+1)
+
+)
+
+;[playlist[i],playlist[j]]=[
+
+playlist[j],
+
+playlist[i]
+
+]
+
+}
+
+}
+
+async function reproducirSiguiente(){
+
+if(playlist.length===0){
+
+mezclarCanciones()
+
+}
+
+audio.src=playlist.shift()
+
+try{
+
+await audio.play()
+
+}catch{}
+
+}
+
+audio.addEventListener(
+
+"ended",
+
+reproducirSiguiente
+
+)
+audio.volume=0.30
 
 /* ===========================
       UTILIDADES
@@ -209,54 +280,6 @@ isLight?"☀️":"🌙"
 }
 
 )
-
-musicToggle.addEventListener(
-
-"click",
-
-async()=>{
-
-if(audio.paused){
-
-await audio.play()
-
-musicToggle.textContent="🔊"
-
-localStorage.setItem("music","on")
-
-}else{
-
-audio.pause()
-
-musicToggle.textContent="🎵"
-
-localStorage.setItem("music","off")
-
-}
-
-}
-
-)
-
-async function restoreMusic(){
-
-const music=
-
-localStorage.getItem("music")
-
-if(music==="on"){
-
-try{
-
-await audio.play()
-
-musicToggle.textContent="🔊"
-
-}catch{}
-
-}
-
-}
 
 function checkSession(){
 
@@ -755,7 +778,7 @@ return
 
 msg.textContent=
 
-"🎡 Girando ruleta..."
+"🎡 Girando..."
 
 await animateWheel(
 
@@ -771,7 +794,7 @@ selected
 
 msg.textContent=
 
-`🏆 ${selected}`
+`🏆 Equipo asignado: ${selected}`
 
 showToast(
 
@@ -1159,10 +1182,59 @@ async function init(){
 
 loadTheme()
 
-restoreMusic()
+mezclarCanciones()
 
 if(!checkSession())return
 
+const iniciarMusica=()=>{
+
+reproducirSiguiente()
+
+document.removeEventListener(
+
+"click",
+
+iniciarMusica
+
+)
+
+document.removeEventListener(
+
+"touchstart",
+
+iniciarMusica
+
+)
+
+}
+
+try{
+
+await reproducirSiguiente()
+
+}catch{
+
+document.addEventListener(
+
+"click",
+
+iniciarMusica,
+
+{once:true}
+
+)
+
+document.addEventListener(
+
+"touchstart",
+
+iniciarMusica,
+
+{once:true}
+
+)
+
+}
 const settingsSnap=
 
 await getDoc(
