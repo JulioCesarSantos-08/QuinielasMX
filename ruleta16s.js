@@ -1186,21 +1186,53 @@ loadTheme()
 
 mezclarCanciones()
 
-reproducirSiguiente().catch(()=>{
-
 const iniciarMusica=()=>{
 
-reproducirSiguiente()
+reproducirSiguiente().catch(()=>{})
 
-document.removeEventListener("click",iniciarMusica)
+eventos.forEach(evento=>{
 
-document.removeEventListener("touchstart",iniciarMusica)
+document.removeEventListener(
+
+evento,
+
+iniciarMusica
+
+)
+
+})
 
 }
 
-document.addEventListener("click",iniciarMusica,{once:true})
+const eventos=[
 
-document.addEventListener("touchstart",iniciarMusica,{once:true})
+"click",
+
+"touchstart",
+
+"touchend",
+
+"pointerdown",
+
+"mousedown",
+
+"keydown",
+
+"scroll"
+
+]
+
+eventos.forEach(evento=>{
+
+document.addEventListener(
+
+evento,
+
+iniciarMusica,
+
+{once:true,passive:true}
+
+)
 
 })
 
