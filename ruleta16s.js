@@ -158,7 +158,13 @@ mezclarCanciones()
 
 }
 
+audio.pause()
+
+audio.currentTime=0
+
 audio.src=playlist.shift()
+
+audio.load()
 
 await audio.play()
 
@@ -1180,39 +1186,28 @@ loadTheme()
 
 mezclarCanciones()
 
-if(!checkSession())return
+reproducirSiguiente().catch(()=>{
 
 const iniciarMusica=()=>{
 
 reproducirSiguiente()
 
-document.removeEventListener(
-"click",
-iniciarMusica
-)
+document.removeEventListener("click",iniciarMusica)
 
-document.removeEventListener(
-"touchstart",
-iniciarMusica
-)
+document.removeEventListener("touchstart",iniciarMusica)
 
 }
 
-reproducirSiguiente().catch(()=>{
+document.addEventListener("click",iniciarMusica,{once:true})
 
-document.addEventListener(
-"click",
-iniciarMusica,
-{once:true}
-)
-
-document.addEventListener(
-"touchstart",
-iniciarMusica,
-{once:true}
-)
+document.addEventListener("touchstart",iniciarMusica,{once:true})
 
 })
+
+if(!checkSession())return
+
+
+
 const settingsSnap=
 
 await getDoc(
