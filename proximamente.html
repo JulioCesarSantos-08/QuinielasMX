@@ -1,427 +1,395 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>8Avos de Final - Próximamente</title>
-  <link rel="icon" href="imagenes/logo1.png">
 
-  <style>
-    :root{
-      --azul-santos:#0047BA;
-      --azul-oscuro:#002D73;
-      --dorado:#FFD700;
-      --blanco:#ffffff;
-      --gris:#dddddd;
-      --verde:#22c55e;
-    }
+<meta charset="UTF-8">
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-    body{
-      font-family:'Poppins',sans-serif;
-      color:var(--blanco);
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
-      overflow:hidden;
-      position:relative;
-      text-align:center;
-      background:linear-gradient(120deg,#001b4d,#0047BA,#001b4d);
-      background-size:250% 250%;
-      animation:fondo 10s ease infinite;
-    }
+<title>
 
-    @keyframes fondo{
-      0%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
-      100%{background-position:0% 50%;}
-    }
+Quinielas Santos | Próximamente
 
-    .light-line{
-      position:absolute;
-      left:-150%;
-      top:0;
-      width:50%;
-      height:100%;
-      background:linear-gradient(120deg,transparent,rgba(255,215,0,.35),transparent);
-      filter:blur(20px);
-      animation:luz 6s linear infinite;
-    }
+</title>
 
-    @keyframes luz{
-      0%{left:-150%;}
-      100%{left:150%;}
-    }
+<link
+rel="icon"
+href="imagenes/mundialsantos.png"
+type="image/png"
+>
 
-    .wheel{
-      position:absolute;
-      width:320px;
-      height:320px;
-      border-radius:50%;
-      border:8px solid rgba(255,215,0,.35);
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      animation:girar 12s linear infinite;
-      opacity:.12;
-    }
+<link
+rel="stylesheet"
+href="proximamente.css"
+>
 
-    @keyframes girar{
-      from{transform:translate(-50%,-50%) rotate(0deg);}
-      to{transform:translate(-50%,-50%) rotate(360deg);}
-    }
-
-    .logo{
-      width:130px;
-      margin-bottom:18px;
-      animation:flotar 3s ease-in-out infinite;
-      z-index:2;
-    }
-
-    @keyframes flotar{
-      0%,100%{
-        transform:translateY(0);
-      }
-      50%{
-        transform:translateY(-10px);
-      }
-    }
-
-    .contenedor{
-      z-index:5;
-      width:min(95%,900px);
-      padding:30px;
-      backdrop-filter:blur(10px);
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:25px;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-    }
-
-    h1{
-      font-size:2.2rem;
-      margin-bottom:10px;
-      text-shadow:0 4px 10px rgba(0,0,0,.5);
-    }
-
-    h2{
-      color:var(--dorado);
-      margin-bottom:18px;
-      font-size:1.4rem;
-    }
-
-    .descripcion{
-      font-size:1.05rem;
-      color:#f2f2f2;
-      line-height:1.7;
-      margin-bottom:25px;
-    }
-
-    .fecha{
-      display:inline-block;
-      padding:10px 18px;
-      border-radius:12px;
-      background:rgba(255,215,0,.15);
-      color:var(--dorado);
-      font-weight:bold;
-      margin-bottom:30px;
-      border:1px solid rgba(255,215,0,.35);
-    }
-
-    .tituloCuenta{
-      font-size:1.3rem;
-      margin-bottom:18px;
-      font-weight:bold;
-    }
-
-    .contador{
-      display:flex;
-      justify-content:center;
-      gap:15px;
-      flex-wrap:wrap;
-      margin-bottom:30px;
-    }
-
-    .box{
-      width:120px;
-      padding:20px 10px;
-      border-radius:18px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      transition:.3s;
-      animation:latido 1.5s infinite;
-    }
-
-    @keyframes latido{
-      0%,100%{
-        transform:scale(1);
-      }
-      50%{
-        transform:scale(1.05);
-      }
-    }
-
-    .numero{
-      font-size:2.8rem;
-      font-weight:bold;
-      color:var(--dorado);
-      line-height:1;
-    }
-
-    .texto{
-      margin-top:10px;
-      font-size:.95rem;
-      color:#ddd;
-      text-transform:uppercase;
-      letter-spacing:1px;
-    }
-
-    .spoilers{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:15px;
-      margin:30px 0;
-    }
-
-    .spoiler{
-      padding:12px 18px;
-      border-radius:12px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      font-weight:bold;
-      color:var(--dorado);
-    }
-
-    #mensajeFinal{
-      display:none;
-      margin-top:20px;
-      color:var(--verde);
-      font-size:1.4rem;
-      font-weight:bold;
-      animation:parpadear .8s infinite;
-    }
-
-    @keyframes parpadear{
-      50%{
-        opacity:.3;
-      }
-    }
-
-    .btn{
-      display:inline-block;
-      margin-top:30px;
-      padding:14px 28px;
-      background:var(--dorado);
-      color:#111;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:bold;
-      transition:.3s;
-    }
-
-    .btn:hover{
-      transform:translateY(-3px);
-      background:#ffe44f;
-    }
-
-    footer{
-      position:absolute;
-      bottom:15px;
-      color:#ccc;
-      font-size:.85rem;
-      z-index:5;
-    }
-
-    @media(max-width:700px){
-
-      .contenedor{
-        width:95%;
-        padding:20px;
-      }
-
-      h1{
-        font-size:1.6rem;
-      }
-
-      h2{
-        font-size:1.2rem;
-      }
-
-      .contador{
-        gap:10px;
-      }
-
-      .box{
-        width:90px;
-        padding:15px 5px;
-      }
-
-      .numero{
-        font-size:2rem;
-      }
-
-      .texto{
-        font-size:.75rem;
-      }
-
-      .logo{
-        width:100px;
-      }
-
-    }
-
-  </style>
 </head>
+
 <body>
 
-<div class="light-line"></div>
-<div class="wheel"></div>
+<audio
+id="bgMusic"
+></audio>
 
-<div class="contenedor">
+<div class="background">
 
-    <img src="imagenes/logo1.png" alt="Logo Quiniela Santos MX" class="logo">
+<div class="overlay"></div>
 
-    <h1>🎡 ¡La Ruleta de los Octavos de Final está por comenzar! ⚽</h1>
+<div class="particles">
 
-    <h2>Costo de entrada: $100 MXN</h2>
-
-    <p class="descripcion">
-        Muy pronto podrás girar la ruleta y descubrir qué selección nacional será tuya durante los Octavos de Final.<br><br>
-        Solo habrá <b>16 equipos</b>, <b>16 participantes</b> y únicamente <b>1 campeón</b>. 🏆
-    </p>
-
-    <div class="fecha">
-        📅 Apertura oficial: <b>Viernes 03 de Julio de 2026 • 22:00 hrs</b>
-    </div>
-
-    <div class="tituloCuenta">
-        ⏳ Tiempo restante para abrir la ruleta
-    </div>
-
-    <div class="contador">
-
-        <div class="box">
-            <div class="numero" id="dias">00</div>
-            <div class="texto">Días</div>
-        </div>
-
-        <div class="box">
-            <div class="numero" id="horas">00</div>
-            <div class="texto">Horas</div>
-        </div>
-
-        <div class="box">
-            <div class="numero" id="minutos">00</div>
-            <div class="texto">Minutos</div>
-        </div>
-
-        <div class="box">
-            <div class="numero" id="segundos">00</div>
-            <div class="texto">Segundos</div>
-        </div>
-
-    </div>
-
-    <div class="spoilers">
-
-        <div class="spoiler">🎯 16 Participantes</div>
-
-        <div class="spoiler">⚽ 16 Equipos</div>
-
-        <div class="spoiler">🏆 1 Campeón</div>
-
-    </div>
-
-    <div id="mensajeFinal">
-        🎉 ¡La Ruleta ya está disponible! Redireccionando...
-    </div>
-
-    <a href="menu.html" class="btn">
-        Regresar al menú
-    </a>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
 
 </div>
 
-<footer>
-© 2026 Quiniela Santos MX | Octavos de Final
-</footer>
+</div>
 
-<script>
+<header>
 
-const fechaApertura = new Date(2026,6,3,22,0,0);
+<div class="brand">
 
-const dias=document.getElementById("dias");
-const horas=document.getElementById("horas");
-const minutos=document.getElementById("minutos");
-const segundos=document.getElementById("segundos");
-const mensaje=document.getElementById("mensajeFinal");
+<img
+src="imagenes/mundialsantos.png"
+>
 
-function formato(numero){
-    return numero.toString().padStart(2,"0");
-}
+<div>
 
-function actualizarCuenta(){
+<h1>
 
-    const ahora=new Date();
+Quinielas Santos
 
-    const diferencia=fechaApertura-ahora;
+</h1>
 
-    if(diferencia<=0){
+<p>
 
-        dias.textContent="00";
-        horas.textContent="00";
-        minutos.textContent="00";
-        segundos.textContent="00";
+Sorteo Oficial · Octavos de Final
 
-        mensaje.style.display="block";
+</p>
 
-        clearInterval(intervalo);
+</div>
 
-        setTimeout(()=>{
-            window.location.replace("ruleta16s.html");
-        },2500);
+</div>
 
-        return;
+</header>
 
-    }
+<main>
 
-    const totalSegundos=Math.floor(diferencia/1000);
+<section class="hero">
 
-    const d=Math.floor(totalSegundos/(60*60*24));
+<h2>
 
-    const h=Math.floor((totalSegundos%(60*60*24))/(60*60));
+🏆 EL SORTEO ESTÁ POR COMENZAR
 
-    const m=Math.floor((totalSegundos%(60*60))/60);
+</h2>
 
-    const s=totalSegundos%60;
+<p>
 
-    dias.textContent=formato(d);
+Prepárate para descubrir qué selección representará a cada participante.
 
-    horas.textContent=formato(h);
+</p>
 
-    minutos.textContent=formato(m);
+</section>
 
-    segundos.textContent=formato(s);
+<section class="contador">
 
-}
+<div class="box">
 
-actualizarCuenta();
+<div
+id="dias"
+class="numero"
+>
 
-const intervalo=setInterval(actualizarCuenta,1000);
+00
 
-if(new Date()>=fechaApertura){
-    window.location.replace("ruleta16s.html");
-}
+</div>
 
-</script>
+<span>
+
+Días
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="horas"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Horas
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="minutos"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Minutos
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="segundos"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Segundos
+
+</span>
+
+</div>
+
+</section>
+
+<section class="cards">
+
+<div class="card">
+
+<div class="icon">
+
+📅
+
+</div>
+
+<h3>
+
+Fecha
+
+</h3>
+
+<p>
+
+Miércoles
+
+</p>
+
+<strong>
+
+08 de julio de 2026
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+🕣
+
+</div>
+
+<h3>
+
+Hora
+
+</h3>
+
+<p>
+
+20:30 hrs
+
+</p>
+
+<strong>
+
+Hora de México
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+💵
+
+</div>
+
+<h3>
+
+Costo
+
+</h3>
+
+<p>
+
+Entrada Oficial
+
+</p>
+
+<strong>
+
+$100 MXN
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+🎟
+
+</div>
+
+<h3>
+
+Incluye
+
+</h3>
+
+<p>
+
+1 Entrada
+
+</p>
+
+<strong>
+
+1 Giro Oficial
+
+</strong>
+
+</div>
+
+</section>
+
+<section class="info">
+
+<div class="infoCard">
+
+<h2>
+
+⚽ Información
+
+</h2>
+
+<ul>
+
+<li>
+
+8 Participantes
+
+</li>
+
+<li>
+
+8 Equipos
+
+</li>
+
+<li>
+
+Asignación totalmente aleatoria
+
+</li>
+
+<li>
+
+Cada participante recibe un solo equipo
+
+</li>
+
+<li>
+
+El ganador será quien conserve al Campeón del Mundial
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="infoCard">
+
+<h2>
+
+📢 Aviso
+
+</h2>
+
+<p>
+
+La ruleta permanecerá cerrada hasta que finalice la cuenta regresiva.
+
+Cuando el reloj llegue a cero esta página abrirá automáticamente el sorteo oficial.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="redirect">
+
+<div
+id="estado"
+class="estado"
+>
+
+Esperando inicio del sorteo...
+
+</div>
+
+<a
+href="menu.html"
+class="volver"
+>
+
+⬅ Volver al menú
+
+</a>
+
+</section>
+
+</main>
+
+<script
+src="proximamente.js"
+></script>
 
 </body>
+
 </html>
