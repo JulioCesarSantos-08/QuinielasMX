@@ -812,17 +812,7 @@ spin.addEventListener(
 
 "click",
 
-async()=>{
-
-try{
-
-await reproducirSiguiente()
-
-}catch{}
-
-spinWheel()
-
-}
+spinWheel
 
 )
 /* ===========================
@@ -1196,55 +1186,47 @@ loadTheme()
 
 mezclarCanciones()
 
-const iniciarMusica=()=>{
+let musicaIniciada=false
 
-reproducirSiguiente().catch(()=>{})
+async function iniciarMusica(){
 
-eventos.forEach(evento=>{
+if(musicaIniciada)return
 
-document.removeEventListener(
+musicaIniciada=true
 
-evento,
+try{
+
+await reproducirSiguiente()
+
+}catch{}
+
+}
+
+document.body.addEventListener(
+
+"touchstart",
+
+iniciarMusica,
+
+{passive:true}
+
+)
+
+document.body.addEventListener(
+
+"click",
 
 iniciarMusica
 
 )
 
-})
-
-}
-
-const eventos=[
-
-"click",
-
-"touchstart",
-
-"touchend",
+document.body.addEventListener(
 
 "pointerdown",
 
-"mousedown",
-
-"keydown",
-
-"scroll"
-
-]
-
-eventos.forEach(evento=>{
-
-document.addEventListener(
-
-evento,
-
-iniciarMusica,
-
-{once:true,passive:true}
+iniciarMusica
 
 )
-
-})
 
 if(!checkSession())return
 
