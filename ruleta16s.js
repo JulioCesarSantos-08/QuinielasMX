@@ -812,7 +812,17 @@ spin.addEventListener(
 
 "click",
 
-spinWheel
+async()=>{
+
+try{
+
+await reproducirSiguiente()
+
+}catch{}
+
+spinWheel()
+
+}
 
 )
 /* ===========================
