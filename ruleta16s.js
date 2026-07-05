@@ -812,7 +812,17 @@ spin.addEventListener(
 
 "click",
 
-spinWheel
+async()=>{
+
+try{
+
+await reproducirSiguiente()
+
+}catch{}
+
+spinWheel()
+
+}
 
 )
 /* ===========================
@@ -1185,48 +1195,6 @@ async function init(){
 loadTheme()
 
 mezclarCanciones()
-
-let musicaIniciada=false
-
-async function iniciarMusica(){
-
-if(musicaIniciada)return
-
-musicaIniciada=true
-
-try{
-
-await reproducirSiguiente()
-
-}catch{}
-
-}
-
-document.body.addEventListener(
-
-"touchstart",
-
-iniciarMusica,
-
-{passive:true}
-
-)
-
-document.body.addEventListener(
-
-"click",
-
-iniciarMusica
-
-)
-
-document.body.addEventListener(
-
-"pointerdown",
-
-iniciarMusica
-
-)
 
 if(!checkSession())return
 
