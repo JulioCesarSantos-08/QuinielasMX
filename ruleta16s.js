@@ -106,13 +106,13 @@ let spinning = false
 
 const playlistOriginal=[
 
-"imagenes/Mundial.mp3",
+"imagenes/mundial.mp3",
 
-"imagenes/Mundial2.mp3",
+"imagenes/mundial2.mp3",
 
-"imagenes/Mundial3.mp3",
+"imagenes/mundial3.mp3",
 
-"imagenes/Mundial4.mp3"
+"imagenes/mundial4.mp3"
 
 ]
 
@@ -160,11 +160,7 @@ mezclarCanciones()
 
 audio.src=playlist.shift()
 
-try{
-
 await audio.play()
-
-}catch{}
 
 }
 
@@ -1191,50 +1187,32 @@ const iniciarMusica=()=>{
 reproducirSiguiente()
 
 document.removeEventListener(
-
 "click",
-
 iniciarMusica
-
 )
 
 document.removeEventListener(
-
 "touchstart",
-
 iniciarMusica
-
 )
 
 }
 
-try{
-
-await reproducirSiguiente()
-
-}catch{
+reproducirSiguiente().catch(()=>{
 
 document.addEventListener(
-
 "click",
-
 iniciarMusica,
-
 {once:true}
-
 )
 
 document.addEventListener(
-
 "touchstart",
-
 iniciarMusica,
-
 {once:true}
-
 )
 
-}
+})
 const settingsSnap=
 
 await getDoc(
