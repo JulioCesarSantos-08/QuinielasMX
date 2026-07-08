@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+
+    Administración Ruleta 8avos
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="ruleta2sAdmin.css"
+  >
+
+  <link
+    rel="icon"
+    href="imagenes/logo1.png"
+    type="image/png"
+  >
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <img
+      src="imagenes/logo1.png"
+      class="logo"
+    >
+
+    <div>
+
+      <h1>
+
+        Administración Ruleta 8avos (numero 2)
+
+      </h1>
+
+      <p>
+
+        Panel oficial de control
+
+      </p>
+
+    </div>
+
+  </div>
+
+</header>
+
+<main class="main">
+
+  <section class="panel">
+
+    <h2>
+
+      👥 Participantes
+
+    </h2>
+
+    <div class="tabla-wrap">
+
+      <table class="tablaUsuarios">
+
+        <thead>
+
+          <tr>
+
+            <th>
+
+              Participa
+
+            </th>
+
+            <th>
+
+              Usuario
+
+            </th>
+
+            <th>
+
+              Entradas
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="usuariosBody">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <button
+      id="guardarUsuarios"
+      class="primary"
+    >
+
+      💾 Guardar Participantes
+
+    </button>
+
+  </section>
+
+  <section class="panel">
+
+    <h2>
+
+      🏆 Equipos
+
+    </h2>
+
+    <div
+      id="equipos"
+      class="equipos-grid"
+    >
+
+    </div>
+
+    <button
+      id="guardarEquipos"
+      class="primary"
+    >
+
+      💾 Guardar Equipos
+
+    </button>
+
+  </section>
+
+  <section class="panel">
+
+    <h2>
+
+      📋 Estado de Equipos
+
+    </h2>
+
+    <div class="tabla-wrap">
+
+      <table class="tablaEstado">
+
+        <thead>
+
+          <tr>
+
+            <th>
+
+              Equipo
+
+            </th>
+
+            <th>
+
+              Estado
+
+            </th>
+
+            <th>
+
+              Eliminado por
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody
+          id="estadoEquiposBody"
+        >
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <button
+      id="guardarEstados"
+      class="primary"
+    >
+
+      💾 Guardar Estados
+
+    </button>
+
+  </section>
+
+  <section class="panel pruebas">
+
+    <h2>
+
+      🧪 Reinicio de Pruebas
+
+    </h2>
+
+    <p>
+
+      Reinicia asignaciones, giros y equipos disponibles sin borrar configuraciones.
+
+    </p>
+
+    <button
+      id="resetPruebas"
+      class="warning"
+    >
+
+      🔄 Reiniciar Sorteo
+
+    </button>
+
+  </section>
+
+  <section class="panel danger-zone">
+
+    <h2>
+
+      🔥 Reinicio Total
+
+    </h2>
+
+    <p>
+
+      Elimina participantes, equipos, asignaciones y estados completamente.
+
+    </p>
+
+    <button
+      id="resetTotal"
+      class="danger"
+    >
+
+      🧨 Reiniciar TODO
+
+    </button>
+
+  </section>
+
+</main>
+
+<footer class="footer">
+
+  <button
+    onclick="location.href='menu.html'"
+    class="secondary"
+  >
+
+    ⬅ Volver al menú
+
+  </button>
+
+</footer>
+
+<script
+  type="module"
+  src="ruleta2sAdmin.js"
+></script>
+
+</body>
+
+</html>

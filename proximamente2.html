@@ -1,108 +1,395 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Próximamente - Mundial</title>
 
-  <link rel="icon" href="imagenes/mundial.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+<meta charset="UTF-8">
 
-  <style>
-    body{
-      margin:0;
-      font-family:'Rubik',sans-serif;
-      background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.9)),
-      url("https://images.unsplash.com/photo-1508098682722-e99c643e7f0b");
-      background-size:cover;
-      background-position:center;
-      color:white;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      text-align:center;
-    }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-    .card{
-      background:rgba(255,255,255,.08);
-      padding:2rem;
-      border-radius:15px;
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.2);
-      max-width:400px;
-      animation:fadeIn 1s ease;
-    }
+<title>
 
-    h1{
-      color:#FFD700;
-      margin-bottom:1rem;
-      text-shadow:0 0 10px #FFD700;
-    }
+Quinielas Santos | Próximamente
 
-    p{
-      margin:0.5rem 0;
-      color:#ddd;
-    }
+</title>
 
-    .highlight{
-      color:#FFD700;
-      font-weight:bold;
-    }
+<link
+rel="icon"
+href="imagenes/mundialsantos.png"
+type="image/png"
+>
 
-    .emoji{
-      font-size:2rem;
-      margin-bottom:1rem;
-      animation:bounce 1.5s infinite;
-    }
+<link
+rel="stylesheet"
+href="proximamente2.css"
+>
 
-    button{
-      margin-top:1.5rem;
-      padding:0.9rem 2rem;
-      border:none;
-      border-radius:10px;
-      background:#FFD700;
-      color:black;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.3s;
-    }
-
-    button:hover{
-      background:#e6c200;
-    }
-
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(20px);}
-      to{opacity:1; transform:translateY(0);}
-    }
-
-    @keyframes bounce{
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-8px);}
-    }
-  </style>
 </head>
 
 <body>
 
-  <div class="card">
-    <div class="emoji">⚽🌍</div>
+<audio
+id="bgMusic"
+></audio>
 
-    <h1>Mundial 2026</h1>
+<div class="background">
 
-    <p>🔥 Próximamente podrás jugar la quiniela del <span class="highlight">Mundial 2026</span></p>
+<div class="overlay"></div>
 
-    <p>🏆 Vive la emoción de cada partido</p>
+<div class="particles">
 
-    <p style="margin-top:1rem;">
-      📅 Disponible a partir de <span class="highlight">Junio</span>
-    </p>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
 
-    <button onclick="window.location.href='menu.html'">
-      ⬅️ Volver al menú
-    </button>
-  </div>
+</div>
+
+</div>
+
+<header>
+
+<div class="brand">
+
+<img
+src="imagenes/mundialsantos.png"
+>
+
+<div>
+
+<h1>
+
+Quinielas Santos
+
+</h1>
+
+<p>
+
+Sorteo Oficial · Octavos de Final (Ruleta numero 2)
+
+</p>
+
+</div>
+
+</div>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+<h2>
+
+🏆 EL SORTEO ESTÁ POR COMENZAR
+
+</h2>
+
+<p>
+
+Prepárate para descubrir qué selección representará a cada participante.
+
+</p>
+
+</section>
+
+<section class="contador">
+
+<div class="box">
+
+<div
+id="dias"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Días
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="horas"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Horas
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="minutos"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Minutos
+
+</span>
+
+</div>
+
+<div class="box">
+
+<div
+id="segundos"
+class="numero"
+>
+
+00
+
+</div>
+
+<span>
+
+Segundos
+
+</span>
+
+</div>
+
+</section>
+
+<section class="cards">
+
+<div class="card">
+
+<div class="icon">
+
+📅
+
+</div>
+
+<h3>
+
+Fecha
+
+</h3>
+
+<p>
+
+Miércoles
+
+</p>
+
+<strong>
+
+08 de julio de 2026
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+🕣
+
+</div>
+
+<h3>
+
+Hora
+
+</h3>
+
+<p>
+
+20:30 hrs
+
+</p>
+
+<strong>
+
+Hora de México
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+💵
+
+</div>
+
+<h3>
+
+Costo
+
+</h3>
+
+<p>
+
+Entrada Oficial
+
+</p>
+
+<strong>
+
+$100 MXN
+
+</strong>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+
+🎟
+
+</div>
+
+<h3>
+
+Incluye
+
+</h3>
+
+<p>
+
+1 Entrada
+
+</p>
+
+<strong>
+
+1 Giro Oficial
+
+</strong>
+
+</div>
+
+</section>
+
+<section class="info">
+
+<div class="infoCard">
+
+<h2>
+
+⚽ Información
+
+</h2>
+
+<ul>
+
+<li>
+
+8 Participantes
+
+</li>
+
+<li>
+
+8 Equipos
+
+</li>
+
+<li>
+
+Asignación totalmente aleatoria
+
+</li>
+
+<li>
+
+Cada participante recibe un solo equipo
+
+</li>
+
+<li>
+
+El ganador será quien conserve al Campeón del Mundial
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="infoCard">
+
+<h2>
+
+📢 Aviso
+
+</h2>
+
+<p>
+
+La ruleta permanecerá cerrada hasta que finalice la cuenta regresiva.
+
+Cuando el reloj llegue a cero esta página abrirá automáticamente el sorteo oficial.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="redirect">
+
+<div
+id="estado"
+class="estado"
+>
+
+Esperando inicio del sorteo...
+
+</div>
+
+<a
+href="menu.html"
+class="volver"
+>
+
+⬅ Volver al menú
+
+</a>
+
+</section>
+
+</main>
+
+<script
+src="proximamente2.js"
+></script>
 
 </body>
+
 </html>

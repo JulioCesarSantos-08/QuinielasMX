@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Quinielas Santos | Ruleta 8avos
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="ruletas2s.css"
+  >
+
+  <link
+    rel="icon"
+    href="imagenes/mundialsantos.png"
+    type="image/png"
+  >
+
+</head>
+
+<body>
+
+<audio
+  id="bgMusic"
+></audio>
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <img
+      src="imagenes/mundialsantos.png"
+      class="logo"
+    >
+
+    <div>
+
+      <h1>
+
+        Quinielas Santos
+
+      </h1>
+
+      <p id="subText">
+
+        Sorteo Oficial · 8avos de Final
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="top-actions">
+
+    <button
+      id="themeToggle"
+      class="iconBtn"
+    >
+
+      🌙
+
+    </button>
+
+  </div>
+
+</header>
+
+<main class="main">
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h2 id="saludo">
+
+        Bienvenido
+
+      </h2>
+
+      <p>
+
+Gira la ruleta para descubrir el equipo
+que te acompañará durante esta fase del torneo.
+
+      </p>
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <span>
+
+            🎟 Entradas
+
+          </span>
+
+          <strong id="entradasText">
+
+            0
+
+          </strong>
+
+        </div>
+
+        <div class="stat-card">
+
+          <span>
+
+            🎰 Giros Disponibles
+
+          </span>
+
+          <strong id="girosText">
+
+            0
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="ruletas-grid">
+
+    <div class="ruleta-card">
+
+      <div class="ruleta-head">
+
+        <h2>
+
+          🏆 Equipos 8avos
+
+        </h2>
+
+        <span class="badge good">
+
+          8 Equipos
+
+        </span>
+
+      </div>
+
+      <div class="canvas-wrap">
+
+        <canvas
+          id="wheel"
+        ></canvas>
+
+        <div class="pointer">
+
+          ▼
+
+        </div>
+
+      </div>
+
+      <button
+        id="spin"
+        class="spinBtn"
+      >
+
+        🎰 Girar Ruleta
+
+      </button>
+
+      <p
+        id="msg"
+        class="msg"
+      >
+
+        Esperando giro...
+
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="panel">
+
+    <div class="panel-head">
+
+      <h2>
+
+        🏆 Mis Equipos
+
+      </h2>
+
+      <span class="liveBadge">
+
+        EN VIVO
+
+      </span>
+
+    </div>
+
+    <div class="mis-equipos-grid">
+
+      <div class="equipos-box">
+
+        <h3>
+
+          Equipos Asignados
+
+        </h3>
+
+        <div
+          id="misEquipos"
+          class="equipos-list"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="panel">
+
+    <div class="panel-head">
+
+      <h2>
+
+        📋 Tabla General
+
+      </h2>
+
+      <span class="liveBadge">
+
+        TIEMPO REAL
+
+      </span>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="tablaGeneral">
+
+        <thead>
+
+          <tr>
+
+            <th>
+
+              Participante
+
+            </th>
+
+            <th>
+
+              Equipos
+
+            </th>
+
+            <th>
+
+              Estatus
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="tablaBody">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+  
+</main>
+
+<div
+  id="toast"
+  class="toast hidden"
+></div>
+
+<script
+  type="module"
+  src="ruletas2s.js"
+></script>
+
+</body>
+
+</html>
