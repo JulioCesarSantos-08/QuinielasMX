@@ -139,7 +139,94 @@
       margin-top: 0.7rem;
       font-weight: bold;
     }
+
+    .marcador-prediccion{
+  margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  width:100%;
+}
+
+.marcador-prediccion h4{
+  margin:0;
+  color:#004aad;
+  font-size:.95rem;
+}
+
+.marcador-fila{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  width:100%;
+  margin-top:5px;
+}
+
+.marcador-fila input:first-child{
+  justify-self:start;
+}
+
+.marcador-fila input:last-child{
+  justify-self:end;
+}
+
+.marcador-prediccion input{
+  width:85px;
+  height:42px;
+  text-align:center;
+  font-size:1.2rem;
+  border:1px solid #ccc;
+  border-radius:8px;
+  background:white;
+  color:black;
+  font-weight:bold;
+}
+
+.marcador-prediccion input:focus{
+  outline:2px solid #004aad;
+}
+
+.guion{
+  justify-self:center;
+  font-size:1.5rem;
+  font-weight:bold;
+  color:#004aad;
+}
+
+@media (max-width:768px){
+
+  .marcador-prediccion{
+    margin-top:8px;
+    gap:6px;
+  }
+
+  .marcador-fila{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    padding:0 10px;
+    box-sizing:border-box;
+  }
+
+  .marcador-prediccion h4{
+    font-size:.9rem;
+  }
+
+  .marcador-prediccion input{
+    width:85px;
+    height:40px;
+    font-size:1rem;
+  }
+
+  .guion{
+    font-size:1.2rem;
+  }
+
+}
   </style>
+
 </head>
 <body>
   <img src="imagenes/logo1.png" alt="Logo" class="logo">
@@ -228,6 +315,31 @@
                 <input type="radio" name="partido${i}" id="visitante${i}" value="visitante" />
                 <label for="visitante${i}">Gana ${p.equipo2.toUpperCase()}</label>
               </div>
+              <div class="marcador-prediccion">
+
+  <h4>⚽ Marcador Pronosticado</h4>
+
+  <div class="marcador-fila">
+
+    <input
+      type="number"
+      min="0"
+      id="golesLocal${i}"
+      placeholder="número"
+    >
+
+    <span class="guion">-</span>
+
+    <input
+      type="number"
+      min="0"
+      id="golesVisitante${i}"
+      placeholder="número"
+    >
+
+  </div>
+
+</div>
             </div>
           `;
         });
@@ -271,16 +383,34 @@
       }
 
       const quiniela = {};
-      let incompletos = false;
       const partidosCount = form.querySelectorAll('.partido').length;
 
       for (let i = 0; i < partidosCount; i++) {
         const seleccionado = form.querySelector(`input[name="partido${i}"]:checked`);
-        if (!seleccionado) incompletos = true;
-        quiniela[`partido${i}`] = seleccionado ? seleccionado.value : null;
-      }
+        const golesLocal =
+document.getElementById(`golesLocal${i}`);
 
-      if (incompletos && !confirm("Hay partidos sin seleccionar. ¿Deseas guardar así?")) return;
+const golesVisitante =
+document.getElementById(`golesVisitante${i}`);
+
+if (!seleccionado) {
+    alert(`❌Debes elegir un resultado para el partido ${i + 1}❌`);
+    return;
+}
+
+if (
+    golesLocal.value === "" ||
+    golesVisitante.value === ""
+) {
+    alert(`❌Debes capturar el marcador del partido ${i + 1}❌`);
+    return;
+}
+
+quiniela[`partido${i}`] = seleccionado.value;
+
+quiniela[`marcador${i}`] =
+`${golesLocal.value}-${golesVisitante.value}`;
+      }
 
       try {
         await setDoc(doc(db, "quinielas", user), {
