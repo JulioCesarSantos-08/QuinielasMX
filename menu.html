@@ -1,220 +1,1491 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menú Principal - Quiniela Liga MX</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" href="imagenes/logo1.png" type="image/png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik&display=swap">
+  <title>Menú Principal | Quiniela Santos MX</title>
+
+  <link
+    rel="icon"
+    href="imagenes/logo1.png"
+    type="image/png"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
+    :root {
+      --azul: #0756c9;
+      --azul-oscuro: #043c91;
+      --azul-claro: #eaf2ff;
+
+      --verde: #19a867;
+      --verde-claro: #eaf9f1;
+
+      --rojo: #df3b4c;
+      --rojo-claro: #fff0f2;
+
+      --amarillo: #f2ad22;
+      --amarillo-claro: #fff7df;
+
+      --morado: #7255d8;
+      --morado-claro: #f3f0ff;
+
+      --texto: #182235;
+      --texto-secundario: #707b8d;
+
+      --fondo: #f4f7fb;
+      --blanco: #ffffff;
+      --borde: #e1e8f1;
+
+      --sombra:
+        0 12px 35px
+        rgba(30, 45, 70, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Rubik', sans-serif;
-      background: #f2f2f2;
       margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
+
       min-height: 100vh;
-    }
 
-    header {
-      background-color: #004aad;
-      color: white;
-      padding: 1rem;
-      text-align: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
+
+      font-family:
+        "Rubik",
+        sans-serif;
+
+      color:
+        var(--texto);
+
+      background:
+        linear-gradient(
+          180deg,
+          #edf4ff 0,
+          var(--fondo) 320px
+        );
+
+      -webkit-font-smoothing:
+        antialiased;
+    }
+
+    button,
+    a {
+      font-family: inherit;
+
+      -webkit-tap-highlight-color:
+        transparent;
+    }
+
+    button {
+      border: 0;
+    }
+
+    .header {
       position: relative;
+
+      z-index: 50;
+
+      padding:
+        24px 20px
+        28px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0756c9,
+          #043c91
+        );
+
+      box-shadow:
+        0 8px 28px
+        rgba(
+          4,
+          60,
+          145,
+          0.2
+        );
     }
 
-    header img.logo {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 0.5rem;
+    .header-contenido {
+      width:
+        min(
+          1100px,
+          100%
+        );
+
+      margin:
+        0 auto;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
     }
 
-    #buzon {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      cursor: pointer;
+    .usuario-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 15px;
+
+      min-width: 0;
     }
 
-    #buzon img {
-      width: 32px;
-      height: 32px;
-    }
+    .logo-box {
+      width: 64px;
+      height: 64px;
 
-    #notificaciones {
-      display: none;
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      overflow: hidden;
+
+      border-radius: 18px;
+
       background: white;
-      color: black;
-      position: absolute;
-      top: 60px;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      max-width: 320px;
-      z-index: 100;
-      right: 10px;
+
+      box-shadow:
+        0 8px 20px
+        rgba(
+          0,
+          0,
+          0,
+          0.14
+        );
     }
 
-    #notificaciones p {
-      margin: 0.3rem 0;
-      font-size: 0.9rem;
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      padding: 7px;
     }
 
-    h1 {
+    .usuario-texto {
+      min-width: 0;
+    }
+
+    .marca {
+      display: block;
+
+      margin-bottom: 3px;
+
+      color: #bcd5ff;
+
+      font-size: 0.68rem;
+      font-weight: 700;
+
+      letter-spacing: 0.11em;
+    }
+
+    .usuario-texto h1 {
       margin: 0;
-      font-size: 1.6rem;
+
+      font-size:
+        clamp(
+          1.3rem,
+          3vw,
+          1.8rem
+        );
+
+      line-height: 1.15;
     }
 
     #saludo {
-      margin-top: 0.5rem;
+      margin-top: 5px;
+
+      color: #d7e6ff;
+
+      font-size: 0.85rem;
+    }
+
+    .header-acciones {
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .buzon-btn {
+      position: relative;
+
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      color: white;
+
+      font-size: 1.35rem;
+
+      border:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.25
+        );
+
+      border-radius: 14px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.12
+        );
+
+      transition:
+        0.2s ease;
+    }
+
+    .buzon-btn:hover {
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.2
+        );
+
+      transform:
+        translateY(-1px);
+    }
+
+    .buzon-btn.tiene-nuevas {
+      animation:
+        pulsoBuzon 1.8s
+        infinite;
+    }
+
+    @keyframes pulsoBuzon {
+      0%,
+      100% {
+        box-shadow:
+          0 0 0 0
+          rgba(
+            255,
+            255,
+            255,
+            0
+          );
+      }
+
+      50% {
+        box-shadow:
+          0 0 0 7px
+          rgba(
+            255,
+            255,
+            255,
+            0.08
+          );
+      }
+    }
+
+    .notificaciones-badge {
+      position: absolute;
+
+      top: -6px;
+      right: -6px;
+
+      min-width: 21px;
+      height: 21px;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        0 5px;
+
+      color: white;
+
+      font-size: 0.65rem;
+      font-weight: 700;
+
+      border:
+        2px solid
+        #064da9;
+
+      border-radius: 999px;
+
+      background:
+        #ef3d50;
+    }
+
+    .notificaciones-badge.visible {
+      display: flex;
+    }
+
+    .notificaciones-panel {
+      position: absolute;
+
+      top: 60px;
+      right: 0;
+
+      width:
+        min(
+          390px,
+          calc(
+            100vw -
+            30px
+          )
+        );
+
+      overflow: hidden;
+
+      color:
+        var(--texto);
+
+      border:
+        1px solid
+        var(--borde);
+
+      border-radius: 17px;
+
+      background: white;
+
+      box-shadow:
+        0 18px 45px
+        rgba(
+          17,
+          31,
+          55,
+          0.2
+        );
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transform:
+        translateY(-8px);
+
+      transition:
+        0.2s ease;
+    }
+
+    .notificaciones-panel.abierto {
+      opacity: 1;
+
+      visibility: visible;
+
+      transform:
+        translateY(0);
+    }
+
+    .notificaciones-header {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding:
+        17px;
+
+      border-bottom:
+        1px solid
+        #edf1f6;
+
+      background:
+        #fbfcfe;
+    }
+
+    .notificaciones-header h2 {
+      margin: 0;
+
       font-size: 1rem;
-      color: #d0e1ff;
+    }
+
+    .notificaciones-header span {
+      color:
+        var(--texto-secundario);
+
+      font-size: 0.72rem;
+    }
+
+    .lista-notificaciones {
+      max-height: 430px;
+
+      overflow-y: auto;
+    }
+
+    .notificacion-item {
+      position: relative;
+
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 12px;
+
+      padding:
+        15px 17px;
+
+      border-bottom:
+        1px solid
+        #edf1f6;
+
+      background: white;
+    }
+
+    .notificacion-item:last-child {
+      border-bottom: 0;
+    }
+
+    .notificacion-item.no-leida {
+      background:
+        #f5f9ff;
+    }
+
+    .notificacion-item.no-leida::before {
+      content: "";
+
+      position: absolute;
+
+      top: 20px;
+      right: 13px;
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background:
+        var(--azul);
+    }
+
+    .notificacion-icono {
+      width: 39px;
+      height: 39px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      font-size: 1rem;
+
+      border-radius: 11px;
+
+      background:
+        var(--azul-claro);
+    }
+
+    .notificacion-item.ganador
+    .notificacion-icono {
+      background:
+        var(--amarillo-claro);
+    }
+
+    .notificacion-item.privada
+    .notificacion-icono {
+      background:
+        var(--morado-claro);
+    }
+
+    .notificacion-contenido {
+      min-width: 0;
+
+      flex: 1;
+
+      padding-right: 8px;
+    }
+
+    .notificacion-meta {
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      margin-bottom: 5px;
+
+      color:
+        var(--texto-secundario);
+
+      font-size: 0.66rem;
+    }
+
+    .tipo-mensaje {
+      font-weight: 600;
+
+      color:
+        var(--azul);
+    }
+
+    .notificacion-item.privada
+    .tipo-mensaje {
+      color:
+        var(--morado);
+    }
+
+    .notificacion-item.ganador
+    .tipo-mensaje {
+      color: #a87300;
+    }
+
+    .notificacion-contenido p {
+      margin: 0;
+
+      color:
+        var(--texto);
+
+      font-size: 0.8rem;
+
+      line-height: 1.45;
+
+      word-break:
+        break-word;
+    }
+
+    .sin-notificaciones {
+      padding:
+        34px 20px;
+
+      text-align: center;
+
+      color:
+        var(--texto-secundario);
+    }
+
+    .sin-notificaciones-icono {
+      display: block;
+
+      margin-bottom: 9px;
+
+      font-size: 1.8rem;
+    }
+
+    .sin-notificaciones strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color:
+        var(--texto);
+
+      font-size: 0.88rem;
+    }
+
+    .sin-notificaciones p {
+      margin: 0;
+
+      font-size: 0.76rem;
+
+      line-height: 1.4;
     }
 
     main {
+      width:
+        min(
+          900px,
+          calc(
+            100% -
+            32px
+          )
+        );
+
       flex: 1;
-      padding: 1.5rem;
+
+      margin:
+        0 auto;
+
+      padding:
+        34px 0;
+    }
+
+    .menu-intro {
+      margin-bottom: 20px;
+
+      text-align: center;
+    }
+
+    .menu-intro h2 {
+      margin:
+        0 0 6px;
+
+      font-size: 1.25rem;
+    }
+
+    .menu-intro p {
+      margin: 0;
+
+      color:
+        var(--texto-secundario);
+
+      font-size: 0.86rem;
+    }
+
+    .menu-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 13px;
+    }
+
+    .menu-card {
+      min-height: 96px;
+
       display: flex;
+
+      align-items: center;
+
+      gap: 15px;
+
+      padding:
+        17px;
+
+      cursor: pointer;
+
+      text-align: left;
+      text-decoration: none;
+
+      border:
+        1px solid
+        var(--borde);
+
+      border-radius: 16px;
+
+      background: white;
+
+      box-shadow:
+        0 8px 25px
+        rgba(
+          30,
+          45,
+          70,
+          0.055
+        );
+
+      transition:
+        0.2s ease;
+    }
+
+    .menu-card:hover {
+      border-color:
+        #bdd0ea;
+
+      box-shadow:
+        0 12px 30px
+        rgba(
+          30,
+          45,
+          70,
+          0.1
+        );
+
+      transform:
+        translateY(-2px);
+    }
+
+    .menu-card-icono {
+      width: 49px;
+      height: 49px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      font-size: 1.25rem;
+
+      border-radius: 14px;
+
+      background:
+        var(--azul-claro);
+    }
+
+    .menu-card-texto {
+      display: flex;
+
+      min-width: 0;
+
       flex-direction: column;
-      gap: 1rem;
+
+      gap: 4px;
     }
 
-    .boton {
-      padding: 1.2rem;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #004aad;
+    .menu-card-texto strong {
+      color:
+        var(--texto);
+
+      font-size: 0.95rem;
+    }
+
+    .menu-card-texto small {
+      color:
+        var(--texto-secundario);
+
+      font-size: 0.73rem;
+
+      line-height: 1.35;
+    }
+
+    .menu-card.quiniela
+    .menu-card-icono {
+      background:
+        var(--azul-claro);
+    }
+
+    .menu-card.mi-quiniela
+    .menu-card-icono {
+      background:
+        var(--verde-claro);
+    }
+
+    .menu-card.tabla
+    .menu-card-icono {
+      background:
+        var(--amarillo-claro);
+    }
+
+    .menu-card.chat
+    .menu-card-icono {
+      background:
+        var(--morado-claro);
+    }
+
+    .menu-card.admin
+    .menu-card-icono {
+      background:
+        var(--rojo-claro);
+    }
+
+    .menu-card.admin {
+      display: none;
+    }
+
+    .menu-card.salir
+    .menu-card-icono {
+      background: #f0f2f6;
+    }
+
+    .menu-card.salir {
+      grid-column:
+        1 / -1;
+    }
+
+    .seccion-mundial {
+      margin-top: 26px;
+    }
+
+    .seccion-titulo {
+      margin-bottom: 12px;
+    }
+
+    .seccion-titulo span {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color:
+        var(--azul);
+
+      font-size: 0.68rem;
+      font-weight: 700;
+
+      letter-spacing: 0.1em;
+    }
+
+    .seccion-titulo h3 {
+      margin: 0;
+
+      font-size: 1.05rem;
+    }
+
+    .mundial-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap: 12px;
+    }
+
+    .mundial-btn {
+      min-height: 76px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 14px;
+
+      cursor: pointer;
+
+      text-align: center;
+      text-decoration: none;
+
+      font-size: 0.84rem;
+      font-weight: 600;
+
+      border-radius: 14px;
+
+      transition:
+        0.2s ease;
+    }
+
+    .mundial-btn:hover {
+      transform:
+        translateY(-2px);
+    }
+
+    .mundial-dorado {
+      color: #382c00;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ffe46b,
+          #ffc928
+        );
+
+      box-shadow:
+        0 8px 20px
+        rgba(
+          255,
+          190,
+          0,
+          0.19
+        );
+    }
+
+    .mundial-azul {
       color: white;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: background 0.3s;
+
+      background:
+        linear-gradient(
+          135deg,
+          #168cff,
+          #0756c9
+        );
+
+      box-shadow:
+        0 8px 20px
+        rgba(
+          7,
+          86,
+          201,
+          0.2
+        );
     }
 
-    .boton:hover {
-      background-color: #00327a;
+    .mundial-rojo {
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f45a67,
+          #c82e3e
+        );
+
+      box-shadow:
+        0 8px 20px
+        rgba(
+          223,
+          59,
+          76,
+          0.18
+        );
     }
-
-    .boton-mundial {
-      padding: 1.3rem;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #FFD700, #ffcc00);
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(255,215,0,.6);
-      transition: all .3s ease;
-    }
-
-    .boton-mundial:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255,215,0,1);
-      background: linear-gradient(135deg, #ffea00, #ffd000);
-    }
-
-    .boton-mundial-1{
-  padding:1.3rem;
-  font-size:1.2rem;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#009dff,#0052d4);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(0,123,255,.45);
-  transition:.30s;
-}
-
-.boton-mundial-1:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 28px rgba(0,123,255,.8);
-}
-
-
-
-.boton-mundial-2{
-  padding:1.3rem;
-  font-size:1.2rem;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#ff5b5b,#c40000);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(255,0,0,.45);
-  transition:.30s;
-}
-
-.boton-mundial-2:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 28px rgba(255,0,0,.8);
-}
 
     footer {
-      background: #333;
-      color: white;
+      padding:
+        20px;
+
       text-align: center;
-      font-size: 0.85rem;
-      padding: 1rem;
+
+      color:
+        #bec6d2;
+
+      font-size: 0.75rem;
+
+      background:
+        #182235;
+    }
+
+    footer p {
+      margin:
+        4px 0;
     }
 
     footer a {
-      color: #bbb;
+      color:
+        #dce3ec;
+
       text-decoration: none;
-      margin: 0 0.5rem;
     }
 
-    @media (max-width: 768px) {
-      h1 { font-size: 1.3rem; }
-      .boton { font-size: 1rem; padding: 1rem; }
+    footer a:hover {
+      text-decoration:
+        underline;
+    }
+
+    @media (
+      max-width: 700px
+    ) {
+      .header {
+        padding:
+          18px 14px
+          21px;
+      }
+
+      .logo-box {
+        width: 53px;
+        height: 53px;
+
+        border-radius: 15px;
+      }
+
+      .usuario-texto h1 {
+        font-size: 1.2rem;
+      }
+
+      .marca {
+        font-size: 0.58rem;
+      }
+
+      #saludo {
+        font-size: 0.76rem;
+      }
+
+      .buzon-btn {
+        width: 44px;
+        height: 44px;
+
+        border-radius: 12px;
+      }
+
+      main {
+        width:
+          calc(
+            100% -
+            20px
+          );
+
+        padding:
+          22px 0;
+      }
+
+      .menu-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .menu-card.salir {
+        grid-column: auto;
+      }
+
+      .mundial-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .notificaciones-panel {
+        position: fixed;
+
+        top: 82px;
+        right: 10px;
+        left: 10px;
+
+        width: auto;
+
+        max-height:
+          calc(
+            100vh -
+            105px
+          );
+      }
+
+      .lista-notificaciones {
+        max-height:
+          calc(
+            100vh -
+            170px
+          );
+      }
+    }
+
+    @media (
+      max-width: 430px
+    ) {
+      .usuario-header {
+        gap: 10px;
+      }
+
+      .logo-box {
+        width: 47px;
+        height: 47px;
+      }
+
+      .usuario-texto h1 {
+        font-size: 1.05rem;
+      }
+
+      .marca {
+        font-size: 0.53rem;
+      }
+
+      #saludo {
+        max-width: 205px;
+
+        overflow: hidden;
+
+        text-overflow:
+          ellipsis;
+
+        white-space: nowrap;
+      }
+
+      .menu-card {
+        min-height: 86px;
+
+        padding: 14px;
+      }
+
+      .menu-card-icono {
+        width: 44px;
+        height: 44px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <img src="imagenes/logo1.png" alt="Logo" class="logo">
-    <h1>Quiniela Santos MX</h1>
-    <div id="saludo">Bienvenido</div>
 
-    <div id="buzon" onclick="toggleNotificaciones()">
-      <img id="buzonImg" src="imagenes/sin.png" alt="Buzón">
+  <header class="header">
+
+    <div class="header-contenido">
+
+      <div class="usuario-header">
+
+        <div class="logo-box">
+
+          <img
+            src="imagenes/logo1.png"
+            alt="Quiniela Santos MX"
+          >
+
+        </div>
+
+
+        <div class="usuario-texto">
+
+          <span class="marca">
+            QUINIELA SANTOS MX
+          </span>
+
+          <h1>
+            Menú Principal
+          </h1>
+
+          <div id="saludo">
+            Bienvenido
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="header-acciones">
+
+        <button
+          id="buzon-btn"
+          class="buzon-btn"
+          type="button"
+          aria-label="Abrir notificaciones"
+          aria-expanded="false"
+        >
+          🔔
+
+          <span
+            id="notificaciones-badge"
+            class="notificaciones-badge"
+          >
+            0
+          </span>
+        </button>
+
+
+        <div
+          id="notificaciones-panel"
+          class="notificaciones-panel"
+        >
+
+          <div class="notificaciones-header">
+
+            <h2>
+              🔔 Notificaciones
+            </h2>
+
+            <span id="cantidad-notificaciones">
+              0 mensajes
+            </span>
+
+          </div>
+
+
+          <div
+            id="lista-notificaciones"
+            class="lista-notificaciones"
+          >
+
+            <div class="sin-notificaciones">
+
+              <span class="sin-notificaciones-icono">
+                🔔
+              </span>
+
+              <strong>
+                Cargando...
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div id="notificaciones"></div>
   </header>
 
+
   <main>
-    
-    <button class="boton" onclick="location.href='quiniela.html'">Llenar Quiniela</button>
-    <button class="boton" onclick="location.href='miquiniela.html'">Mi quiniela</button>
-    <button class="boton" onclick="location.href='tabla.html'">CONCENTRADO</button>
-    <button class="boton" onclick="location.href='foro.html'">📨 Chat</button>
-    <button class="boton" onclick="location.href='admin.html'">🔒 SOLO ADMINISTRADORES 🔒</button>
-    <button class="boton" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+
+    <div class="menu-intro">
+
+      <h2>
+        ¿Qué quieres hacer?
+      </h2>
+
+      <p>
+        Selecciona una opción para continuar.
+      </p>
+
+    </div>
+
+
+    <div class="menu-grid">
+
+      <button
+        class="menu-card quiniela"
+        type="button"
+        onclick="location.href='quiniela.html'"
+      >
+
+        <span class="menu-card-icono">
+          ⚽
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Llenar Quiniela
+          </strong>
+
+          <small>
+            Registra tus pronósticos de la jornada.
+          </small>
+
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-card mi-quiniela"
+        type="button"
+        onclick="location.href='miquiniela.html'"
+      >
+
+        <span class="menu-card-icono">
+          📋
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Mi Quiniela
+          </strong>
+
+          <small>
+            Consulta los pronósticos que registraste.
+          </small>
+
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-card tabla"
+        type="button"
+        onclick="location.href='tabla.html'"
+      >
+
+        <span class="menu-card-icono">
+          🏆
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Concentrado
+          </strong>
+
+          <small>
+            Consulta posiciones, puntos y resultados.
+          </small>
+
+        </span>
+
+      </button>
+
+
+      <button
+        class="menu-card chat"
+        type="button"
+        onclick="location.href='foro.html'"
+      >
+
+        <span class="menu-card-icono">
+          💬
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Chat
+          </strong>
+
+          <small>
+            Conversa con los demás participantes.
+          </small>
+
+        </span>
+
+      </button>
+
+
+      <button
+        id="btn-admin"
+        class="menu-card admin"
+        type="button"
+        onclick="location.href='admin.html'"
+      >
+
+        <span class="menu-card-icono">
+          🔒
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Administración
+          </strong>
+
+          <small>
+            Resultados, usuarios y controles del sistema.
+          </small>
+
+        </span>
+
+      </button>
+
+
+      <button
+        id="btn-cerrar-sesion"
+        class="menu-card salir"
+        type="button"
+      >
+
+        <span class="menu-card-icono">
+          🚪
+        </span>
+
+        <span class="menu-card-texto">
+
+          <strong>
+            Cerrar sesión
+          </strong>
+
+          <small>
+            Salir de tu cuenta de Quiniela Santos MX.
+          </small>
+
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <section
+      id="seccion-mundial"
+      class="seccion-mundial"
+      hidden
+    >
+
+      <div class="seccion-titulo">
+
+        <span>
+          MUNDIAL
+        </span>
+
+        <h3>
+          Especial Mundial
+        </h3>
+
+      </div>
+
+
+      <div class="mundial-grid">
+
+        <button
+          class="mundial-btn mundial-dorado"
+          type="button"
+          onclick="location.href='mundial.html'"
+        >
+          🌎 Mundial
+        </button>
+
+
+        <button
+          class="mundial-btn mundial-azul"
+          type="button"
+          onclick="location.href='centroMundial.html'"
+        >
+          🏟️ Centro Mundial
+        </button>
+
+
+        <button
+          class="mundial-btn mundial-rojo"
+          type="button"
+          onclick="location.href='mundialistas.html'"
+        >
+          🏆 Mundialistas
+        </button>
+
+      </div>
+
+    </section>
 
   </main>
 
+
   <footer>
-    <p>Todos los derechos reservados Santos © 2025</p>
+
     <p>
-      <a href="privacidad2.html">Política de privacidad</a> |
-      <a href="terminos2.html">Términos y condiciones</a>
+      Todos los derechos reservados Santos ©
+      <span id="anio"></span>
     </p>
+
+    <p>
+      <a href="privacidad2.html">
+        Política de privacidad
+      </a>
+
+      ·
+
+      <a href="terminos2.html">
+        Términos y condiciones
+      </a>
+    </p>
+
   </footer>
 
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      getDocs,
+      updateDoc,
+      arrayUnion
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
     const firebaseConfig = {
       apiKey: "AIzaSyBky5T7wDukelYg3Giq_pXc4oveyfHN7go",
@@ -225,87 +1496,980 @@
       appId: "1:27051588350:web:74559bf1d4fd5a67f603af"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
 
-    const nombre = localStorage.getItem("nombre");
-    const user = localStorage.getItem("user");
-    document.getElementById("saludo").textContent = `Bienvenido, ${nombre || "Usuario"}`;
+    const app =
+      initializeApp(
+        firebaseConfig
+      );
+
+    const db =
+      getFirestore(app);
+
+
+    const user =
+      localStorage.getItem(
+        "user"
+      );
+
+    const nombre =
+      localStorage.getItem(
+        "nombre"
+      );
+
+
+    const admins = [
+      "ti43300@uvp.edu.mx",
+      "jc@gmail.com",
+      "guera00@gmail.com"
+    ];
+
+
+    const saludo =
+      document.getElementById(
+        "saludo"
+      );
+
+    const btnAdmin =
+      document.getElementById(
+        "btn-admin"
+      );
+
+    const btnCerrarSesion =
+      document.getElementById(
+        "btn-cerrar-sesion"
+      );
+
+    const buzonBtn =
+      document.getElementById(
+        "buzon-btn"
+      );
+
+    const badge =
+      document.getElementById(
+        "notificaciones-badge"
+      );
+
+    const panel =
+      document.getElementById(
+        "notificaciones-panel"
+      );
+
+    const lista =
+      document.getElementById(
+        "lista-notificaciones"
+      );
+
+    const cantidad =
+      document.getElementById(
+        "cantidad-notificaciones"
+      );
+
+
+    let notificacionesActuales =
+      [];
+
 
     if (!user) {
-      alert("Debes iniciar sesión.");
-      window.location.href = "index.html";
+
+      alert(
+        "Debes iniciar sesión."
+      );
+
+      window.location.href =
+        "index.html";
+
+      throw new Error(
+        "Sesión no encontrada"
+      );
+
     }
 
-    const buzonImg = document.getElementById("buzonImg");
 
-    async function verificarMensajes() {
-      try {
-        const configDoc = await getDoc(doc(db, "configuracion", "general"));
-        const mensajesSnap = await getDocs(collection(db, "notificaciones"));
+    saludo.textContent =
+      `Bienvenido, ${nombre || "Usuario"}`;
 
-        let hayMensajes = false;
 
-        if (configDoc.exists()) {
-          const data = configDoc.data();
-          if ((data.ganadores && data.ganadores.length > 0) || mensajesSnap.size > 0) {
-            hayMensajes = true;
+    if (
+      admins.includes(
+        user
+      )
+    ) {
+
+      btnAdmin.style.display =
+        "flex";
+
+    }
+
+
+    document.getElementById(
+      "anio"
+    ).textContent =
+      new Date().getFullYear();
+
+
+    function notificacionEsParaUsuario(
+      data
+    ) {
+
+      const tieneSistemaNuevo =
+        Object.prototype.hasOwnProperty.call(
+          data,
+          "paraTodos"
+        ) ||
+        Object.prototype.hasOwnProperty.call(
+          data,
+          "destinatarios"
+        ) ||
+        Object.prototype.hasOwnProperty.call(
+          data,
+          "tipo"
+        );
+
+
+      if (!tieneSistemaNuevo) {
+
+        return true;
+
+      }
+
+
+      if (
+        data.paraTodos === true ||
+        data.tipo === "todos"
+      ) {
+
+        return true;
+
+      }
+
+
+      if (
+        Array.isArray(
+          data.destinatarios
+        ) &&
+        data.destinatarios.includes(
+          user
+        )
+      ) {
+
+        return true;
+
+      }
+
+
+      return false;
+
+    }
+
+
+    function obtenerFechaOrden(
+      notificacion
+    ) {
+
+      if (
+        notificacion.creadoEn &&
+        typeof notificacion
+          .creadoEn
+          .toMillis ===
+          "function"
+      ) {
+
+        return notificacion
+          .creadoEn
+          .toMillis();
+
+      }
+
+
+      return 0;
+
+    }
+
+
+    function formatearFecha(
+      notificacion
+    ) {
+
+      if (
+        notificacion.creadoEn &&
+        typeof notificacion
+          .creadoEn
+          .toDate ===
+          "function"
+      ) {
+
+        return notificacion
+          .creadoEn
+          .toDate()
+          .toLocaleString(
+            "es-MX",
+            {
+              day:
+                "2-digit",
+              month:
+                "short",
+              hour:
+                "2-digit",
+              minute:
+                "2-digit"
+            }
+          );
+
+      }
+
+
+      if (
+        notificacion.fecha
+      ) {
+
+        return notificacion.fecha;
+
+      }
+
+
+      return "";
+
+    }
+
+
+    function estaLeida(
+      notificacion
+    ) {
+
+      if (
+        notificacion.esGanador
+      ) {
+
+        const clave =
+          `ganador_leido_${user}_${notificacion.fecha || "actual"}`;
+
+        return (
+          localStorage.getItem(
+            clave
+          ) === "1"
+        );
+
+      }
+
+
+      return (
+        Array.isArray(
+          notificacion.leidaPor
+        ) &&
+        notificacion.leidaPor.includes(
+          user
+        )
+      );
+
+    }
+
+
+    async function obtenerNotificaciones() {
+
+      const mensajesSnap =
+        await getDocs(
+          collection(
+            db,
+            "notificaciones"
+          )
+        );
+
+
+      const mensajes =
+        [];
+
+
+      mensajesSnap.forEach(
+        documento => {
+
+          const data =
+            documento.data();
+
+
+          if (
+            notificacionEsParaUsuario(
+              data
+            )
+          ) {
+
+            mensajes.push({
+              id:
+                documento.id,
+              ref:
+                documento.ref,
+              ...data
+            });
+
           }
+
+        }
+      );
+
+
+      const configDoc =
+        await getDoc(
+          doc(
+            db,
+            "configuracion",
+            "general"
+          )
+        );
+
+
+      if (
+        configDoc.exists()
+      ) {
+
+        const data =
+          configDoc.data();
+
+        const ganadores =
+          Array.isArray(
+            data.ganadores
+          )
+            ? data.ganadores
+            : [];
+
+
+        if (
+          ganadores.includes(
+            user
+          )
+        ) {
+
+          mensajes.push({
+            id:
+              "mensaje-ganador",
+            texto:
+              "¡Felicidades! Has sido seleccionado como ganador de la jornada.",
+            fecha:
+              data.fecha || "",
+            tipo:
+              "ganador",
+            esGanador:
+              true,
+            creadoEn:
+              null
+          });
+
         }
 
-        buzonImg.src = hayMensajes ? "imagenes/con.gif" : "imagenes/sin.png";
-      } catch (e) {
-        console.error(e);
       }
-    }
 
-    async function cargarNotificacion() {
-      const contenedor = document.getElementById("notificaciones");
-      let html = "<strong>🔔 Notificaciones:</strong><br><br>";
 
-      const mensajesSnap = await getDocs(collection(db, "notificaciones"));
-      const mensajes = [];
-      mensajesSnap.forEach(doc => mensajes.push(doc.data().texto));
+      mensajes.sort(
+        (a, b) => {
 
-      mensajes.forEach(msg => {
-        html += `<p>📝 ${msg}</p>`;
-      });
+          if (
+            b.esGanador &&
+            !a.esGanador
+          ) {
 
-      const configDoc = await getDoc(doc(db, "configuracion", "general"));
-      if (configDoc.exists()) {
-        const data = configDoc.data();
-        const ganadores = data.ganadores || [];
-        const fecha = data.fecha || "";
+            return 1;
 
-        if (ganadores.includes(user)) {
-          html += `<p>🎉 ¡Felicidades! Has sido seleccionado como ganador.</p><p><em>${fecha}</em></p>`;
+          }
+
+
+          if (
+            a.esGanador &&
+            !b.esGanador
+          ) {
+
+            return -1;
+
+          }
+
+
+          return (
+            obtenerFechaOrden(
+              b
+            ) -
+            obtenerFechaOrden(
+              a
+            )
+          );
+
         }
-      }
+      );
 
-      if (html === "<strong>🔔 Notificaciones:</strong><br><br>") {
-        html += `<p>No hay notificaciones.</p>`;
-      }
 
-      contenedor.innerHTML = html;
+      return mensajes;
+
     }
 
-    window.toggleNotificaciones = function() {
-      const box = document.getElementById("notificaciones");
-      if (box.style.display === "none" || box.style.display === "") {
-        cargarNotificacion();
-        box.style.display = "block";
+
+    function obtenerTipoVisual(
+      notificacion
+    ) {
+
+      if (
+        notificacion.esGanador
+      ) {
+
+        return {
+          clase:
+            "ganador",
+          icono:
+            "🏆",
+          nombre:
+            "Ganador"
+        };
+
+      }
+
+
+      if (
+        notificacion.paraTodos === true ||
+        notificacion.tipo ===
+          "todos"
+      ) {
+
+        return {
+          clase:
+            "general",
+          icono:
+            "📢",
+          nombre:
+            "General"
+        };
+
+      }
+
+
+      return {
+        clase:
+          "privada",
+        icono:
+          "👤",
+        nombre:
+          "Mensaje privado"
+      };
+
+    }
+
+
+    function renderizarNotificaciones() {
+
+      lista.innerHTML =
+        "";
+
+
+      if (
+        notificacionesActuales
+          .length === 0
+      ) {
+
+        lista.innerHTML = `
+          <div class="sin-notificaciones">
+
+            <span class="sin-notificaciones-icono">
+              🔔
+            </span>
+
+            <strong>
+              No tienes notificaciones
+            </strong>
+
+            <p>
+              Los mensajes importantes aparecerán aquí.
+            </p>
+
+          </div>
+        `;
+
+        cantidad.textContent =
+          "0 mensajes";
+
+        actualizarBadge();
+
+        return;
+
+      }
+
+
+      cantidad.textContent =
+        `${
+          notificacionesActuales.length
+        } ${
+          notificacionesActuales.length === 1
+            ? "mensaje"
+            : "mensajes"
+        }`;
+
+
+      notificacionesActuales.forEach(
+        notificacion => {
+
+          const tipo =
+            obtenerTipoVisual(
+              notificacion
+            );
+
+
+          const item =
+            document.createElement(
+              "article"
+            );
+
+
+          const leida =
+            estaLeida(
+              notificacion
+            );
+
+
+          item.className =
+            `notificacion-item ${tipo.clase}${
+              leida
+                ? ""
+                : " no-leida"
+            }`;
+
+
+          const icono =
+            document.createElement(
+              "div"
+            );
+
+          icono.className =
+            "notificacion-icono";
+
+          icono.textContent =
+            tipo.icono;
+
+
+          const contenido =
+            document.createElement(
+              "div"
+            );
+
+          contenido.className =
+            "notificacion-contenido";
+
+
+          const meta =
+            document.createElement(
+              "div"
+            );
+
+          meta.className =
+            "notificacion-meta";
+
+
+          const tipoTexto =
+            document.createElement(
+              "span"
+            );
+
+          tipoTexto.className =
+            "tipo-mensaje";
+
+          tipoTexto.textContent =
+            tipo.nombre;
+
+
+          const fecha =
+            document.createElement(
+              "span"
+            );
+
+          const fechaTexto =
+            formatearFecha(
+              notificacion
+            );
+
+          fecha.textContent =
+            fechaTexto
+              ? `• ${fechaTexto}`
+              : "";
+
+
+          const mensaje =
+            document.createElement(
+              "p"
+            );
+
+          mensaje.textContent =
+            notificacion.texto ||
+            "Notificación";
+
+
+          meta.append(
+            tipoTexto,
+            fecha
+          );
+
+
+          contenido.append(
+            meta,
+            mensaje
+          );
+
+
+          item.append(
+            icono,
+            contenido
+          );
+
+
+          lista.appendChild(
+            item
+          );
+
+        }
+      );
+
+
+      actualizarBadge();
+
+    }
+
+
+    function actualizarBadge() {
+
+      const sinLeer =
+        notificacionesActuales.filter(
+          notificacion =>
+            !estaLeida(
+              notificacion
+            )
+        ).length;
+
+
+      if (
+        sinLeer > 0
+      ) {
+
+        badge.textContent =
+          sinLeer > 99
+            ? "99+"
+            : sinLeer;
+
+        badge.classList.add(
+          "visible"
+        );
+
+        buzonBtn.classList.add(
+          "tiene-nuevas"
+        );
+
       } else {
-        box.style.display = "none";
+
+        badge.classList.remove(
+          "visible"
+        );
+
+        buzonBtn.classList.remove(
+          "tiene-nuevas"
+        );
+
       }
-    };
 
-    window.cerrarSesion = function () {
-      localStorage.removeItem("user");
-      localStorage.removeItem("nombre");
-      window.location.href = "index.html";
-    };
+    }
 
-    verificarMensajes();
+
+    async function cargarNotificaciones() {
+
+      try {
+
+        notificacionesActuales =
+          await obtenerNotificaciones();
+
+        renderizarNotificaciones();
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando notificaciones:",
+          error
+        );
+
+
+        lista.innerHTML = `
+          <div class="sin-notificaciones">
+
+            <span class="sin-notificaciones-icono">
+              ⚠️
+            </span>
+
+            <strong>
+              No se pudieron cargar
+            </strong>
+
+            <p>
+              Intenta nuevamente en unos momentos.
+            </p>
+
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    async function marcarComoLeidas() {
+
+      const operaciones =
+        [];
+
+
+      notificacionesActuales.forEach(
+        notificacion => {
+
+          if (
+            estaLeida(
+              notificacion
+            )
+          ) {
+
+            return;
+
+          }
+
+
+          if (
+            notificacion.esGanador
+          ) {
+
+            const clave =
+              `ganador_leido_${user}_${notificacion.fecha || "actual"}`;
+
+            localStorage.setItem(
+              clave,
+              "1"
+            );
+
+            return;
+
+          }
+
+
+          if (
+            notificacion.ref
+          ) {
+
+            operaciones.push(
+              updateDoc(
+                notificacion.ref,
+                {
+                  leidaPor:
+                    arrayUnion(
+                      user
+                    )
+                }
+              )
+            );
+
+          }
+
+        }
+      );
+
+
+      if (
+        operaciones.length > 0
+      ) {
+
+        try {
+
+          await Promise.all(
+            operaciones
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Error marcando notificaciones:",
+            error
+          );
+
+        }
+
+      }
+
+
+      notificacionesActuales =
+        notificacionesActuales.map(
+          notificacion => {
+
+            if (
+              notificacion.esGanador
+            ) {
+
+              return notificacion;
+
+            }
+
+
+            const leidaPor =
+              Array.isArray(
+                notificacion.leidaPor
+              )
+                ? [
+                    ...notificacion.leidaPor
+                  ]
+                : [];
+
+
+            if (
+              !leidaPor.includes(
+                user
+              )
+            ) {
+
+              leidaPor.push(
+                user
+              );
+
+            }
+
+
+            return {
+              ...notificacion,
+              leidaPor
+            };
+
+          }
+        );
+
+
+      renderizarNotificaciones();
+
+    }
+
+
+    async function abrirBuzon() {
+
+      panel.classList.add(
+        "abierto"
+      );
+
+      buzonBtn.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      await marcarComoLeidas();
+
+    }
+
+
+    function cerrarBuzon() {
+
+      panel.classList.remove(
+        "abierto"
+      );
+
+      buzonBtn.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+
+
+    buzonBtn.addEventListener(
+      "click",
+      async event => {
+
+        event.stopPropagation();
+
+
+        const abierto =
+          panel.classList.contains(
+            "abierto"
+          );
+
+
+        if (abierto) {
+
+          cerrarBuzon();
+
+        } else {
+
+          await abrirBuzon();
+
+        }
+
+      }
+    );
+
+
+    panel.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "click",
+      () => {
+
+        cerrarBuzon();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Escape"
+        ) {
+
+          cerrarBuzon();
+
+        }
+
+      }
+    );
+
+
+    btnCerrarSesion.addEventListener(
+      "click",
+      () => {
+
+        const confirmar =
+          confirm(
+            "¿Quieres cerrar sesión?"
+          );
+
+
+        if (!confirmar) {
+
+          return;
+
+        }
+
+
+        localStorage.removeItem(
+          "user"
+        );
+
+        localStorage.removeItem(
+          "nombre"
+        );
+
+
+        window.location.href =
+          "index.html";
+
+      }
+    );
+
+
+    await cargarNotificaciones();
+
   </script>
+
 </body>
 </html>
