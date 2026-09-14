@@ -1,96 +1,633 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Admin - Resultados</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" href="imagenes/logo1.png" type="image/png">
+  <title>Panel de Administración | Quiniela Santos MX</title>
+
+  <link
+    rel="icon"
+    href="imagenes/logo1.png"
+    type="image/png"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <link
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+    href="admin.css"
   >
-
-  <link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
 
-  <h1 id="titulo">
-    Panel de Administrador ⚙️
-  </h1>
+  <div class="admin-shell">
 
-  <div id="formulario">
+    <header class="admin-header">
 
-    <form id="resultados-form"></form>
+      <div class="header-brand">
 
-    <div class="ganador-box">
-      <label>
-        <strong>
-          Seleccionar Usuarios Ganadores
-        </strong>
-      </label>
+        <div class="header-logo">
+          <img
+            src="imagenes/logo1.png"
+            alt="Quiniela Santos MX"
+          >
+        </div>
 
-      <br>
+        <div class="header-text">
 
-      <select
-        id="usuario-ganador"
-        multiple
-      ></select>
-    </div>
+          <span class="header-kicker">
+            QUINIELA SANTOS MX
+          </span>
 
-    <button id="btn-guardar">
-      Guardar Resultados y Ganadores
-    </button>
+          <h1 id="titulo">
+            Panel de Administrador
+          </h1>
 
-    <br><br>
+          <p>
+            Gestiona la jornada, resultados, ganadores y notificaciones.
+          </p>
 
-    <button
-      id="btn-toggle"
-      style="background:#ffc107;color:black;"
-    >
-      🔄 Cambiar estado de Quiniela
-    </button>
+        </div>
 
-    <br><br>
+      </div>
 
-    <!-- NUEVO -->
 
-    <button
-      id="btn-tabla"
-      type="button"
-      style="background:#17a2b8;color:white;"
-    >
-      👁️ Mostrar/Ocultar Tabla General
-    </button>
+      <a
+        href="menu.html"
+        class="btn-volver-menu"
+      >
+        <span>←</span>
+        Volver al menú
+      </a>
 
-    <br><br>
+    </header>
 
-    <button
-      id="btn-reiniciar"
-      style="background:#dc3545;"
-    >
-      🧹 Reiniciar Jornada
-    </button>
 
-    <br><br>
+    <main id="formulario">
 
-    <a
-      href="admin2.html"
-      class="volver"
-    >
-      Administrar Partidos
-    </a>
+      <section class="panel">
 
-    <a
-      href="menu.html"
-      class="volver"
-    >
-      ⬅️ Volver al Menú
-    </a>
+        <div class="panel-heading">
+
+          <div>
+
+            <span class="panel-eyebrow">
+              JORNADA ACTUAL
+            </span>
+
+            <h2>
+              Resultados y marcadores
+            </h2>
+
+            <p>
+              Captura el marcador y selecciona el resultado de cada partido.
+            </p>
+
+          </div>
+
+
+          <div class="resumen-partidos">
+
+            <div class="resumen-item">
+
+              <span id="total-partidos">
+                0
+              </span>
+
+              <small>
+                Partidos
+              </small>
+
+            </div>
+
+
+            <div class="resumen-item">
+
+              <span id="partidos-capturados">
+                0
+              </span>
+
+              <small>
+                Capturados
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <form
+          id="resultados-form"
+          class="partidos-grid"
+        ></form>
+
+      </section>
+
+
+      <section class="panel">
+
+        <div class="panel-heading ganador-heading">
+
+          <div>
+
+            <span class="panel-eyebrow">
+              GANADORES
+            </span>
+
+            <h2>
+              Ganadores de la jornada
+            </h2>
+
+            <p>
+              Selecciona uno o varios usuarios como ganadores.
+            </p>
+
+          </div>
+
+
+          <div class="ganadores-contador">
+
+            <span id="cantidad-ganadores">
+              0
+            </span>
+
+            seleccionados
+
+          </div>
+
+        </div>
+
+
+        <div class="usuarios-toolbar">
+
+          <div class="buscador-box">
+
+            <span class="buscador-icono">
+              ⌕
+            </span>
+
+            <input
+              type="text"
+              id="buscar-usuario"
+              placeholder="Buscar usuario..."
+              autocomplete="off"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="lista-ganadores"
+          class="lista-ganadores"
+        ></div>
+
+
+        <select
+          id="usuario-ganador"
+          multiple
+          hidden
+        ></select>
+
+      </section>
+
+
+      <section class="panel panel-notificaciones">
+
+        <div class="panel-heading">
+
+          <div>
+
+            <span class="panel-eyebrow">
+              CENTRO DE NOTIFICACIONES
+            </span>
+
+            <h2>
+              Enviar notificación
+            </h2>
+
+            <p>
+              Envía mensajes generales o privados a los usuarios.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="notificacion-layout">
+
+          <div class="notificacion-config">
+
+            <div class="campo-grupo">
+
+              <label class="campo-titulo">
+                ¿Quién recibirá el mensaje?
+              </label>
+
+
+              <div class="tipo-destinatario">
+
+                <label class="tipo-opcion seleccionado">
+
+                  <input
+                    type="radio"
+                    name="tipo-destinatario"
+                    value="todos"
+                    checked
+                  >
+
+                  <span class="tipo-icono">
+                    👥
+                  </span>
+
+                  <span class="tipo-texto">
+
+                    <strong>
+                      Todos
+                    </strong>
+
+                    <small>
+                      Todos los usuarios
+                    </small>
+
+                  </span>
+
+                </label>
+
+
+                <label class="tipo-opcion">
+
+                  <input
+                    type="radio"
+                    name="tipo-destinatario"
+                    value="uno"
+                  >
+
+                  <span class="tipo-icono">
+                    👤
+                  </span>
+
+                  <span class="tipo-texto">
+
+                    <strong>
+                      Un usuario
+                    </strong>
+
+                    <small>
+                      Una persona específica
+                    </small>
+
+                  </span>
+
+                </label>
+
+
+                <label class="tipo-opcion">
+
+                  <input
+                    type="radio"
+                    name="tipo-destinatario"
+                    value="varios"
+                  >
+
+                  <span class="tipo-icono">
+                    👥
+                  </span>
+
+                  <span class="tipo-texto">
+
+                    <strong>
+                      Varios
+                    </strong>
+
+                    <small>
+                      Selección personalizada
+                    </small>
+
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <div
+              id="selector-destinatarios"
+              class="selector-destinatarios oculto"
+            >
+
+              <div class="selector-destinatarios-header">
+
+                <div>
+
+                  <strong>
+                    Seleccionar usuarios
+                  </strong>
+
+                  <small>
+                    Busca y selecciona los destinatarios.
+                  </small>
+
+                </div>
+
+
+                <div class="destinatarios-contador">
+
+                  <span id="cantidad-destinatarios">
+                    0
+                  </span>
+
+                  seleccionados
+
+                </div>
+
+              </div>
+
+
+              <div class="buscador-box">
+
+                <span class="buscador-icono">
+                  ⌕
+                </span>
+
+                <input
+                  type="text"
+                  id="buscar-destinatario"
+                  placeholder="Buscar por nombre..."
+                  autocomplete="off"
+                >
+
+              </div>
+
+
+              <div
+                id="lista-destinatarios"
+                class="lista-destinatarios"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <div class="notificacion-editor">
+
+            <div class="campo-grupo">
+
+              <div class="mensaje-label">
+
+                <label
+                  for="mensaje-notificacion"
+                  class="campo-titulo"
+                >
+                  Mensaje
+                </label>
+
+                <span id="contador-mensaje">
+                  0 / 300
+                </span>
+
+              </div>
+
+
+              <textarea
+                id="mensaje-notificacion"
+                maxlength="300"
+                rows="6"
+                placeholder="Escribe aquí la notificación que recibirán los usuarios..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="notificacion-preview">
+
+              <div class="preview-icono">
+                🔔
+              </div>
+
+              <div>
+
+                <strong>
+                  Vista previa
+                </strong>
+
+                <p id="preview-mensaje">
+                  Tu mensaje aparecerá aquí.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <button
+              id="btn-enviar-notificacion"
+              class="btn-enviar-notificacion"
+              type="button"
+            >
+
+              <span>
+                🔔
+              </span>
+
+              Enviar notificación
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel">
+
+        <div class="panel-heading">
+
+          <div>
+
+            <span class="panel-eyebrow">
+              CONTROL
+            </span>
+
+            <h2>
+              Acciones de la jornada
+            </h2>
+
+            <p>
+              Guarda resultados y administra el estado general del sistema.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="acciones-principales">
+
+          <button
+            id="btn-guardar"
+            class="accion-card accion-guardar"
+            type="button"
+          >
+
+            <span class="accion-icono">
+              ✓
+            </span>
+
+            <span class="accion-texto">
+
+              <strong>
+                Guardar jornada
+              </strong>
+
+              <small>
+                Resultados, marcadores y ganadores
+              </small>
+
+            </span>
+
+          </button>
+
+
+          <button
+            id="btn-toggle"
+            class="accion-card accion-quiniela"
+            type="button"
+          >
+
+            <span class="accion-icono">
+              ●
+            </span>
+
+            <span class="accion-texto">
+
+              <strong>
+                Estado de Quiniela
+              </strong>
+
+              <small>
+                Cargando estado...
+              </small>
+
+            </span>
+
+          </button>
+
+
+          <button
+            id="btn-tabla"
+            class="accion-card accion-tabla"
+            type="button"
+          >
+
+            <span class="accion-icono">
+              ◉
+            </span>
+
+            <span class="accion-texto">
+
+              <strong>
+                Tabla General
+              </strong>
+
+              <small>
+                Cargando estado...
+              </small>
+
+            </span>
+
+          </button>
+
+
+          <a
+            href="admin2.html"
+            class="accion-card accion-partidos"
+          >
+
+            <span class="accion-icono">
+              ⚽
+            </span>
+
+            <span class="accion-texto">
+
+              <strong>
+                Administrar partidos
+              </strong>
+
+              <small>
+                Configurar encuentros de la jornada
+              </small>
+
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <div class="zona-peligro">
+
+          <div class="zona-peligro-texto">
+
+            <strong>
+              Reiniciar jornada
+            </strong>
+
+            <p>
+              La jornada actual se guardará en el historial antes de eliminar sus datos.
+            </p>
+
+          </div>
+
+
+          <button
+            id="btn-reiniciar"
+            class="btn-reiniciar"
+            type="button"
+          >
+            Reiniciar jornada
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
 
   </div>
+
+
+  <div
+    id="toast"
+    class="toast"
+    aria-live="polite"
+  ></div>
+
 
   <script
     type="module"
