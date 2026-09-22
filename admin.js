@@ -1839,100 +1839,62 @@ btnGuardar.addEventListener(
 );
 
 async function guardarHistorial() {
-  const resultadosSnap =
-    await getDoc(
-      doc(
-        db,
-        "resultados",
-        "actuales"
-      )
-    );
+  const resultadosSnap = await getDoc(
+    doc(db, "resultados", "actuales")
+  );
 
-  const resultados =
-    resultadosSnap.exists()
-      ? resultadosSnap.data()
-      : {};
+  const resultados = resultadosSnap.exists()
+    ? resultadosSnap.data()
+    : {};
 
-  const quinielasSnap =
-    await getDocs(
-      collection(
-        db,
-        "quinielas"
-      )
-    );
+  const quinielasSnap = await getDocs(
+    collection(db, "quinielas")
+  );
 
   const quinielas = [];
 
-  quinielasSnap.forEach(
-    docu => {
-      quinielas.push(
-        docu.data()
-      );
-    }
+  quinielasSnap.forEach(docu => {
+    quinielas.push({
+      id: docu.id,
+      ...docu.data()
+    });
+  });
+
+  const usuariosSnap = await getDocs(
+    collection(db, "usuarios")
   );
 
-  const usuariosSnap =
-    await getDocs(
-      collection(
-        db,
-        "usuarios"
-      )
-    );
+  const usuariosHistorial = [];
 
-  const usuariosHistorial =
-    [];
+  usuariosSnap.forEach(docu => {
+    const data = docu.data();
 
-  usuariosSnap.forEach(
-    docu => {
-      const data =
-        docu.data();
+    usuariosHistorial.push({
+      id: docu.id,
+      nombre: data.nombre ?? "Sin nombre",
+      puntos: Number.isFinite(data.puntos) ? data.puntos : 0,
+      aciertos: Number.isFinite(data.aciertos) ? data.aciertos : 0
+    });
+  });
 
-      usuariosHistorial.push({
-        nombre:
-          data.nombre,
-        puntos:
-          data.puntos,
-        aciertos:
-          data.aciertos
-      });
-    }
+  const configSnap = await getDoc(
+    doc(db, "config", "partidos")
   );
 
-  const configSnap =
-    await getDoc(
-      doc(
-        db,
-        "config",
-        "partidos"
-      )
-    );
+  const jornadaActual = configSnap.exists()
+    ? configSnap.data().jornada ?? "Sin jornada"
+    : "Sin jornada";
 
-  const jornadaActual =
-    configSnap.exists()
-      ? configSnap.data().jornada
-      : "—";
-
-  const jornadaID =
-    `jornada_${Date.now()}`;
+  const jornadaID = `jornada_${Date.now()}`;
 
   await setDoc(
-    doc(
-      db,
-      "historial_jornadas",
-      jornadaID
-    ),
+    doc(db, "historial_jornadas", jornadaID),
     {
-      fecha:
-        new Date()
-          .toLocaleString(
-            "es-MX"
-          ),
-      jornada:
-        jornadaActual,
+      fecha: new Date().toLocaleString("es-MX"),
+      jornada: jornadaActual,
       resultados,
       quinielas,
-      usuarios:
-        usuariosHistorial
+      usuarios: usuariosHistorial
     }
   );
 }
